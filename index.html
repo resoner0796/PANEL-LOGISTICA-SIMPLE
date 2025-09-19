@@ -77,13 +77,15 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(22px, 3vw, 28px); /* <<< AJUSTA EL TAMAÑO AQUÍ */
-  font-weight: normal; /* <<< CAMBIO: Se quitó el bold */
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: normal;
   text-align: center;
   width: 100%;
-  margin: 0 0 5px 0;
-  padding-top: 10px;
   letter-spacing: 2px;
+  /* === AJUSTES DE ESPACIO VERTICAL === */
+  margin-top: 10px;    /* <<< AJUSTA EL ESPACIO SUPERIOR (más grande = más abajo) */
+  margin-bottom: 5px;  /* <<< AJUSTA EL ESPACIO INFERIOR (entre CORNING y el título) */
+  padding: 0;
 }
 
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
@@ -129,7 +131,7 @@ html, body {
 
 /* ================= PANTALLA 2: PANEL PRINCIPAL ================= */
 #pantalla2 {
-  gap: 24px;
+  gap: 10px; /* Reducido para juntar más el header */
 }
 .header {
   position: relative;
@@ -165,6 +167,7 @@ html, body {
   align-items: center;
   width: 100%;
   gap: 24px;
+  margin-top: 20px;
 }
 .resumen-turno {
   display: flex;
@@ -421,13 +424,13 @@ html, body {
 }
 
 /* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
+/* <<< CORRECCIÓN: Estilos restaurados y mejorados para el tema claro */
 #pantalla3 {
   background-color: #f4f7f9;
   color: var(--text-dark);
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  overflow-y: auto;
+}
+#pantalla3 .zona-centro{
+  margin-top: 0; /* Reseteo de margen para esta pantalla */
 }
 #pantalla3 .brand-title,
 #pantalla3 .header h1 {
@@ -438,11 +441,6 @@ html, body {
   border: 1px solid #e2e8f0;
   box-shadow: var(--shadow-lg);
   color: var(--text-dark);
-  border-radius: var(--border-radius-md);
-  padding: 20px;
-  width: 100%;
-  max-width: 1400px;
-  margin-top: 20px;
 }
 #pantalla3 .header-reporte h2 {
   color: var(--text-dark);
@@ -463,15 +461,10 @@ html, body {
   outline: none;
 }
 #pantalla3 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  color: var(--text-dark);
 }
 #pantalla3 th, #pantalla3 td {
   border-bottom: 1px solid #e2e8f0;
-  padding: 12px;
-  text-align: left;
-  font-size: 14px;
 }
 #pantalla3 thead {
   background-color: #f1f5f9;
@@ -482,17 +475,29 @@ html, body {
   background-color: #f8fafc; 
 }
 #pantalla3 .resumen-datos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 #pantalla3 .dato {
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-md);
+  padding: 15px;
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+  min-width: 150px;
 }
 #pantalla3 .dato .valor {
   color: var(--accent-blue);
+  font-size: 24px;
+  font-weight: 700;
 }
 #pantalla3 .dato .etiqueta {
   color: #64748b;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
     background-color: #f1f5f9;
@@ -517,7 +522,7 @@ html, body {
     "graficos"
     "pendientes"
     "footer";
-  gap: 24px;
+  gap: 10px;
   align-content: start;
   overflow-y: auto;
 }
@@ -530,6 +535,7 @@ html, body {
   gap: 15px;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 #pantalla4 .filtros-dashboard label { font-size: 14px; color: var(--text-medium); }
 #pantalla4 .filtros-dashboard input,
