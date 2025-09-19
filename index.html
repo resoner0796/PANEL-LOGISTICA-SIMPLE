@@ -27,6 +27,7 @@
   --bg-light: #374151;     /* Gris Azulado Claro (Bordes, Hover) */
   --text-light: #F9FAFB;   /* Blanco Hueso (Texto Principal) */
   --text-medium: #9CA3AF; /* Gris Claro (Texto Secundario, Etiquetas) */
+  --text-dark: #1F2937;    /* Texto para fondos claros */
   --accent-blue: #3B82F6;   /* Azul Principal (Botones, Énfasis) */
   --accent-blue-hover: #2563EB;
   --accent-green: #10B981;  /* Verde Esmeralda (Éxito, Liberado) */
@@ -72,11 +73,27 @@ html, body {
 }
 .pantalla.activa { display: flex; flex-direction: column; }
 
+/* ================= NUEVO BRANDING HEADER ================= */
+.brand-title {
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  font-size: clamp(18px, 3vw, 24px);
+  text-align: center;
+  width: 100%;
+  margin: 0 0 5px 0;
+  padding-top: 10px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
 #pantalla1 {
   align-items: center;
   justify-content: center;
   gap: 24px;
+}
+#pantalla1 .brand-header {
+  text-align: center;
 }
 #pantalla1 h1 {
   margin: 0;
@@ -403,57 +420,47 @@ html, body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
-/* ================= PANTALLA 3: REPORTES ================= */
+/* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
 #pantalla3 {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
+  background-color: #f4f7f9; /* <<< CAMBIO: Fondo claro */
+  color: var(--text-dark); /* <<< CAMBIO: Texto oscuro */
   align-items: center;
   justify-content: flex-start;
   padding: 20px;
   overflow-y: auto;
 }
-#pantalla3 .header { text-align: center; width: 100%;}
-#pantalla3 h1 {
-  font-size: 2.5rem;
-  color: var(--text-light);
-  margin-bottom: 20px;
+#pantalla3 .brand-title,
+#pantalla3 .header h1 {
+  color: var(--text-dark); /* <<< CAMBIO: Texto oscuro para títulos */
 }
 #pantalla3 .contenedor-reporte {
-  background-color: var(--bg-medium);
+  background-color: #ffffff; /* <<< CAMBIO: Contenedor blanco */
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-lg);
+  color: var(--text-dark);
   border-radius: var(--border-radius-md);
   padding: 20px;
-  border: 1px solid var(--bg-light);
   width: 100%;
   max-width: 1400px;
   margin-top: 20px;
 }
-#pantalla3 .header-reporte {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
 #pantalla3 .header-reporte h2 {
-  color: var(--text-light);
-  margin: 0;
+  color: var(--text-dark);
 }
-#pantalla3 .header-reporte .filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+#pantalla3 .header-reporte .filtros label { 
+  color: #64748b; 
 }
-#pantalla3 .header-reporte .filtros label { font-size: 14px; color: var(--text-medium); }
 #pantalla3 .header-reporte .filtros input,
 #pantalla3 .header-reporte .filtros select {
-  padding: 8px;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--bg-light);
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-  font-size: 14px;
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: 1px solid #cbd5e1;
+}
+#pantalla3 .header-reporte .filtros input:focus,
+#pantalla3 .header-reporte .filtros select:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  outline: none;
 }
 #pantalla3 table {
   width: 100%;
@@ -461,80 +468,40 @@ html, body {
   margin-top: 20px;
 }
 #pantalla3 th, #pantalla3 td {
-  border-bottom: 1px solid var(--bg-light);
+  border-bottom: 1px solid #e2e8f0;
   padding: 12px;
   text-align: left;
   font-size: 14px;
 }
 #pantalla3 thead {
-  background-color: var(--bg-light);
-  color: var(--text-light);
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
 }
-#pantalla3 tbody tr:hover { background-color: #4B5563; }
+#pantalla3 tbody tr:hover { 
+  background-color: #f8fafc; 
+}
 #pantalla3 .resumen-datos {
-  display: flex;
   gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
 }
 #pantalla3 .dato {
-  background-color: var(--bg-dark);
-  padding: 15px;
-  border-radius: var(--border-radius-sm);
-  text-align: center;
-  border: 1px solid var(--bg-light);
-  min-width: 150px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 #pantalla3 .dato .valor {
-  font-size: 24px;
-  font-weight: 700;
   color: var(--accent-blue);
 }
 #pantalla3 .dato .etiqueta {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: var(--text-medium);
+  color: #64748b;
 }
-.botones-reporte {
-  margin-top: 20px;
-  display: flex;
-  gap: 15px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+#pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
+    background-color: #f1f5f9;
+    color: var(--text-dark);
 }
-.grafico-contenedor { width: 100%; max-width: 800px; margin: 30px auto; }
-.opciones-grafico {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 15px;
-  justify-content: center;
+#pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
+    color: #64748b;
 }
 
-.reporte-calidad-mobile { display: none; }
-@media (max-width: 768px) {
-  .header { justify-content: center; text-align: center; }
-  #turnoActual { position: static; transform: none; margin-top: 10px; }
-  #pantalla3 table { display: none; }
-  .reporte-calidad-mobile { display: block; }
-  .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
-    background-color: var(--bg-light);
-    padding: 10px;
-    border-radius: var(--border-radius-sm);
-    margin-bottom: 10px;
-  }
-  .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
-    font-weight: bold;
-    color: var(--text-medium);
-    display: block;
-    font-size: 12px;
-  }
-  .reporte-calidad-mobile .tabla-calidad-movil .valor {
-    color: var(--text-light);
-    font-size: 16px;
-  }
-}
 
 /* ================= PANTALLA 4: DASHBOARD ================= */
 #pantalla4 {
@@ -543,6 +510,7 @@ html, body {
   padding: 20px;
   display: grid;
   grid-template-areas:
+    "brand"
     "header"
     "filtros"
     "kpis"
@@ -553,6 +521,7 @@ html, body {
   align-content: start;
   overflow-y: auto;
 }
+#pantalla4 .brand-title { grid-area: brand; }
 #pantalla4 .header { grid-area: header; text-align: center; }
 #pantalla4 .filtros-dashboard {
   grid-area: filtros;
@@ -640,10 +609,18 @@ html, body {
 #pantalla4 #tablaPendientes tbody tr:hover { background-color: #4B5563; }
 #pantalla4 .footer { grid-area: footer; }
 
+
+@media (max-width: 768px) {
+  .header { justify-content: center; text-align: center; }
+  #turnoActual { position: static; transform: none; margin-top: 10px; }
+  .reporte-calidad-mobile { display: block; }
+}
+
 @media (min-width: 992px) {
   #pantalla4 {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
+      "brand brand"
       "header header"
       "filtros filtros"
       "kpis kpis"
@@ -662,6 +639,7 @@ html, body {
   #pantalla4 {
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
+      "brand brand brand brand"
       "header header header header"
       "filtros filtros filtros filtros"
       "kpis kpis kpis kpis"
@@ -680,32 +658,35 @@ html, body {
       grid-area: pendientes;
   }
 }
-
 </style>
 </head>
 
 <body>
 
 <section id="pantalla1" class="pantalla activa">
-<h1 id="mainTitle">Panel de Logística</h1>
-<div class="btn-contenedor">
-    <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
-    <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
-    <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
-    <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
-    <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
-    <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>    
-    <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
-    <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
-</div>
+    <div class="brand-header">
+        <p class="brand-title">CORNING</p>
+        <h1 id="mainTitle">Panel de Logística</h1>
+    </div>
+    <div class="btn-contenedor">
+        <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
+        <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
+        <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
+        <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
+        <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
+        <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>    
+        <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
+        <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
+    </div>
 </section>
 
 <section id="pantalla2" class="pantalla">
-<header class="header">
-    <div id="tituloFijo">LOGÍSTICA</div>
-    <div id="turnoActual"></div>
-</header>
-<div class="zona-centro">
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <div id="tituloFijo">LOGÍSTICA</div>
+        <div id="turnoActual"></div>
+    </header>
+    <div class="zona-centro">
     <div id="resumenTurno" class="resumen-turno oculto">
 <div class="dato-resumen">
     <div class="etiqueta">Tarimas Totales</div>
@@ -799,86 +780,88 @@ html, body {
 </section>
 
 <section id="pantalla3" class="pantalla">
-<header class="header">
-    <h1 id="tituloReportes">REPORTES</h1>
-</header>
-<div class="zona-centro">
-    <div id="selectoresReportes" class="btn-contenedor">
-        <button class="usuario-btn" data-reporte="produccion">PRODUCCIÓN</button>
-        <button class="usuario-btn" data-reporte="logistica">LOGÍSTICA</button>
-        <button class="usuario-btn" data-reporte="calidad">CALIDAD</button>
-        <button class="usuario-btn" data-reporte="resumen">RESUMEN EJECUTIVO</button>
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <h1 id="tituloReportes">REPORTES</h1>
+    </header>
+    <div class="zona-centro">
+        <div id="selectoresReportes" class="btn-contenedor">
+            <button class="usuario-btn" data-reporte="produccion">PRODUCCIÓN</button>
+            <button class="usuario-btn" data-reporte="logistica">LOGÍSTICA</button>
+            <button class="usuario-btn" data-reporte="calidad">CALIDAD</button>
+            <button class="usuario-btn" data-reporte="resumen">RESUMEN EJECUTIVO</button>
+        </div>
+        <div id="contenedorReporte" class="contenedor-reporte">
+            <h2>Selecciona un reporte</h2>
+        </div>
     </div>
-    <div id="contenedorReporte" class="contenedor-reporte">
-        <h2>Selecciona un reporte</h2>
+    <div class="footer">
+        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver</button>
     </div>
-</div>
-<div class="footer">
-    <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver</button>
-</div>
 </section>
 
 <section id="pantalla4" class="pantalla" style="display: none;">
-<header class="header">
-    <h1>DASHBOARD DE SUPERVISOR</h1>
-</header>
-<div class="filtros-dashboard">
-    <label for="fechaDashboard">Fecha:</label>
-    <input type="date" id="fechaDashboard">
-    <label for="turnoDashboardSelect">Turno:</label>
-    <select id="turnoDashboardSelect">
-        <option value="todos">Todos</option>
-        <option value="Turno 1">Turno 1</option>
-        <option value="Turno 2">Turno 2</option>
-    </select>
-</div>
-  <div class="kpis-grid">
-    <div class="kpi-card">
-        <h3>Tarimas Confirmadas</h3>
-        <div class="valor" id="dashTarimasConfirmadas">0</div>
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <h1>DASHBOARD DE SUPERVISOR</h1>
+    </header>
+    <div class="filtros-dashboard">
+        <label for="fechaDashboard">Fecha:</label>
+        <input type="date" id="fechaDashboard">
+        <label for="turnoDashboardSelect">Turno:</label>
+        <select id="turnoDashboardSelect">
+            <option value="todos">Todos</option>
+            <option value="Turno 1">Turno 1</option>
+            <option value="Turno 2">Turno 2</option>
+        </select>
     </div>
-    <div class="kpi-card">
-        <h3>Tarimas Recolectadas</h3>
-        <div class="valor" id="dashTarimasRecolectadas">0</div>
+    <div class="kpis-grid">
+        <div class="kpi-card">
+            <h3>Tarimas Confirmadas</h3>
+            <div class="valor" id="dashTarimasConfirmadas">0</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Tarimas Recolectadas</h3>
+            <div class="valor" id="dashTarimasRecolectadas">0</div>
+        </div>
+        <div class="kpi-card" id="kpiTiempoPromedio">
+            <h3>Tiempo Promedio</h3>
+            <div class="valor" id="dashTiempoPromedio">0 min</div>
+        </div>
+        <div class="kpi-card" id="kpiTasaRechazo">
+            <h3>Tasa de Rechazo</h3>
+            <div class="valor" id="dashTasaRechazo">0%</div>
+        </div>
     </div>
-    <div class="kpi-card" id="kpiTiempoPromedio">
-        <h3>Tiempo Promedio</h3>
-        <div class="valor" id="dashTiempoPromedio">0 min</div>
+    <div class="graficos-container">
+        <div class="panel">
+            <h3>Producción por Área</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>Estado de Calidad</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>Evolución Tiempos de Recolección</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
+        </div>
     </div>
-    <div class="kpi-card" id="kpiTasaRechazo">
-        <h3>Tasa de Rechazo</h3>
-        <div class="valor" id="dashTasaRechazo">0%</div>
-    </div>
-</div>
-<div class="graficos-container">
     <div class="panel">
-        <h3>Producción por Área</h3>
-        <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
+        <h3>Tarimas Pendientes por Recolectar</h3>
+        <table id="tablaPendientes">
+            <thead>
+                <tr>
+                    <th>Área</th>
+                    <th>Tarimas Pendientes</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    <div class="panel">
-        <h3>Estado de Calidad</h3>
-        <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
+    <div class="footer">
+        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver al inicio</button>
     </div>
-    <div class="panel">
-        <h3>Evolución Tiempos de Recolección</h3>
-        <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
-    </div>
-</div>
-<div class="panel">
-    <h3>Tarimas Pendientes por Recolectar</h3>
-    <table id="tablaPendientes">
-        <thead>
-            <tr>
-                <th>Área</th>
-                <th>Tarimas Pendientes</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-<div class="footer">
-    <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver al inicio</button>
-</div>
 </section>
 
 <div id="modalCalidad" class="modal">
@@ -1081,7 +1064,7 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
             modal.classList.remove('visible');
             okButton.removeEventListener('click', okListener);
             cancelButton.removeEventListener('click', cancelListener);
-            input.removeEventListener('keydown', enterListener); // Se remueve del input
+            input.removeEventListener('keydown', enterListener);
             resolve(value);
         };
 
@@ -1097,7 +1080,7 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
 
         okButton.addEventListener('click', okListener);
         cancelButton.addEventListener('click', cancelListener);
-        input.addEventListener('keydown', enterListener); // Se agrega al input directamente
+        input.addEventListener('keydown', enterListener);
     });
 };
 // ======================================================================
@@ -1340,7 +1323,6 @@ function iniciarListenersFirebase() {
     });
 }
 // ================= PERMISOS Y LÓGICA =================
-// <<< CORRECCIÓN: Función restaurada
 function esUsuarioProduccion() {
     return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
 }
@@ -1605,7 +1587,6 @@ async function seleccionarDashboard() {
     }
 }
 
-// ... (El resto del código JavaScript para reportes, dashboard, etc. permanece sin cambios) ...
 function limpiarDashboardListeners() {
     dashboardListeners.forEach(listener => listener.off());
     dashboardListeners = [];
