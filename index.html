@@ -70,6 +70,7 @@ html, body {
   width: 100%;
   min-height: 100vh;
   padding: 20px;
+  transition: opacity 0.5s ease-out;
 }
 .pantalla.activa { display: flex; flex-direction: column; }
 
@@ -87,6 +88,44 @@ html, body {
   padding: 0;
 }
 
+/* ================= SPLASH SCREEN ================= */
+#splashScreen {
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-dark);
+}
+.splash-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.splash-logo {
+  width: 150px;
+  height: auto;
+  margin: 20px 0;
+}
+.splash-loading {
+  font-size: 1.2rem;
+  color: var(--text-medium);
+  letter-spacing: 2px;
+}
+.splash-loading .dot {
+  animation: blink-dot 1.4s infinite;
+  opacity: 0;
+}
+.splash-loading .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.splash-loading .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes blink-dot {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
 #pantalla1 {
   align-items: center;
@@ -101,13 +140,6 @@ html, body {
   font-size: clamp(32px, 5vw, 48px);
   font-weight: 700;
   color: var(--text-light);
-}
-.btn-contenedor {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  max-width: 800px;
 }
 .login-columns-container {
   display: flex;
@@ -548,7 +580,7 @@ html, body {
 }
 .grafico-contenedor {
   width: 100%;
-  max-width: 700px; /* <<< CAMBIO: Se redujo el tamaño del gráfico */
+  max-width: 700px;
   margin: 30px auto;
 }
 .reporte-calidad-mobile { display: none; }
@@ -740,7 +772,15 @@ html, body {
 
 <body>
 
-<section id="pantalla1" class="pantalla activa">
+<section id="splashScreen" class="pantalla activa">
+    <div class="splash-content">
+        <p class="brand-title">CORNING</p>
+        <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
+        <p class="splash-loading">Cargando<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
+    </div>
+</section>
+
+<section id="pantalla1" class="pantalla">
     <div class="brand-header">
         <p class="brand-title">CORNING</p>
         <h1 id="mainTitle">Panel de Logística</h1>
@@ -945,6 +985,7 @@ html, body {
     </div>
 </section>
 
+<!-- ========== MODALES ========== -->
 <div id="modalCalidad" class="modal">
 <div class="modal-content">
     <h3>Selecciona el estado de la tarima:</h3>
@@ -990,6 +1031,7 @@ html, body {
 </div>
 </div>
 
+<!-- ---- MODALES GENÉRICOS ---- -->
 <div id="modalAlert" class="modal">
     <div class="modal-content">
         <h3 id="modalAlertTitle">Notificación</h3>
@@ -1022,6 +1064,9 @@ html, body {
         </div>
     </div>
 </div>
+<!-- --------------------------------- -->
+
+
 <script>
 // =================================================================================================
 // ================================ INICIO DEL CÓDIGO JAVASCRIPT ================================
@@ -2392,9 +2437,17 @@ window.addEventListener('load', ()=>{
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             iniciarListenersFirebase(); 
-            activarPantalla('pantalla1');
         }
     });
+
+    setTimeout(() => {
+        const splash = document.getElementById('splashScreen');
+        splash.style.opacity = '0';
+        splash.addEventListener('transitionend', () => {
+            splash.classList.remove('activa');
+            activarPantalla('pantalla1');
+        }, { once: true });
+    }, 3000);
     
     const modalCalidad = document.getElementById('modalCalidad');
     modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => modalCalidad.classList.remove('visible'));
