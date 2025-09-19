@@ -77,14 +77,13 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(44px, 6vw, 56px);
+  font-size: clamp(22px, 3vw, 28px);
   font-weight: normal;
   text-align: center;
   width: 100%;
   letter-spacing: 2px;
-  /* === AJUSTES DE ESPACIO VERTICAL === */
-  margin-top: 25px;    /* <<< AJUSTA EL ESPACIO SUPERIOR (más grande = más abajo) */
-  margin-bottom: 10px;  /* <<< AJUSTA EL ESPACIO INFERIOR (entre CORNING y el título) */
+  margin-top: 10px;
+  margin-bottom: 5px;
   padding: 0;
 }
 
@@ -109,6 +108,24 @@ html, body {
   justify-content: center;
   gap: 16px;
   max-width: 800px;
+}
+.login-columns-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  flex-wrap: wrap;
+}
+.login-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-width: 250px;
+}
+.login-column .usuario-btn {
+  width: 100%;
 }
 .usuario-btn {
   background-color: var(--accent-blue);
@@ -424,7 +441,6 @@ html, body {
 }
 
 /* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
-/* <<< ESTILOS RESTAURADOS Y CORREGIDOS */
 #pantalla3 {
   background-color: #f4f7f9;
   color: var(--text-dark);
@@ -530,7 +546,11 @@ html, body {
   text-transform: uppercase;
   color: #64748b;
 }
-
+.grafico-contenedor {
+  width: 100%;
+  max-width: 700px; /* <<< CAMBIO: Se redujo el tamaño del gráfico */
+  margin: 30px auto;
+}
 .reporte-calidad-mobile { display: none; }
 
 
@@ -725,15 +745,19 @@ html, body {
         <p class="brand-title">CORNING</p>
         <h1 id="mainTitle">Panel de Logística</h1>
     </div>
-    <div class="btn-contenedor">
-        <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
-        <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
-        <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
-        <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
-        <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
-        <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>    
-        <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
-        <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
+    <div class="login-columns-container">
+        <div class="login-column">
+            <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>
+        </div>
+        <div class="login-column">
+            <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
+            <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
+            <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
+        </div>
     </div>
 </section>
 
@@ -999,6 +1023,10 @@ html, body {
     </div>
 </div>
 <script>
+// =================================================================================================
+// ================================ INICIO DEL CÓDIGO JAVASCRIPT ================================
+// =================================================================================================
+
 // ================= CONFIG Y ESTADO =================
 const CONFIG = {
     USUARIOS: ['MULTIPORT', 'BEDROCK', 'DROPS', 'LOGÍSTICA', 'SUPERVISOR', 'CALIDAD'],
@@ -2355,6 +2383,7 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
 
     doc.save(`${nombreArchivo}.pdf`);
 }
+// ==========================================================
 
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
