@@ -3,8 +3,8 @@ const FILES_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './iconolog-192.png',
-  './iconolog-512.png'
+  './iconolog-192.PNG',
+  './iconolog-512.PNG'
 ];
 
 self.addEventListener('install', e => {
