@@ -82,7 +82,7 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(60px, 3vw, 28px);
+  font-size: clamp(22px, 3vw, 28px);
   font-weight: normal;
   text-align: center;
   width: 100%;
@@ -193,6 +193,17 @@ html, body {
 }
 .btn-rojo { background: rgba(239, 68, 68, 0.25); }
 .btn-rojo:hover { background: rgba(239, 68, 68, 0.4); }
+
+/* === MEJORA: Botones de Admin en color gris === */
+.login-column:nth-of-type(2) .usuario-btn {
+    background: rgba(249, 250, 251, 0.2); /* --text-light con transparencia */
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.login-column:nth-of-type(2) .usuario-btn:hover {
+    background: rgba(249, 250, 251, 0.35);
+    box-shadow: 0 0 15px rgba(249, 250, 251, 0.2);
+}
+
 
 /* ================= PANTALLA 2: PANEL PRINCIPAL ================= */
 #pantalla2 { gap: 10px; }
@@ -647,23 +658,22 @@ html, body {
   background-color: transparent; /* Usar el fondo del body */
   color: var(--text-light);
   padding: 20px;
-  display: grid;
-  grid-template-areas:
-    "brand" "header" "filtros" "kpis" "graficos" "pendientes" "footer";
-  gap: 10px;
-  align-content: start;
+  display: flex; /* Cambiado a flex para un control más simple del layout vertical */
+  flex-direction: column;
+  gap: 20px; /* Espacio uniforme entre todos los bloques */
+  align-items: center;
   overflow-y: auto;
 }
-#pantalla4 .brand-title { grid-area: brand; }
-#pantalla4 .header { grid-area: header; text-align: center; }
+#pantalla4 > * {
+  width: 100%; /* Asegurar que los hijos directos ocupen el ancho */
+}
+#pantalla4 .header { text-align: center; }
 #pantalla4 .filtros-dashboard {
-  grid-area: filtros;
   display: flex;
   justify-content: center;
   gap: 15px;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 #pantalla4 .filtros-dashboard label { font-size: 14px; color: var(--text-medium); }
 #pantalla4 .filtros-dashboard input,
@@ -675,7 +685,6 @@ html, body {
   color: var(--text-light);
 }
 #pantalla4 .kpis-grid {
-  grid-area: kpis;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
@@ -711,15 +720,16 @@ html, body {
   margin-top: 10px;
 }
 #pantalla4 .kpi-card.alerta .valor { color: var(--accent-red); }
-#pantalla4 .graficos-container {
-  grid-area: graficos;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+
+/* === MEJORA: Contenedor para la fila de 2 gráficos === */
+#pantalla4 .charts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
+
 /* === PANEL ESTILO GLASS === */
 #pantalla4 .panel {
-  grid-area: pendientes;
   padding: 20px;
   border-radius: var(--border-radius-md);
   /* Efecto Glass */
@@ -728,7 +738,6 @@ html, body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-#pantalla4 .graficos-container .panel { grid-area: unset; }
 #pantalla4 .panel h3 {
   text-align: center;
   margin-top: 0;
@@ -747,7 +756,6 @@ html, body {
 }
 #pantalla4 #tablaPendientes thead { background-color: rgba(55, 65, 81, 0.4); }
 #pantalla4 #tablaPendientes tbody tr:hover { background-color: rgba(75, 85, 99, 0.4); }
-#pantalla4 .footer { grid-area: footer; }
 
 
 /* ================= MEDIA QUERIES RESPONSIVE ================= */
@@ -779,32 +787,6 @@ html, body {
 
 @media (min-width: 769px) {
   .reporte-calidad-mobile { display: none; }
-}
-
-@media (min-width: 992px) {
-  #pantalla4 {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "brand brand" "header header" "filtros filtros"
-      "kpis kpis" "graficos graficos" "pendientes pendientes" "footer footer";
-  }
-  #pantalla4 .graficos-container { grid-template-columns: 1fr 1fr; }
-  .graficos-container > *:nth-child(3) { grid-column: span 2; }
-}
-@media (min-width: 1200px) {
-  #pantalla4 {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-      "brand brand brand brand" "header header header header" "filtros filtros filtros filtros"
-      "kpis kpis kpis kpis" "graficos graficos pendientes pendientes" "footer footer footer footer";
-  }
-   #pantalla4 .graficos-container {
-    grid-area: graficos;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, auto);
-  }
-  .graficos-container > * { grid-column: span 1 !important; }
-  #pantalla4 .panel { grid-area: pendientes; }
 }
 </style>
 </head>
@@ -994,20 +976,7 @@ html, body {
             <div class="valor" id="dashTasaRechazo">0%</div>
         </div>
     </div>
-    <div class="graficos-container">
-        <div class="panel">
-            <h3>Producción por Área</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
-        </div>
-        <div class="panel">
-            <h3>Estado de Calidad</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
-        </div>
-        <div class="panel">
-            <h3>Evolución Tiempos de Recolección</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
-        </div>
-    </div>
+
     <div class="panel">
         <h3>Tarimas Pendientes por Recolectar</h3>
         <table id="tablaPendientes">
@@ -1020,6 +989,23 @@ html, body {
             <tbody></tbody>
         </table>
     </div>
+
+    <div class="charts-row">
+        <div class="panel">
+            <h3>Producción por Área</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>Estado de Calidad</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Evolución Tiempos de Recolección</h3>
+        <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
+    </div>
+
     <div class="footer">
         <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver al inicio</button>
     </div>
@@ -1132,21 +1118,18 @@ let dashboardUpdateInterval;
 
 
 // ================= FIREBASE =================
-// ================= FIREBASE =================
 const firebaseConfig = {
-  apiKey: "AIzaSyDahnSPvBNTYot00JCn5CBjggAYFVGhbjE",
-  authDomain: "panel-logistica-simple.firebaseapp.com",
-  databaseURL: "https://panel-logistica-simple-default-rtdb.firebaseio.com",
-  projectId: "panel-logistica-simple",
-  storageBucket: "panel-logistica-simple.appspot.com", // Corregido para que coincida con el nombre del proyecto
-  messagingSenderId: "528779971851",
-  appId: "1:528779971851:web:90241469a69be3a5a4e60e"
+    apiKey: "AIzaSyCPTEu73s2rVIm2VsdTk59kVIOyi1jeyu8",
+    authDomain: "panel-logistica.firebaseapp.com",
+    databaseURL: "https://panel-logistica-default-rtdb.firebaseio.com",
+    projectId: "panel-logistica",
+    storageBucket: "panel-logistica.appspot.com",
+    messagingSenderId: "38365879945",
+    appId: "1:38365879945:web:e2f3590fe77f013dba3058"
 };
-
-// Mantenemos esta forma de inicializar porque tu HTML usa los scripts de compatibilidad
-firebase.initializeApp(firebaseConfig); 
+firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const db = database; 
+const db = database; 
 const ledRef = database.ref('estadoLEDs');
 let historialRef;
 let contadoresCalidadRef;
