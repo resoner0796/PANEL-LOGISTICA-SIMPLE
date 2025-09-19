@@ -73,17 +73,17 @@ html, body {
 }
 .pantalla.activa { display: flex; flex-direction: column; }
 
-/* ================= NUEVO BRANDING HEADER ================= */
+/* ================= BRANDING HEADER ================= */
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: clamp(22px, 3vw, 28px); /* <<< AJUSTA EL TAMAÑO AQUÍ */
+  font-weight: normal; /* <<< CAMBIO: Se quitó el bold */
   text-align: center;
   width: 100%;
   margin: 0 0 5px 0;
   padding-top: 10px;
   letter-spacing: 2px;
-  font-weight: bold;
 }
 
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
@@ -422,8 +422,8 @@ html, body {
 
 /* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
 #pantalla3 {
-  background-color: #f4f7f9; /* <<< CAMBIO: Fondo claro */
-  color: var(--text-dark); /* <<< CAMBIO: Texto oscuro */
+  background-color: #f4f7f9;
+  color: var(--text-dark);
   align-items: center;
   justify-content: flex-start;
   padding: 20px;
@@ -431,10 +431,10 @@ html, body {
 }
 #pantalla3 .brand-title,
 #pantalla3 .header h1 {
-  color: var(--text-dark); /* <<< CAMBIO: Texto oscuro para títulos */
+  color: var(--text-dark);
 }
 #pantalla3 .contenedor-reporte {
-  background-color: #ffffff; /* <<< CAMBIO: Contenedor blanco */
+  background-color: #ffffff;
   border: 1px solid #e2e8f0;
   box-shadow: var(--shadow-lg);
   color: var(--text-dark);
@@ -1587,6 +1587,7 @@ async function seleccionarDashboard() {
     }
 }
 
+// ================= FUNCIONES DE DASHBOARD =================
 function limpiarDashboardListeners() {
     dashboardListeners.forEach(listener => listener.off());
     dashboardListeners = [];
@@ -1843,7 +1844,7 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
     });
 }
 
-
+// <<< INICIO DEL BLOQUE DE FUNCIONES DE REPORTE RESTAURADAS
 function mostrarReporte(tipo) {
     reporteActual = tipo;
     document.getElementById('selectoresReportes').style.display = 'none';
@@ -2297,6 +2298,7 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
 
     doc.save(`${nombreArchivo}.pdf`);
 }
+// <<< FIN DEL BLOQUE DE FUNCIONES DE REPORTE RESTAURADAS
 
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
