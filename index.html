@@ -118,7 +118,7 @@ html, body {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center; /* <<< CAMBIO: Centra el contenido principal */
+  justify-content: center;
   padding: 0 10px;
   width: 100%;
   flex-wrap: wrap;
@@ -130,7 +130,7 @@ html, body {
   color: var(--text-light);
 }
 #turnoActual {
-  position: absolute; /* <<< CAMBIO: Posiciona absolutamente para no afectar el centrado del título */
+  position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -347,7 +347,13 @@ html, body {
   font-weight: 600;
 }
 .cerrar-btn:hover { background-color: #4B5563; }
-#modalRechazo .modal-content { text-align: left; }
+
+/* Modal de Rechazo - AJUSTES DE TAMAÑO */
+#modalRechazo .modal-content {
+  text-align: left;
+  max-height: 85vh; /* <<< CAMBIO: Límite de altura */
+  overflow-y: auto; /* <<< CAMBIO: Scroll si el contenido es muy alto */
+}
 #modalRechazo form { display: flex; flex-direction: column; gap: 15px; }
 #modalRechazo label { font-size: 14px; margin-bottom: 5px; display: block; color: var(--text-medium); }
 #modalRechazo input, #modalRechazo textarea {
@@ -366,21 +372,8 @@ html, body {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 #modalRechazo textarea { resize: vertical; min-height: 80px; }
-#modalRechazo button[type="submit"] {
-  margin-top: 20px;
-  background-color: var(--accent-blue);
-  color: #fff;
-  border: none;
-  padding: 15px;
-  border-radius: var(--border-radius-sm);
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-#modalRechazo button[type="submit"]:hover { background-color: var(--accent-blue-hover); }
 
-/* ---- NUEVOS MODALES GENÉRICOS ---- */
+/* ---- MODALES GENÉRICOS ---- */
 .modal-generic-message {
   font-size: 16px;
   color: var(--text-medium);
@@ -389,8 +382,9 @@ html, body {
 }
 .modal-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end; /* Alinea botones a la derecha */
   gap: 15px;
+  margin-top: 20px;
 }
 .modal-prompt-input {
   width: 100%;
@@ -408,8 +402,6 @@ html, body {
   border-color: var(--accent-blue);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
-/* ------------------------------------ */
-
 
 /* ================= PANTALLA 3: REPORTES ================= */
 #pantalla3 {
@@ -889,7 +881,7 @@ html, body {
 </div>
 </section>
 
-<div id="modalCalidad" class="modal modal-calidad">
+<div id="modalCalidad" class="modal">
 <div class="modal-content">
     <h3>Selecciona el estado de la tarima:</h3>
     <div class="opciones">
@@ -901,7 +893,7 @@ html, body {
 </div>
 </div>
 
-<div id="modalRechazo" class="modal modal-calidad">
+<div id="modalRechazo" class="modal">
 <div class="modal-content">
     <h3>Detalles del Rechazo</h3>
     <form id="formularioRechazo">
@@ -925,8 +917,11 @@ html, body {
 
         <label for="accion">Acción correctiva:</label>
         <textarea id="accion" name="accion" required></textarea>
-
-        <button type="submit">Guardar Rechazo</button>
+        
+        <div class="modal-buttons">
+            <button type="button" id="cancelRechazo" class="usuario-btn btn-rojo">Cancelar</button>
+            <button type="submit" class="usuario-btn">Guardar Rechazo</button>
+        </div>
     </form>
 </div>
 </div>
@@ -935,7 +930,7 @@ html, body {
     <div class="modal-content">
         <h3 id="modalAlertTitle">Notificación</h3>
         <p id="modalAlertMessage" class="modal-generic-message"></p>
-        <div class="modal-buttons">
+        <div class="modal-buttons" style="justify-content: center;">
             <button id="modalAlertOk" class="usuario-btn">OK</button>
         </div>
     </div>
@@ -956,7 +951,7 @@ html, body {
     <div class="modal-content">
         <h3 id="modalPromptTitle">Introducir Datos</h3>
         <p id="modalPromptMessage" class="modal-generic-message"></p>
-        <input type="password" id="modalPromptInput" class="modal-prompt-input" />
+        <input type="password" id="modalPromptInput" class="modal-prompt-input" autocomplete="off" />
         <div class="modal-buttons">
             <button id="modalPromptCancel" class="usuario-btn btn-rojo">Cancelar</button>
             <button id="modalPromptOk" class="usuario-btn">Aceptar</button>
@@ -1074,7 +1069,11 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
         document.getElementById('modalPromptMessage').textContent = message;
         input.value = '';
         modal.classList.add('visible');
-        input.focus();
+        
+        // <<< CAMBIO: Enfocar el input después de que la transición del modal comience
+        setTimeout(() => {
+            input.focus();
+        }, 50);
 
         const okButton = document.getElementById('modalPromptOk');
         const cancelButton = document.getElementById('modalPromptCancel');
@@ -1083,14 +1082,18 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
             modal.classList.remove('visible');
             okButton.removeEventListener('click', okListener);
             cancelButton.removeEventListener('click', cancelListener);
+            // <<< CAMBIO: Remover el listener de la tecla Enter
             document.removeEventListener('keydown', enterListener);
             resolve(value);
         };
 
         const okListener = () => resolveListener(input.value);
         const cancelListener = () => resolveListener(null);
+        
+        // <<< CAMBIO: Listener para la tecla Enter
         const enterListener = (e) => {
             if (e.key === 'Enter') {
+                e.preventDefault();
                 okListener();
             }
         };
@@ -1358,11 +1361,6 @@ function iniciarListenersFirebase() {
     });
 }
 // ================= PERMISOS Y LÓGICA =================
-function esUsuarioProduccion() {
-    return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
-}
-
-// Convertida a async para poder usar 'await' con los modales
 async function togglearLED(grupo, idx, linea = 'linea1') {
     const ledRef = db.ref('estadoLEDs/' + grupo + '/' + linea + '/' + idx);
 
@@ -1956,11 +1954,6 @@ function mostrarReporte(tipo) {
     cargarDatosReporte(tipo, document.getElementById('fechaReporte').value, document.getElementById('turnoFiltro').value, document.getElementById('areaFiltro')?.value, document.getElementById('empleadoFiltro')?.value);
 }
 
-// Las funciones de reporte (actualizarGraficoReporte, regresarASelectores, buscarReporte, cargarDatosReporte, procesarReporte..., exportar...)
-// se mantienen igual que en la versión anterior. Para brevedad, no se repiten aquí, pero deben estar presentes en el script.
-// ... (Copiar aquí todas las funciones de reporte desde la versión anterior) ...
-// NOTE: I will include them for the user as requested, this is a note for my thought process.
-
 function actualizarGraficoReporte() {
     const tipoGraficoSeleccionado = document.getElementById('tipoGrafico').value;
     const contenedorGrafico = document.querySelector('#grafico-contenedor');
@@ -2365,20 +2358,27 @@ window.addEventListener('load', ()=>{
     });
 
     const modalRechazo = document.getElementById('modalRechazo');
-    modalRechazo.querySelector('#formularioRechazo').addEventListener('submit', (e) => {
+    const formRechazo = document.getElementById('formularioRechazo');
+    
+    formRechazo.addEventListener('submit', (e) => {
         e.preventDefault();
-        const form = e.target;
         const datos = {
-            empleado: form.empleado.value,
-            linea: form.linea.value,
-            parte: form.parte.value,
-            descripcionParte: form.descripcionParte.value,
-            problema: form.problema.value,
-            causa: form.causa.value,
-            accion: form.accion.value,
+            empleado: formRechazo.empleado.value,
+            linea: formRechazo.linea.value,
+            parte: formRechazo.parte.value,
+            descripcionParte: formRechazo.descripcionParte.value,
+            problema: formRechazo.problema.value,
+            causa: formRechazo.causa.value,
+            accion: formRechazo.accion.value,
         };
         guardarRechazo(datos);
-        form.reset();
+        formRechazo.reset();
+    });
+
+    // <<< CAMBIO: Listener para el nuevo botón de cancelar en el modal de rechazo
+    document.getElementById('cancelRechazo').addEventListener('click', () => {
+        modalRechazo.classList.remove('visible');
+        formRechazo.reset();
     });
 
     document.getElementById('selectoresReportes').querySelectorAll('.usuario-btn').forEach(btn => {
