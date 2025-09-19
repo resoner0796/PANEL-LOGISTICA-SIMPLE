@@ -21,115 +21,115 @@
 
 <style>
 :root {
-  /* Paleta de Colores Profesional */
-  --bg-dark: #111827;      /* Azul Marino Oscuro (Fondo Principal) */
-  --bg-medium: #1F2937;    /* Gris Azulado Oscuro (Tarjetas y Paneles) */
-  --bg-light: #374151;     /* Gris Azulado Claro (Bordes, Hover) */
-  --text-light: #F9FAFB;   /* Blanco Hueso (Texto Principal) */
-  --text-medium: #9CA3AF; /* Gris Claro (Texto Secundario, Etiquetas) */
-  --text-dark: #1F2937;    /* Texto para fondos claros */
-  --accent-blue: #3B82F6;   /* Azul Principal (Botones, Énfasis) */
-  --accent-blue-hover: #2563EB;
-  --accent-green: #10B981;  /* Verde Esmeralda (Éxito, Liberado) */
-  --accent-red: #EF4444;    /* Rojo (Peligro, Rechazado) */
-  --accent-orange: #F59E0B; /* Ámbar (Advertencia, En Proceso) */
-  
-  /* Estilos de LED */
-  --led-size: 50px;
-  --led-gap: 16px;
-  --led-off-core: #2d3748;
-  --led-off-edge: #1a202c;
-  --glow-green: rgba(16, 185, 129, 0.7);
-  --glow-red: rgba(239, 68, 68, 0.7);
-  --glow-orange: rgba(245, 158, 11, 0.7);
-  --blink-duration: 1.2s;
+  /* Paleta de Colores Profesional */
+  --bg-dark: #111827;      /* Azul Marino Oscuro (Fondo Principal) */
+  --bg-medium: #1F2937;    /* Gris Azulado Oscuro (Tarjetas y Paneles) */
+  --bg-light: #374151;     /* Gris Azulado Claro (Bordes, Hover) */
+  --text-light: #F9FAFB;   /* Blanco Hueso (Texto Principal) */
+  --text-medium: #9CA3AF; /* Gris Claro (Texto Secundario, Etiquetas) */
+  --text-dark: #1F2937;    /* Texto para fondos claros */
+  --accent-blue: #3B82F6;   /* Azul Principal (Botones, Énfasis) */
+  --accent-blue-hover: #2563EB;
+  --accent-green: #10B981;  /* Verde Esmeralda (Éxito, Liberado) */
+  --accent-red: #EF4444;    /* Rojo (Peligro, Rechazado) */
+  --accent-orange: #F59E0B; /* Ámbar (Advertencia, En Proceso) */
+  
+  /* Estilos de LED */
+  --led-size: 50px;
+  --led-gap: 16px;
+  --led-off-core: #2d3748;
+  --led-off-edge: #1a202c;
+  --glow-green: rgba(16, 185, 129, 0.7);
+  --glow-red: rgba(239, 68, 68, 0.7);
+  --glow-orange: rgba(245, 158, 11, 0.7);
+  --blink-duration: 1.2s;
 
-  /* Tipografía */
-  --font-family: 'Poppins', Arial, Helvetica, sans-serif;
-  --titulo-size: clamp(36px, 6vw, 72px);
+  /* Tipografía */
+  --font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  --titulo-size: clamp(36px, 6vw, 72px);
 
-  /* Otros */
-  --border-radius-md: 16px; /* Aumentamos el radio para un look más moderno */
-  --border-radius-sm: 10px;
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  /* Otros */
+  --border-radius-md: 16px; /* Aumentamos el radio para un look más moderno */
+  --border-radius-sm: 10px;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 * { box-sizing: border-box; }
 
 html, body {
-  height: 100%;
-  margin: 0;
-  font-family: var(--font-family);
-  color: var(--text-light);
-  background-color: var(--bg-dark);
-  /* Fondo degradado para que el efecto glass se aprecie mejor */
-  background-image: 
-    radial-gradient(at 47% 33%, hsl(225, 39%, 30%) 0, transparent 59%), 
-    radial-gradient(at 82% 65%, hsl(253, 16%, 7%) 0, transparent 55%);
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--text-light);
+  background-color: var(--bg-dark);
+  /* Fondo degradado para que el efecto glass se aprecie mejor */
+  background-image: 
+    radial-gradient(at 47% 33%, hsl(225, 39%, 30%) 0, transparent 59%), 
+    radial-gradient(at 82% 65%, hsl(253, 16%, 7%) 0, transparent 55%);
 }
 
 .pantalla {
-  display: none;
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-  transition: opacity 0.5s ease-out;
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  transition: opacity 0.5s ease-out;
 }
 .pantalla.activa { display: flex; flex-direction: column; }
 
 /* ================= BRANDING HEADER ================= */
 .brand-title {
-  font-family: 'Times New Roman', Times, serif;
-  color: white;
-  font-size: clamp(22px, 3vw, 28px);
-  font-weight: normal;
-  text-align: center;
-  width: 100%;
-  letter-spacing: 2px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  padding: 0;
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: normal;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 0;
 }
 
 /* ================= SPLASH SCREEN ================= */
 #splashScreen {
-  align-items: center;
-  justify-content: center;
-  background-color: var(--bg-dark);
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-dark);
 }
 .splash-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 .splash-logo-container {
-  border-radius: 25px;
-  margin: 20px 0;
-  padding: 15px;
-  /* Efecto Glassmorphism */
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); /* Para Safari */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 25px;
+  margin: 20px 0;
+  padding: 15px;
+  /* Efecto Glassmorphism */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Para Safari */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 .splash-logo {
-  width: 150px;
-  height: auto;
-  display: block;
-  border-radius: 15px;
+  width: 150px;
+  height: auto;
+  display: block;
+  border-radius: 15px;
 }
 .splash-loading {
-  font-size: 1.2rem;
-  color: var(--text-medium);
-  letter-spacing: 2px;
+  font-size: 1.2rem;
+  color: var(--text-medium);
+  letter-spacing: 2px;
 }
 .splash-loading .dot {
-  animation: blink-dot 1.4s infinite;
-  opacity: 0;
+  animation: blink-dot 1.4s infinite;
+  opacity: 0;
 }
 .splash-loading .dot:nth-child(2) { animation-delay: 0.2s; }
 .splash-loading .dot:nth-child(3) { animation-delay: 0.4s; }
@@ -137,59 +137,59 @@ html, body {
 
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
 #pantalla1 {
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 #pantalla1 .brand-header { text-align: center; }
 #pantalla1 h1 {
-  margin: 0;
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 700;
-  color: var(--text-light);
+  margin: 0;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  color: var(--text-light);
 }
 .login-columns-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 600px;
-  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  flex-wrap: wrap;
 }
 .login-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
-  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-width: 250px;
 }
 .login-column .usuario-btn { width: 100%; }
 .btn-contenedor {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  max-width: 800px;
 }
 /* === BOTÓN ESTILO GLASS === */
 .usuario-btn {
-  background: rgba(59, 130, 246, 0.25); /* Color base con transparencia */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-light);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 14px 28px;
-  border-radius: var(--border-radius-sm);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .2s ease, transform .2s ease;
-  box-shadow: var(--shadow-md);
+  background: rgba(59, 130, 246, 0.25); /* Color base con transparencia */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 14px 28px;
+  border-radius: var(--border-radius-sm);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+  box-shadow: var(--shadow-md);
 }
 .usuario-btn:hover {
-  background: rgba(59, 130, 246, 0.4); /* Aumentar opacidad en hover */
-  transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.4); /* Aumentar opacidad en hover */
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 .btn-rojo { background: rgba(239, 68, 68, 0.25); }
 .btn-rojo:hover { background: rgba(239, 68, 68, 0.4); }
@@ -197,196 +197,196 @@ html, body {
 /* ================= PANTALLA 2: PANEL PRINCIPAL ================= */
 #pantalla2 { gap: 10px; }
 .header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  width: 100%;
-  flex-wrap: wrap;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 #tituloFijo {
-  font-weight: 700;
-  text-align: center;
-  font-size: var(--titulo-size);
-  color: var(--text-light);
+  font-weight: 700;
+  text-align: center;
+  font-size: var(--titulo-size);
+  color: var(--text-light);
 }
 #turnoActual {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: var(--border-radius-sm);
-  /* Efecto Glass */
-  background: rgba(31, 41, 55, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .zona-centro {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 24px;
-  margin-top: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+  margin-top: 20px;
 }
 /* === CARD ESTILO GLASS === */
 .resumen-turno {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 20px 40px;
-  width: 100%;
-  max-width: 700px;
-  border-radius: var(--border-radius-md);
-  /* Efecto Glass */
-  background: rgba(31, 41, 55, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 40px;
+  width: 100%;
+  max-width: 700px;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .resumen-turno.oculto { display: none; }
 .dato-resumen { text-align: center; }
 .dato-resumen .etiqueta {
-  font-size: 14px;
-  color: var(--text-medium);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-medium);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 .dato-resumen .valor {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-light);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-light);
 }
 .grupo-contenedor {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  width: 100%;
-  max-width: 1400px;
-  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  width: 100%;
+  max-width: 1400px;
+  justify-content: center;
 }
 /* === MEJORA: CARD CON FONDO DE PANEL LED === */
 .grupo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 24px;
-  flex-grow: 1;
-  min-width: 300px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: var(--border-radius-md);
-  
-  /* Nuevo fondo de panel de LEDs apagados */
-  background-color: #18181a; /* Color base oscuro del panel */
-  background-image: radial-gradient(circle at center, rgba(0,0,0,0.4) 2px, transparent 3px);
-  background-size: 12px 12px; /* Controla el tamaño y espaciado de los "puntos" */
-  
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Mantenemos el borde glass */
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6); /* Sombra interior para dar relieve */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  flex-grow: 1;
+  min-width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--border-radius-md);
+  
+  /* Nuevo fondo de panel de LEDs apagados */
+  background-color: #18181a; /* Color base oscuro del panel */
+  background-image: radial-gradient(circle at center, rgba(0,0,0,0.4) 2px, transparent 3px);
+  background-size: 12px 12px; /* Controla el tamaño y espaciado de los "puntos" */
+  
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Mantenemos el borde glass */
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6); /* Sombra interior para dar relieve */
 }
 .grupo:hover {
-  transform: translateY(-5px);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.1);
+  transform: translateY(-5px);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.1);
 }
 .grupo.oculto { display: none; }
 .grupo .nombre {
-  font-size: clamp(20px, 2.2vw, 26px);
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 .grupo .tarimas {
-  font-size: clamp(16px, 1.7vw, 18px);
-  color: var(--text-medium);
-  margin-bottom: 20px;
+  font-size: clamp(16px, 1.7vw, 18px);
+  color: var(--text-medium);
+  margin-bottom: 20px;
 }
 .leds {
-  display: flex;
-  gap: var(--led-gap);
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
+  display: flex;
+  gap: var(--led-gap);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 /* === MEJORA LED === */
 .led {
-  width: var(--led-size);
-  height: var(--led-size);
-  border-radius: 50%;
-  cursor: pointer;
-  background: radial-gradient(circle at 45% 40%, var(--led-off-core) 40%, var(--led-off-edge) 100%);
-  border: 2px solid var(--led-off-edge);
-  transition: all .2s ease;
-  /* Flexbox para centrar el texto del contador */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--text-dark);
-  line-height: 1;
+  width: var(--led-size);
+  height: var(--led-size);
+  border-radius: 50%;
+  cursor: pointer;
+  background: radial-gradient(circle at 45% 40%, var(--led-off-core) 40%, var(--led-off-edge) 100%);
+  border: 2px solid var(--led-off-edge);
+  transition: all .2s ease;
+  /* Flexbox para centrar el texto del contador */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-dark);
+  line-height: 1;
 }
 .led:active { transform: scale(.96); }
 .led.on {
-  background: radial-gradient(circle at 48% 45%, #6EE7B7 40%, var(--accent-green) 100%);
-  box-shadow: 0 0 22px var(--glow-green);
-  border-color: var(--accent-green);
-  animation: blink var(--blink-duration) ease-in-out infinite;
+  background: radial-gradient(circle at 48% 45%, #6EE7B7 40%, var(--accent-green) 100%);
+  box-shadow: 0 0 22px var(--glow-green);
+  border-color: var(--accent-green);
+  animation: blink var(--blink-duration) ease-in-out infinite;
 }
 /* Estilos para el texto del contador */
 .led .tiempo-transcurrido b {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 700;
 }
 .led .tiempo-transcurrido small {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 .led.naranja {
-  background: radial-gradient(circle at 48% 45%, #FBBF24 40%, var(--accent-orange) 100%);
-  box-shadow: 0 0 22px var(--glow-orange);
-  border-color: var(--accent-orange);
+  background: radial-gradient(circle at 48% 45%, #FBBF24 40%, var(--accent-orange) 100%);
+  box-shadow: 0 0 22px var(--glow-orange);
+  border-color: var(--accent-orange);
 }
 .led.rojo {
-  background: radial-gradient(circle at 48% 45%, #F87171 40%, var(--accent-red) 100%);
-  box-shadow: 0 0 22px var(--glow-red);
-  border-color: var(--accent-red);
+  background: radial-gradient(circle at 48% 45%, #F87171 40%, var(--accent-red) 100%);
+  box-shadow: 0 0 22px var(--glow-red);
+  border-color: var(--accent-red);
 }
 .led.verde {
-  background: radial-gradient(circle at 48% 45%, #6EE7B7 40%, var(--accent-green) 100%);
-  box-shadow: 0 0 22px var(--glow-green);
-  border-color: var(--accent-green);
+  background: radial-gradient(circle at 48% 45%, #6EE7B7 40%, var(--accent-green) 100%);
+  box-shadow: 0 0 22px var(--glow-green);
+  border-color: var(--accent-green);
 }
 .led.disabled { cursor: not-allowed; opacity: 0.6; }
 
 .tiempos {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--text-medium);
-  text-align: left;
-  width: 100%;
-  max-height: 150px;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.2); /* Fondo sutilmente transparente */
-  padding: 10px;
-  border-radius: var(--border-radius-sm);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-medium);
+  text-align: left;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.2); /* Fondo sutilmente transparente */
+  padding: 10px;
+  border-radius: var(--border-radius-sm);
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 .tiempos p { margin: 0 0 5px; }
 .contadores-calidad {
-  display: flex;
-  gap: 30px;
-  margin-top: 10px;
+  display: flex;
+  gap: 30px;
+  margin-top: 10px;
 }
 .contador-calidad {
-  text-align: center;
-  font-weight: 600;
+  text-align: center;
+  font-weight: 600;
 }
 .contador-calidad .valor { font-size: 24px; font-weight: 700; }
 .contador-calidad .etiqueta { font-size: 12px; color: var(--text-medium); }
@@ -397,61 +397,61 @@ html, body {
 
 /* ================= MODALES ESTILO GLASS ================= */
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo del overlay */
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo del overlay */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .modal.visible { visibility: visible; opacity: 1; }
 /* === MODAL ESTILO GLASS === */
 .modal-content {
-  padding: 30px;
-  text-align: center;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: var(--shadow-lg);
-  border-radius: var(--border-radius-md);
-  /* Efecto Glass */
-  background: rgba(31, 41, 55, 0.7); /* Mayor opacidad para legibilidad */
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.7); /* Mayor opacidad para legibilidad */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .modal-content h3 {
-  margin-top: 0;
-  font-size: 22px;
-  margin-bottom: 25px;
+  margin-top: 0;
+  font-size: 22px;
+  margin-bottom: 25px;
 }
 
 /* Modal Calidad */
 .opciones {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
 }
 .opcion-btn {
-  padding: 15px 25px;
-  font-size: 18px;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--border-radius-sm);
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  color: #fff;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 15px 25px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .opcion-btn:hover { transform: scale(1.02); }
 .opcion-btn[data-color="naranja"] { background: rgba(245, 158, 11, 0.3); }
@@ -462,69 +462,69 @@ html, body {
 .opcion-btn[data-color="verde"]:hover { background: rgba(16, 185, 129, 0.5); }
 
 .cerrar-btn {
-  background: rgba(55, 65, 81, 0.4); /* --bg-light con transparencia */
-  color: var(--text-light);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px 20px;
-  border-radius: var(--border-radius-sm);
-  cursor: pointer;
-  font-weight: 600;
-  backdrop-filter: blur(5px);
+  background: rgba(55, 65, 81, 0.4); /* --bg-light con transparencia */
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
 }
 .cerrar-btn:hover { background: rgba(75, 85, 99, 0.6); }
 
 /* Modal de Rechazo */
 #modalRechazo .modal-content {
-  text-align: left;
-  max-height: 85vh; 
-  overflow-y: auto;
+  text-align: left;
+  max-height: 85vh; 
+  overflow-y: auto;
 }
 #modalRechazo form { display: flex; flex-direction: column; gap: 15px; }
 #modalRechazo label { font-size: 14px; margin-bottom: 5px; display: block; color: var(--text-medium); }
 /* === INPUTS ESTILO GLASS === */
 #modalRechazo input, #modalRechazo textarea, .modal-prompt-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--border-radius-sm);
-  color: var(--text-light);
-  font-size: 16px;
-  font-family: var(--font-family);
-  /* Efecto Glass */
-  background: rgba(17, 24, 39, 0.5); /* --bg-dark con transparencia */
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  color: var(--text-light);
+  font-size: 16px;
+  font-family: var(--font-family);
+  /* Efecto Glass */
+  background: rgba(17, 24, 39, 0.5); /* --bg-dark con transparencia */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 #modalRechazo input:focus, #modalRechazo textarea:focus, .modal-prompt-input:focus {
-    outline: none;
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 #modalRechazo textarea { resize: vertical; min-height: 80px; }
 
 /* ---- MODALES GENÉRICOS ---- */
 .modal-generic-message {
-  font-size: 16px;
-  color: var(--text-medium);
-  margin-bottom: 25px;
-  line-height: 1.6;
+  font-size: 16px;
+  color: var(--text-medium);
+  margin-bottom: 25px;
+  line-height: 1.6;
 }
 .modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 /* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
 #pantalla3 {
-  background-color: #f4f7f9;
-  /* Fondo degradado suave para tema claro */
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(210, 40%, 98%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 100%, hsla(200, 50%, 90%, 1) 0, transparent 50%);
-  color: var(--text-dark);
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  background-color: #f4f7f9;
+  /* Fondo degradado suave para tema claro */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(210, 40%, 98%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(200, 50%, 90%, 1) 0, transparent 50%);
+  color: var(--text-dark);
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
 #pantalla3 .zona-centro { margin-top: 0; }
 #pantalla3 .brand-title,
@@ -532,218 +532,218 @@ html, body {
 #pantalla3 .header-reporte h2 { color: var(--text-dark); }
 /* === CARD ESTILO GLASS (TEMA CLARO) === */
 #pantalla3 .contenedor-reporte {
-  box-shadow: var(--shadow-lg);
-  color: var(--text-dark);
-  padding: 20px;
-  width: 100%;
-  max-width: 1400px;
-  margin-top: 20px;
-  border-radius: var(--border-radius-md);
-  /* Efecto Glass */
-  background-color: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-dark);
+  padding: 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin-top: 20px;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background-color: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 #pantalla3 .header-reporte {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 #pantalla3 .header-reporte .filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 #pantalla3 .header-reporte .filtros label { font-size: 14px; color: #64748b; }
 #pantalla3 .header-reporte .filtros input,
 #pantalla3 .header-reporte .filtros select {
-  padding: 8px;
-  border-radius: var(--border-radius-sm);
-  background-color: rgba(255, 255, 255, 0.5); /* Sutilmente transparente */
-  color: var(--text-dark);
-  border: 1px solid #cbd5e1;
-  font-size: 14px;
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
+  background-color: rgba(255, 255, 255, 0.5); /* Sutilmente transparente */
+  color: var(--text-dark);
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
 }
 #pantalla3 .header-reporte .filtros input:focus,
 #pantalla3 .header-reporte .filtros select:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  outline: none;
 }
 /* Estilo de botones para tema claro */
 #pantalla3 .usuario-btn {
-    color: var(--text-dark);
-    background: rgba(59, 130, 246, 0.15);
-    border-color: rgba(59, 130, 246, 0.2);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    color: var(--text-dark);
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 #pantalla3 .usuario-btn:hover { background: rgba(59, 130, 246, 0.25); }
 #pantalla3 .btn-rojo {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.2);
 }
 #pantalla3 .btn-rojo:hover { background: rgba(239, 68, 68, 0.25); }
 
 #pantalla3 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  color: var(--text-dark);
-  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: var(--text-dark);
+  display: table;
 }
 #pantalla3 th, #pantalla3 td {
-  border-bottom: 1px solid #e2e8f0;
-  padding: 12px;
-  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px;
+  text-align: left;
 }
 #pantalla3 thead {
-  background-color: rgba(241, 245, 249, 0.7); /* Semi-transparente */
-  color: #334155;
-  font-weight: 600;
+  background-color: rgba(241, 245, 249, 0.7); /* Semi-transparente */
+  color: #334155;
+  font-weight: 600;
 }
 #pantalla3 tbody tr:hover { background-color: rgba(248, 250, 252, 0.8); }
 #pantalla3 .resumen-datos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 #pantalla3 .dato {
-  background-color: rgba(248, 250, 252, 0.7);
-  border: 1px solid #e2e8f0;
-  box-shadow: var(--shadow-md);
-  padding: 15px;
-  border-radius: var(--border-radius-sm);
-  text-align: center;
-  min-width: 150px;
+  background-color: rgba(248, 250, 252, 0.7);
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-md);
+  padding: 15px;
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+  min-width: 150px;
 }
 #pantalla3 .dato .valor {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--accent-blue);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-blue);
 }
 #pantalla3 .dato .etiqueta {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #64748b;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #64748b;
 }
 .grafico-contenedor {
-  width: 100%;
-  max-width: 700px;
-  margin: 30px auto;
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
 }
 .reporte-calidad-mobile { display: none; }
 
 
 /* ================= PANTALLA 4: DASHBOARD ================= */
 #pantalla4 {
-  background-color: transparent; /* Usar el fondo del body */
-  color: var(--text-light);
-  padding: 20px;
-  display: grid;
-  grid-template-areas:
-    "brand" "header" "filtros" "kpis" "graficos" "pendientes" "footer";
-  gap: 10px;
-  align-content: start;
-  overflow-y: auto;
+  background-color: transparent; /* Usar el fondo del body */
+  color: var(--text-light);
+  padding: 20px;
+  display: grid;
+  grid-template-areas:
+    "brand" "header" "filtros" "kpis" "graficos" "pendientes" "footer";
+  gap: 10px;
+  align-content: start;
+  overflow-y: auto;
 }
 #pantalla4 .brand-title { grid-area: brand; }
 #pantalla4 .header { grid-area: header; text-align: center; }
 #pantalla4 .filtros-dashboard {
-  grid-area: filtros;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  grid-area: filtros;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 #pantalla4 .filtros-dashboard label { font-size: 14px; color: var(--text-medium); }
 #pantalla4 .filtros-dashboard input,
 #pantalla4 .filtros-dashboard select {
-  padding: 8px;
-  border-radius: var(--border-radius-sm);
-  background-color: rgba(31, 41, 55, 0.5); /* --bg-medium con transparencia */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
+  background-color: rgba(31, 41, 55, 0.5); /* --bg-medium con transparencia */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
 }
 #pantalla4 .kpis-grid {
-  grid-area: kpis;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-area: kpis;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
 /* === CARD ESTILO GLASS === */
 #pantalla4 .kpi-card {
-  padding: 25px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: var(--border-radius-md);
-  /* Efecto Glass */
-  background: rgba(31, 41, 55, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 #pantalla4 .kpi-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
 }
 #pantalla4 .kpi-card h3 {
-  margin-top: 0;
-  font-size: 1rem;
-  color: var(--text-medium);
-  text-transform: uppercase;
-  font-weight: 600;
+  margin-top: 0;
+  font-size: 1rem;
+  color: var(--text-medium);
+  text-transform: uppercase;
+  font-weight: 600;
 }
 #pantalla4 .kpi-card .valor {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--text-light);
-  transition: color 0.3s ease;
-  margin-top: 10px;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+  margin-top: 10px;
 }
 #pantalla4 .kpi-card.alerta .valor { color: var(--accent-red); }
 #pantalla4 .graficos-container {
-  grid-area: graficos;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-area: graficos;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 /* === PANEL ESTILO GLASS === */
 #pantalla4 .panel {
-  grid-area: pendientes;
-  padding: 20px;
-  border-radius: var(--border-radius-md);
-  /* Efecto Glass */
-  background: rgba(31, 41, 55, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  grid-area: pendientes;
+  padding: 20px;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 #pantalla4 .graficos-container .panel { grid-area: unset; }
 #pantalla4 .panel h3 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: var(--text-light);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-light);
 }
 #pantalla4 #tablaPendientes {
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--text-light);
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-light);
 }
 #pantalla4 #tablaPendientes th, #pantalla4 #tablaPendientes td {
-  padding: 12px;
-  border-bottom: 1px solid rgba(55, 65, 81, 0.5); /* --bg-light con transparencia */
-  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.5); /* --bg-light con transparencia */
+  text-align: left;
 }
 #pantalla4 #tablaPendientes thead { background-color: rgba(55, 65, 81, 0.4); }
 #pantalla4 #tablaPendientes tbody tr:hover { background-color: rgba(75, 85, 99, 0.4); }
@@ -752,344 +752,344 @@ html, body {
 
 /* ================= MEDIA QUERIES RESPONSIVE ================= */
 @media (max-width: 768px) {
-  .header { justify-content: center; text-align: center; }
-  #turnoActual { position: static; transform: none; margin-top: 10px; }
-  
-  #pantalla3 table { display: none; }
-  .reporte-calidad-mobile { display: block; }
-  
-  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
-    background-color: rgba(241, 245, 249, 0.8);
-    padding: 10px;
-    border-radius: var(--border-radius-sm);
-    margin-bottom: 10px;
-    color: var(--text-dark);
-  }
-  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
-    font-weight: bold;
-    color: #64748b;
-    display: block;
-    font-size: 12px;
-  }
-  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .valor {
-    color: var(--text-dark);
-    font-size: 16px;
-  }
+  .header { justify-content: center; text-align: center; }
+  #turnoActual { position: static; transform: none; margin-top: 10px; }
+  
+  #pantalla3 table { display: none; }
+  .reporte-calidad-mobile { display: block; }
+  
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
+    background-color: rgba(241, 245, 249, 0.8);
+    padding: 10px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 10px;
+    color: var(--text-dark);
+  }
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
+    font-weight: bold;
+    color: #64748b;
+    display: block;
+    font-size: 12px;
+  }
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .valor {
+    color: var(--text-dark);
+    font-size: 16px;
+  }
 }
 
 @media (min-width: 769px) {
-  .reporte-calidad-mobile { display: none; }
+  .reporte-calidad-mobile { display: none; }
 }
 
 @media (min-width: 992px) {
-  #pantalla4 {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "brand brand" "header header" "filtros filtros"
-      "kpis kpis" "graficos graficos" "pendientes pendientes" "footer footer";
-  }
-  #pantalla4 .graficos-container { grid-template-columns: 1fr 1fr; }
-  .graficos-container > *:nth-child(3) { grid-column: span 2; }
+  #pantalla4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand brand" "header header" "filtros filtros"
+      "kpis kpis" "graficos graficos" "pendientes pendientes" "footer footer";
+  }
+  #pantalla4 .graficos-container { grid-template-columns: 1fr 1fr; }
+  .graficos-container > *:nth-child(3) { grid-column: span 2; }
 }
 @media (min-width: 1200px) {
-  #pantalla4 {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-      "brand brand brand brand" "header header header header" "filtros filtros filtros filtros"
-      "kpis kpis kpis kpis" "graficos graficos pendientes pendientes" "footer footer footer footer";
-  }
-   #pantalla4 .graficos-container {
-    grid-area: graficos;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, auto);
-  }
-  .graficos-container > * { grid-column: span 1 !important; }
-  #pantalla4 .panel { grid-area: pendientes; }
+  #pantalla4 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      "brand brand brand brand" "header header header header" "filtros filtros filtros filtros"
+      "kpis kpis kpis kpis" "graficos graficos pendientes pendientes" "footer footer footer footer";
+  }
+   #pantalla4 .graficos-container {
+    grid-area: graficos;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+  .graficos-container > * { grid-column: span 1 !important; }
+  #pantalla4 .panel { grid-area: pendientes; }
 }
 </style>
 </head>
 <body>
 
 <section id="splashScreen" class="pantalla activa">
-    <div class="splash-content">
-        <p class="brand-title">CORNING</p>
-        <div class="splash-logo-container">
-             <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
-        </div>
-        <p class="splash-loading">Cargando<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
-    </div>
+    <div class="splash-content">
+        <p class="brand-title">CORNING</p>
+        <div class="splash-logo-container">
+             <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
+        </div>
+        <p class="splash-loading">Cargando<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
+    </div>
 </section>
 
 <section id="pantalla1" class="pantalla">
-    <div class="brand-header">
-        <p class="brand-title">CORNING</p>
-        <h1 id="mainTitle">Panel de Logística</h1>
-    </div>
-    <div class="login-columns-container">
-        <div class="login-column">
-            <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
-            <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
-            <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
-            <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
-            <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>
-        </div>
-        <div class="login-column">
-            <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
-            <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
-            <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
-        </div>
-    </div>
+    <div class="brand-header">
+        <p class="brand-title">CORNING</p>
+        <h1 id="mainTitle">Panel de Logística</h1>
+    </div>
+    <div class="login-columns-container">
+        <div class="login-column">
+            <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('BEDROCK')">BEDROCK</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('DROPS')">DROPS</button>
+            <button class="usuario-btn" onclick="seleccionarUsuario('CALIDAD')">CALIDAD</button>
+        </div>
+        <div class="login-column">
+            <button class="usuario-btn" onclick="seleccionarUsuario('SUPERVISOR')">SUPERVISOR</button>
+            <button class="usuario-btn" onclick="seleccionarDashboard()">DASHBOARD</button>
+            <button class="usuario-btn" onclick="seleccionarReporte()">REPORTES</button>
+        </div>
+    </div>
 </section>
 
 <section id="pantalla2" class="pantalla">
-    <p class="brand-title">CORNING</p>
-    <header class="header">
-        <div id="tituloFijo">LOGÍSTICA</div>
-        <div id="turnoActual"></div>
-    </header>
-    <div class="zona-centro">
-    <div id="resumenTurno" class="resumen-turno oculto">
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <div id="tituloFijo">LOGÍSTICA</div>
+        <div id="turnoActual"></div>
+    </header>
+    <div class="zona-centro">
+    <div id="resumenTurno" class="resumen-turno oculto">
 <div class="dato-resumen">
-    <div class="etiqueta">Tarimas Totales</div>
-    <div id="tarimasTotales" class="valor">0</div>
+    <div class="etiqueta">Tarimas Totales</div>
+    <div id="tarimasTotales" class="valor">0</div>
 </div>
 <div class="dato-resumen">
-    <div class="etiqueta">Tiempo Promedio</div>
-    <div id="tiempoPromedio" class="valor">0 min</div>
+    <div class="etiqueta">Tiempo Promedio</div>
+    <div id="tiempoPromedio" class="valor">0 min</div>
 </div>
 </div>
 <div class="grupo-contenedor">
-    <div class="grupo" data-grupo="MULTIPORT">
-        <div class="nombre">MULTIPORT</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="MULTIPORT" data-linea="linea1"></div>
-        <div class="leds" data-grupo="MULTIPORT" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="MULTIPORT"></div>
-    </div>
+    <div class="grupo" data-grupo="MULTIPORT">
+        <div class="nombre">MULTIPORT</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="MULTIPORT" data-linea="linea1"></div>
+        <div class="leds" data-grupo="MULTIPORT" data-linea="linea2"></div>
+        <div class="tiempos" data-grupo="MULTIPORT"></div>
+    </div>
 
-    <div class="grupo" data-grupo="DROPS">
-        <div class="nombre">DROPS</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="DROPS" data-linea="linea1"></div>
-        <div class="leds" data-grupo="DROPS" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="DROPS"></div>
-    </div>
+    <div class="grupo" data-grupo="DROPS">
+        <div class="nombre">DROPS</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="DROPS" data-linea="linea1"></div>
+        <div class="leds" data-grupo="DROPS" data-linea="linea2"></div>
+        <div class="tiempos" data-grupo="DROPS"></div>
+    </div>
 
-    <div class="grupo" data-grupo="BEDROCK">
-        <div class="nombre">BEDROCK</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="BEDROCK" data-linea="linea1"></div>
-        <div class="leds" data-grupo="BEDROCK" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="BEDROCK"></div>
-    </div>
+    <div class="grupo" data-grupo="BEDROCK">
+        <div class="nombre">BEDROCK</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="BEDROCK" data-linea="linea1"></div>
+        <div class="leds" data-grupo="BEDROCK" data-linea="linea2"></div>
+        <div class="tiempos" data-grupo="BEDROCK"></div>
+    </div>
 
-    <div class="grupo" data-grupo="CALIDAD_MULTIPORT">
-        <div class="nombre">CALIDAD MULTIPORT</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_MULTIPORT" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_MULTIPORT">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_MULTIPORT">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
-        </div>
-        <div class="tiempos" data-grupo="CALIDAD_MULTIPORT"></div>
-    </div>
+    <div class="grupo" data-grupo="CALIDAD_MULTIPORT">
+        <div class="nombre">CALIDAD MULTIPORT</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="CALIDAD_MULTIPORT" data-linea="linea1"></div>
+        <div class="contadores-calidad">
+            <div class="contador-calidad">
+                <span class="valor" id="liberadas_CALIDAD_MULTIPORT">0</span>
+                <div class="etiqueta">Liberadas</div>
+            </div>
+            <div class="contador-calidad">
+                <span class="valor" id="rechazadas_CALIDAD_MULTIPORT">0</span>
+                <div class="etiqueta">Rechazadas</div>
+            </div>
+        </div>
+        <div class="tiempos" data-grupo="CALIDAD_MULTIPORT"></div>
+    </div>
 
-    <div class="grupo" data-grupo="CALIDAD_DROPS">
-        <div class="nombre">CALIDAD DROPS</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_DROPS" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_DROPS">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_DROPS">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
-        </div>
-        <div class="tiempos" data-grupo="CALIDAD_DROPS"></div>
-    </div>
+    <div class="grupo" data-grupo="CALIDAD_DROPS">
+        <div class="nombre">CALIDAD DROPS</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="CALIDAD_DROPS" data-linea="linea1"></div>
+        <div class="contadores-calidad">
+            <div class="contador-calidad">
+                <span class="valor" id="liberadas_CALIDAD_DROPS">0</span>
+                <div class="etiqueta">Liberadas</div>
+            </div>
+            <div class="contador-calidad">
+                <span class="valor" id="rechazadas_CALIDAD_DROPS">0</span>
+                <div class="etiqueta">Rechazadas</div>
+            </div>
+        </div>
+        <div class="tiempos" data-grupo="CALIDAD_DROPS"></div>
+    </div>
 
-    <div class="grupo" data-grupo="CALIDAD_BEDROCK">
-        <div class="nombre">CALIDAD BEDROCK</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_BEDROCK" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_BEDROCK">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_BEDROCK">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
-        </div>
-        <div class="tiempos" data-grupo="CALIDAD_BEDROCK"></div>
-    </div>
+    <div class="grupo" data-grupo="CALIDAD_BEDROCK">
+        <div class="nombre">CALIDAD BEDROCK</div>
+        <div class="tarimas">Tarimas: 0</div>
+        <div class="leds" data-grupo="CALIDAD_BEDROCK" data-linea="linea1"></div>
+        <div class="contadores-calidad">
+            <div class="contador-calidad">
+                <span class="valor" id="liberadas_CALIDAD_BEDROCK">0</span>
+                <div class="etiqueta">Liberadas</div>
+            </div>
+            <div class="contador-calidad">
+                <span class="valor" id="rechazadas_CALIDAD_BEDROCK">0</span>
+                <div class="etiqueta">Rechazadas</div>
+            </div>
+        </div>
+        <div class="tiempos" data-grupo="CALIDAD_BEDROCK"></div>
+    </div>
 </div>
 </div>
 <div class="footer">
-    <button class="usuario-btn btn-rojo" onclick="volverAPantalla1()">Cerrar sesión</button>
+    <button class="usuario-btn btn-rojo" onclick="volverAPantalla1()">Cerrar sesión</button>
 </div>
 </section>
 
 <section id="pantalla3" class="pantalla">
-    <p class="brand-title">CORNING</p>
-    <header class="header">
-        <h1 id="tituloReportes">REPORTES</h1>
-    </header>
-    <div class="zona-centro">
-        <div id="selectoresReportes" class="btn-contenedor">
-            <button class="usuario-btn" data-reporte="produccion">PRODUCCIÓN</button>
-            <button class="usuario-btn" data-reporte="logistica">LOGÍSTICA</button>
-            <button class="usuario-btn" data-reporte="calidad">CALIDAD</button>
-            <button class="usuario-btn" data-reporte="resumen">RESUMEN EJECUTIVO</button>
-        </div>
-        <div id="contenedorReporte" class="contenedor-reporte">
-            <h2>Selecciona un reporte</h2>
-        </div>
-    </div>
-    <div class="footer">
-        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver</button>
-    </div>
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <h1 id="tituloReportes">REPORTES</h1>
+    </header>
+    <div class="zona-centro">
+        <div id="selectoresReportes" class="btn-contenedor">
+            <button class="usuario-btn" data-reporte="produccion">PRODUCCIÓN</button>
+            <button class="usuario-btn" data-reporte="logistica">LOGÍSTICA</button>
+            <button class="usuario-btn" data-reporte="calidad">CALIDAD</button>
+            <button class="usuario-btn" data-reporte="resumen">RESUMEN EJECUTIVO</button>
+        </div>
+        <div id="contenedorReporte" class="contenedor-reporte">
+            <h2>Selecciona un reporte</h2>
+        </div>
+    </div>
+    <div class="footer">
+        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver</button>
+    </div>
 </section>
 
 <section id="pantalla4" class="pantalla" style="display: none;">
-    <p class="brand-title">CORNING</p>
-    <header class="header">
-        <h1>DASHBOARD DE SUPERVISOR</h1>
-    </header>
-    <div class="filtros-dashboard">
-        <label for="fechaDashboard">Fecha:</label>
-        <input type="date" id="fechaDashboard">
-        <label for="turnoDashboardSelect">Turno:</label>
-        <select id="turnoDashboardSelect">
-            <option value="todos">Todos</option>
-            <option value="Turno 1">Turno 1</option>
-            <option value="Turno 2">Turno 2</option>
-        </select>
-    </div>
-    <div class="kpis-grid">
-        <div class="kpi-card">
-            <h3>Tarimas Confirmadas</h3>
-            <div class="valor" id="dashTarimasConfirmadas">0</div>
-        </div>
-        <div class="kpi-card">
-            <h3>Tarimas Recolectadas</h3>
-            <div class="valor" id="dashTarimasRecolectadas">0</div>
-        </div>
-        <div class="kpi-card" id="kpiTiempoPromedio">
-            <h3>Tiempo Promedio</h3>
-            <div class="valor" id="dashTiempoPromedio">0 min</div>
-        </div>
-        <div class="kpi-card" id="kpiTasaRechazo">
-            <h3>Tasa de Rechazo</h3>
-            <div class="valor" id="dashTasaRechazo">0%</div>
-        </div>
-    </div>
-    <div class="graficos-container">
-        <div class="panel">
-            <h3>Producción por Área</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
-        </div>
-        <div class="panel">
-            <h3>Estado de Calidad</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
-        </div>
-        <div class="panel">
-            <h3>Evolución Tiempos de Recolección</h3>
-            <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
-        </div>
-    </div>
-    <div class="panel">
-        <h3>Tarimas Pendientes por Recolectar</h3>
-        <table id="tablaPendientes">
-            <thead>
-                <tr>
-                    <th>Área</th>
-                    <th>Tarimas Pendientes</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    <div class="footer">
-        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver al inicio</button>
-    </div>
+    <p class="brand-title">CORNING</p>
+    <header class="header">
+        <h1>DASHBOARD DE SUPERVISOR</h1>
+    </header>
+    <div class="filtros-dashboard">
+        <label for="fechaDashboard">Fecha:</label>
+        <input type="date" id="fechaDashboard">
+        <label for="turnoDashboardSelect">Turno:</label>
+        <select id="turnoDashboardSelect">
+            <option value="todos">Todos</option>
+            <option value="Turno 1">Turno 1</option>
+            <option value="Turno 2">Turno 2</option>
+        </select>
+    </div>
+    <div class="kpis-grid">
+        <div class="kpi-card">
+            <h3>Tarimas Confirmadas</h3>
+            <div class="valor" id="dashTarimasConfirmadas">0</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Tarimas Recolectadas</h3>
+            <div class="valor" id="dashTarimasRecolectadas">0</div>
+        </div>
+        <div class="kpi-card" id="kpiTiempoPromedio">
+            <h3>Tiempo Promedio</h3>
+            <div class="valor" id="dashTiempoPromedio">0 min</div>
+        </div>
+        <div class="kpi-card" id="kpiTasaRechazo">
+            <h3>Tasa de Rechazo</h3>
+            <div class="valor" id="dashTasaRechazo">0%</div>
+        </div>
+    </div>
+    <div class="graficos-container">
+        <div class="panel">
+            <h3>Producción por Área</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoProduccionDash"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>Estado de Calidad</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoCalidadDash"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>Evolución Tiempos de Recolección</h3>
+            <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
+        </div>
+    </div>
+    <div class="panel">
+        <h3>Tarimas Pendientes por Recolectar</h3>
+        <table id="tablaPendientes">
+            <thead>
+                <tr>
+                    <th>Área</th>
+                    <th>Tarimas Pendientes</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="footer">
+        <button class="usuario-btn btn-rojo" onclick="activarPantalla('pantalla1')">Volver al inicio</button>
+    </div>
 </section>
 
 <div id="modalCalidad" class="modal">
 <div class="modal-content">
-    <h3>Selecciona el estado de la tarima:</h3>
-    <div class="opciones">
-        <button class="opcion-btn" data-color="naranja">En proceso 🟡</button>
-        <button class="opcion-btn" data-color="rojo">Rechazada 🔴</button>
-        <button class="opcion-btn" data-color="verde">Liberada 🟢</button>
-    </div>
-    <button class="cerrar-btn">Cerrar</button>
+    <h3>Selecciona el estado de la tarima:</h3>
+    <div class="opciones">
+        <button class="opcion-btn" data-color="naranja">En proceso 🟡</button>
+        <button class="opcion-btn" data-color="rojo">Rechazada 🔴</button>
+        <button class="opcion-btn" data-color="verde">Liberada 🟢</button>
+    </div>
+    <button class="cerrar-btn">Cerrar</button>
 </div>
 </div>
 <div id="modalRechazo" class="modal">
 <div class="modal-content">
-    <h3>Detalles del Rechazo</h3>
-    <form id="formularioRechazo">
-        <label for="empleado">Empleado Originador:</label>
-        <input type="text" id="empleado" name="empleado" required>
-        <label for="linea">Línea afectada:</label>
-        <input type="text" id="linea" name="linea" required>
-        <label for="parte">No. de parte:</label>
-        <input type="text" id="parte" name="parte" required>
-        <label for="descripcionParte">Descripción del No. de parte:</label>
-        <input type="text" id="descripcionParte" name="descripcionParte" required>
-        <label for="problema">Descripción del problema:</label>
-        <textarea id="problema" name="problema" required></textarea>
-        <label for="causa">Causa raíz del problema:</label>
-        <textarea id="causa" name="causa" required></textarea>
-        <label for="accion">Acción correctiva:</label>
-        <textarea id="accion" name="accion" required></textarea>
-        <div class="modal-buttons">
-            <button type="button" id="cancelRechazo" class="usuario-btn btn-rojo">Cancelar</button>
-            <button type="submit" class="usuario-btn">Guardar Rechazo</button>
-        </div>
-    </form>
+    <h3>Detalles del Rechazo</h3>
+    <form id="formularioRechazo">
+        <label for="empleado">Empleado Originador:</label>
+        <input type="text" id="empleado" name="empleado" required>
+        <label for="linea">Línea afectada:</label>
+        <input type="text" id="linea" name="linea" required>
+        <label for="parte">No. de parte:</label>
+        <input type="text" id="parte" name="parte" required>
+        <label for="descripcionParte">Descripción del No. de parte:</label>
+        <input type="text" id="descripcionParte" name="descripcionParte" required>
+        <label for="problema">Descripción del problema:</label>
+        <textarea id="problema" name="problema" required></textarea>
+        <label for="causa">Causa raíz del problema:</label>
+        <textarea id="causa" name="causa" required></textarea>
+        <label for="accion">Acción correctiva:</label>
+        <textarea id="accion" name="accion" required></textarea>
+        <div class="modal-buttons">
+            <button type="button" id="cancelRechazo" class="usuario-btn btn-rojo">Cancelar</button>
+            <button type="submit" class="usuario-btn">Guardar Rechazo</button>
+        </div>
+    </form>
 </div>
 </div>
 <div id="modalAlert" class="modal">
-    <div class="modal-content">
-        <h3 id="modalAlertTitle">Notificación</h3>
-        <p id="modalAlertMessage" class="modal-generic-message"></p>
-        <div class="modal-buttons" style="justify-content: center;">
-            <button id="modalAlertOk" class="usuario-btn">OK</button>
-        </div>
-    </div>
+    <div class="modal-content">
+        <h3 id="modalAlertTitle">Notificación</h3>
+        <p id="modalAlertMessage" class="modal-generic-message"></p>
+        <div class="modal-buttons" style="justify-content: center;">
+            <button id="modalAlertOk" class="usuario-btn">OK</button>
+        </div>
+    </div>
 </div>
 <div id="modalConfirm" class="modal">
-    <div class="modal-content">
-        <h3 id="modalConfirmTitle">Confirmación</h3>
-        <p id="modalConfirmMessage" class="modal-generic-message"></p>
-        <div class="modal-buttons">
-            <button id="modalConfirmCancel" class="usuario-btn btn-rojo">Cancelar</button>
-            <button id="modalConfirmOk" class="usuario-btn">Confirmar</button>
-        </div>
-    </div>
+    <div class="modal-content">
+        <h3 id="modalConfirmTitle">Confirmación</h3>
+        <p id="modalConfirmMessage" class="modal-generic-message"></p>
+        <div class="modal-buttons">
+            <button id="modalConfirmCancel" class="usuario-btn btn-rojo">Cancelar</button>
+            <button id="modalConfirmOk" class="usuario-btn">Confirmar</button>
+        </div>
+    </div>
 </div>
 <div id="modalPrompt" class="modal">
-    <div class="modal-content">
-        <h3 id="modalPromptTitle">Introducir Datos</h3>
-        <p id="modalPromptMessage" class="modal-generic-message"></p>
-        <input type="password" id="modalPromptInput" class="modal-prompt-input" autocomplete="off" />
-        <div class="modal-buttons">
-            <button id="modalPromptCancel" class="usuario-btn btn-rojo">Cancelar</button>
-            <button id="modalPromptOk" class="usuario-btn">Aceptar</button>
-        </div>
-    </div>
+    <div class="modal-content">
+        <h3 id="modalPromptTitle">Introducir Datos</h3>
+        <p id="modalPromptMessage" class="modal-generic-message"></p>
+        <input type="password" id="modalPromptInput" class="modal-prompt-input" autocomplete="off" />
+        <div class="modal-buttons">
+            <button id="modalPromptCancel" class="usuario-btn btn-rojo">Cancelar</button>
+            <button id="modalPromptOk" class="usuario-btn">Aceptar</button>
+        </div>
+    </div>
 </div>
 <script>
 // =================================================================================================
@@ -1098,28 +1098,28 @@ html, body {
 
 // ================= CONFIG Y ESTADO =================
 const CONFIG = {
-    USUARIOS: ['MULTIPORT', 'BEDROCK', 'DROPS', 'LOGÍSTICA', 'SUPERVISOR', 'CALIDAD'],
-    PRODUCCION_GRUPOS: ['MULTIPORT', 'BEDROCK', 'DROPS'],
-    PASSWORDS: {
-        'LOGÍSTICA': 'LOGRAM',
-        'MULTIPORT': 'MP25',
-        'BEDROCK': 'BR25',
-        'DROPS': 'DROP25',
-        'SUPERVISOR': 'SUP25',
-        'CALIDAD_MULTIPORT': 'AQLMP',
-        'CALIDAD_DROPS': 'AQLDP',
-        'CALIDAD_BEDROCK': 'AQLBR',
-        'REPORTES': 'REPO25',
-        'DASHBOARD': 'DASH25'
-    },
-    LEDS_POR_GRUPO: {
-        'MULTIPORT': 5,
-        'BEDROCK': 5,
-        'DROPS': 5,
-        'CALIDAD_MULTIPORT': 5,
-        'CALIDAD_BEDROCK': 5,
-        'CALIDAD_DROPS': 5
-    }
+    USUARIOS: ['MULTIPORT', 'BEDROCK', 'DROPS', 'LOGÍSTICA', 'SUPERVISOR', 'CALIDAD'],
+    PRODUCCION_GRUPOS: ['MULTIPORT', 'BEDROCK', 'DROPS'],
+    PASSWORDS: {
+        'LOGÍSTICA': 'LOGRAM',
+        'MULTIPORT': 'MP25',
+        'BEDROCK': 'BR25',
+        'DROPS': 'DROP25',
+        'SUPERVISOR': 'SUP25',
+        'CALIDAD_MULTIPORT': 'AQLMP',
+        'CALIDAD_DROPS': 'AQLDP',
+        'CALIDAD_BEDROCK': 'AQLBR',
+        'REPORTES': 'REPO25',
+        'DASHBOARD': 'DASH25'
+    },
+    LEDS_POR_GRUPO: {
+        'MULTIPORT': 5,
+        'BEDROCK': 5,
+        'DROPS': 5,
+        'CALIDAD_MULTIPORT': 5,
+        'CALIDAD_BEDROCK': 5,
+        'CALIDAD_DROPS': 5
+    }
 };
 
 let usuarioSeleccionado = null;
@@ -1132,18 +1132,21 @@ let dashboardUpdateInterval;
 
 
 // ================= FIREBASE =================
+// ***** INICIO DEL BLOQUE ACTUALIZADO *****
 const firebaseConfig = {
-  apiKey: "AIzaSyCPTEu73s2rVIm2VsdTk59kVIOyi1jeyu8",
-    authDomain: "panel-logistica.firebaseapp.com",
-    databaseURL: "https://panel-logistica-default-rtdb.firebaseio.com",
-    projectId: "panel-logistica",
-    storageBucket: "panel-logistica.appspot.com",
-    messagingSenderId: "38365879945",
-    appId: "1:38365879945:web:e2f3590fe77f013dba3058"
+    apiKey: "AIzaSyDahnSPvBNTYot00JCn5CBjggAYFVGhbjE",
+    authDomain: "panel-logistica-simple.firebaseapp.com",
+    databaseURL: "https://panel-logistica-simple-default-rtdb.firebaseio.com",
+    projectId: "panel-logistica-simple",
+    storageBucket: "panel-logistica-simple.appspot.com",
+    messagingSenderId: "528779971851",
+    appId: "1:528779971851:web:90241469a69be3a5a4e60e"
 };
+// ***** FIN DEL BLOQUE ACTUALIZADO *****
+
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const db = database; 
+const db = database; 
 const ledRef = database.ref('estadoLEDs');
 let historialRef;
 let contadoresCalidadRef;
@@ -1153,1356 +1156,1356 @@ let dashboardListeners = [];
 
 // ======================= MODALES PERSONALIZADOS =======================
 const customAlert = (message, title = "Notificación") => {
-    return new Promise(resolve => {
-        const modal = document.getElementById('modalAlert');
-        document.getElementById('modalAlertTitle').textContent = title;
-        document.getElementById('modalAlertMessage').textContent = message;
-        modal.classList.add('visible');
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalAlert');
+        document.getElementById('modalAlertTitle').textContent = title;
+        document.getElementById('modalAlertMessage').textContent = message;
+        modal.classList.add('visible');
 
-        const okButton = document.getElementById('modalAlertOk');
-        
-        const closeListener = () => {
-            modal.classList.remove('visible');
-            okButton.removeEventListener('click', closeListener);
-            resolve();
-        };
+        const okButton = document.getElementById('modalAlertOk');
+        
+        const closeListener = () => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', closeListener);
+            resolve();
+        };
 
-        okButton.addEventListener('click', closeListener);
-    });
+        okButton.addEventListener('click', closeListener);
+    });
 };
 
 const customConfirm = (message, title = "Confirmación") => {
-    return new Promise(resolve => {
-        const modal = document.getElementById('modalConfirm');
-        document.getElementById('modalConfirmTitle').textContent = title;
-        document.getElementById('modalConfirmMessage').textContent = message;
-        modal.classList.add('visible');
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalConfirm');
+        document.getElementById('modalConfirmTitle').textContent = title;
+        document.getElementById('modalConfirmMessage').textContent = message;
+        modal.classList.add('visible');
 
-        const okButton = document.getElementById('modalConfirmOk');
-        const cancelButton = document.getElementById('modalConfirmCancel');
+        const okButton = document.getElementById('modalConfirmOk');
+        const cancelButton = document.getElementById('modalConfirmCancel');
 
-        const resolveListener = (value) => {
-            modal.classList.remove('visible');
-            okButton.removeEventListener('click', confirmListener);
-            cancelButton.removeEventListener('click', cancelListener);
-            resolve(value);
-        };
+        const resolveListener = (value) => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', confirmListener);
+            cancelButton.removeEventListener('click', cancelListener);
+            resolve(value);
+        };
 
-        const confirmListener = () => resolveListener(true);
-        const cancelListener = () => resolveListener(false);
+        const confirmListener = () => resolveListener(true);
+        const cancelListener = () => resolveListener(false);
 
-        okButton.addEventListener('click', confirmListener);
-        cancelButton.addEventListener('click', cancelListener);
-    });
+        okButton.addEventListener('click', confirmListener);
+        cancelButton.addEventListener('click', cancelListener);
+    });
 };
 
 const customPrompt = (message, title = "Introducir Contraseña") => {
-    return new Promise(resolve => {
-        const modal = document.getElementById('modalPrompt');
-        const input = document.getElementById('modalPromptInput');
-        document.getElementById('modalPromptTitle').textContent = title;
-        document.getElementById('modalPromptMessage').textContent = message;
-        input.value = '';
-        modal.classList.add('visible');
-        
-        setTimeout(() => {
-            input.focus();
-        }, 50);
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalPrompt');
+        const input = document.getElementById('modalPromptInput');
+        document.getElementById('modalPromptTitle').textContent = title;
+        document.getElementById('modalPromptMessage').textContent = message;
+        input.value = '';
+        modal.classList.add('visible');
+        
+        setTimeout(() => {
+            input.focus();
+        }, 50);
 
-        const okButton = document.getElementById('modalPromptOk');
-        const cancelButton = document.getElementById('modalPromptCancel');
+        const okButton = document.getElementById('modalPromptOk');
+        const cancelButton = document.getElementById('modalPromptCancel');
 
-        const resolveListener = (value) => {
-            modal.classList.remove('visible');
-            okButton.removeEventListener('click', okListener);
-            cancelButton.removeEventListener('click', cancelListener);
-            input.removeEventListener('keydown', enterListener);
-            resolve(value);
-        };
+        const resolveListener = (value) => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', okListener);
+            cancelButton.removeEventListener('click', cancelListener);
+            input.removeEventListener('keydown', enterListener);
+            resolve(value);
+        };
 
-        const okListener = () => resolveListener(input.value);
-        const cancelListener = () => resolveListener(null);
-        
-        const enterListener = (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                okListener();
-            }
-        };
+        const okListener = () => resolveListener(input.value);
+        const cancelListener = () => resolveListener(null);
+        
+        const enterListener = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                okListener();
+            }
+        };
 
-        okButton.addEventListener('click', okListener);
-        cancelButton.addEventListener('click', cancelListener);
-        input.addEventListener('keydown', enterListener);
-    });
+        okButton.addEventListener('click', okListener);
+        cancelButton.addEventListener('click', cancelListener);
+        input.addEventListener('keydown', enterListener);
+    });
 };
 // ======================================================================
 
 // ================= FUNCIONES DE RENDER =================
 function inyectaLEDs(){
-    document.querySelectorAll('.grupo').forEach(grupoDiv => {
-        grupoDiv.classList.add('oculto');
-    });
+    document.querySelectorAll('.grupo').forEach(grupoDiv => {
+        grupoDiv.classList.add('oculto');
+    });
 
-    if (usuarioSeleccionado === 'SUPERVISOR') {
-        document.querySelectorAll('.grupo').forEach(grupoDiv => {
-            grupoDiv.classList.remove('oculto');
-        });
-    } else if (usuarioSeleccionado === 'LOGÍSTICA') {
-        document.querySelectorAll('.grupo:not([data-grupo*="CALIDAD_"])').forEach(grupoDiv => {
-            grupoDiv.classList.remove('oculto');
-        });
-    } else if (usuarioSeleccionado.startsWith('CALIDAD_')) {
-        document.querySelector(`.grupo[data-grupo="${usuarioSeleccionado}"]`).classList.remove('oculto');
-    } else {
-        document.querySelector(`.grupo[data-grupo="${usuarioSeleccionado}"]`).classList.remove('oculto');
-        document.querySelector(`.grupo[data-grupo="CALIDAD_${usuarioSeleccionado}"]`).classList.remove('oculto');
-    }
+    if (usuarioSeleccionado === 'SUPERVISOR') {
+        document.querySelectorAll('.grupo').forEach(grupoDiv => {
+            grupoDiv.classList.remove('oculto');
+        });
+    } else if (usuarioSeleccionado === 'LOGÍSTICA') {
+        document.querySelectorAll('.grupo:not([data-grupo*="CALIDAD_"])').forEach(grupoDiv => {
+            grupoDiv.classList.remove('oculto');
+        });
+    } else if (usuarioSeleccionado.startsWith('CALIDAD_')) {
+        document.querySelector(`.grupo[data-grupo="${usuarioSeleccionado}"]`).classList.remove('oculto');
+    } else {
+        document.querySelector(`.grupo[data-grupo="${usuarioSeleccionado}"]`).classList.remove('oculto');
+        document.querySelector(`.grupo[data-grupo="CALIDAD_${usuarioSeleccionado}"]`).classList.remove('oculto');
+    }
 
-    document.querySelectorAll('.grupo:not(.oculto) .leds').forEach(contenedor => {
-        const grupoLeds = contenedor.dataset.grupo;
-        const linea = contenedor.dataset.linea;
-        
-        const ledsPorLinea = 5;
-        contenedor.innerHTML = '';
-        
-        for(let i = 0; i < ledsPorLinea; i++){
-            const led = document.createElement('div');
-            led.className = 'led';
-            led.title = `${grupoLeds} • ${linea} • LED ${i+1}`;
-            led.addEventListener('click', () => togglearLED(grupoLeds, i, linea));
-            contenedor.appendChild(led);
-        }
-    });
+    document.querySelectorAll('.grupo:not(.oculto) .leds').forEach(contenedor => {
+        const grupoLeds = contenedor.dataset.grupo;
+        const linea = contenedor.dataset.linea;
+        
+        const ledsPorLinea = 5;
+        contenedor.innerHTML = '';
+        
+        for(let i = 0; i < ledsPorLinea; i++){
+            const led = document.createElement('div');
+            led.className = 'led';
+            led.title = `${grupoLeds} • ${linea} • LED ${i+1}`;
+            led.addEventListener('click', () => togglearLED(grupoLeds, i, linea));
+            contenedor.appendChild(led);
+        }
+    });
 }
 
 // === MEJORA: Función global para actualizar todos los contadores a la vez ===
 function actualizarTodosLosContadores() {
-    document.querySelectorAll('.led.on').forEach(led => {
-        const horaEncendido = led.dataset.horaEncendido;
-        if (horaEncendido) {
-            const tiempoTranscurridoMs = new Date() - new Date(horaEncendido);
-            const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
-            
-            let spanTiempo = led.querySelector('.tiempo-transcurrido');
-            if (!spanTiempo) {
-                spanTiempo = document.createElement('span');
-                spanTiempo.className = 'tiempo-transcurrido';
-                led.appendChild(spanTiempo);
-            }
-            
-            // Formato de dos líneas
-            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
-        }
-    });
+    document.querySelectorAll('.led.on').forEach(led => {
+        const horaEncendido = led.dataset.horaEncendido;
+        if (horaEncendido) {
+            const tiempoTranscurridoMs = new Date() - new Date(horaEncendido);
+            const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
+            
+            let spanTiempo = led.querySelector('.tiempo-transcurrido');
+            if (!spanTiempo) {
+                spanTiempo = document.createElement('span');
+                spanTiempo.className = 'tiempo-transcurrido';
+                led.appendChild(spanTiempo);
+            }
+            
+            // Formato de dos líneas
+            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
+        }
+    });
 }
 
 
 function pintarEstado() {
-    db.ref('estadoLEDs').on('value', snapshot => {
-        const estados = snapshot.val() || {};
-        document.querySelectorAll('.leds').forEach(contenedor => {
-            const grupoLeds = contenedor.dataset.grupo;
-            const linea = contenedor.dataset.linea;
+    db.ref('estadoLEDs').on('value', snapshot => {
+        const estados = snapshot.val() || {};
+        document.querySelectorAll('.leds').forEach(contenedor => {
+            const grupoLeds = contenedor.dataset.grupo;
+            const linea = contenedor.dataset.linea;
 
-            if (estados[grupoLeds] && estados[grupoLeds][linea]) {
-                const ledsEstado = estados[grupoLeds][linea];
-                contenedor.querySelectorAll('.led').forEach((led, index) => {
-                    led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
-                    led.removeAttribute('data-hora-encendido'); // Limpiar el atributo
-                    
-                    if (ledsEstado[index]) {
-                        if (grupoLeds.startsWith('CALIDAD_') && ledsEstado[index].color) {
-                            led.classList.add(ledsEstado[index].color);
-                            led.innerHTML = '';
-                        } else if (ledsEstado[index].encendido) {
-                            led.classList.add('on');
-                            const horaInicio = ledsEstado[index].horaEncendido || ledsEstado[index].timestamp;
-                            
-                            // === MEJORA: Guardamos la hora de inicio en el elemento para el actualizador global ===
-                            led.dataset.horaEncendido = horaInicio;
+            if (estados[grupoLeds] && estados[grupoLeds][linea]) {
+                const ledsEstado = estados[grupoLeds][linea];
+                contenedor.querySelectorAll('.led').forEach((led, index) => {
+                    led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
+                    led.removeAttribute('data-hora-encendido'); // Limpiar el atributo
+                    
+                    if (ledsEstado[index]) {
+                        if (grupoLeds.startsWith('CALIDAD_') && ledsEstado[index].color) {
+                            led.classList.add(ledsEstado[index].color);
+                            led.innerHTML = '';
+                        } else if (ledsEstado[index].encendido) {
+                            led.classList.add('on');
+                            const horaInicio = ledsEstado[index].horaEncendido || ledsEstado[index].timestamp;
+                            
+                            // === MEJORA: Guardamos la hora de inicio en el elemento para el actualizador global ===
+                            led.dataset.horaEncendido = horaInicio;
 
-                            let spanTiempo = led.querySelector('.tiempo-transcurrido');
-                            if (!spanTiempo) {
-                                spanTiempo = document.createElement('span');
-                                spanTiempo.className = 'tiempo-transcurrido';
-                                led.appendChild(spanTiempo);
-                            }
-                            
-                            const tiempoTranscurridoMs = new Date() - new Date(horaInicio);
-                            const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
-                            
-                            // === MEJORA: Formato de dos líneas para la carga inicial ===
-                            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
-                        } else {
-                            led.innerHTML = '';
-                        }
-                    } else {
-                        led.innerHTML = '';
-                    }
-                });
-            } else {
-                contenedor.querySelectorAll('.led').forEach(led => {
-                    led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
-                    led.removeAttribute('data-hora-encendido');
-                    led.innerHTML = '';
-                });
-            }
-        });
-    });
+                            let spanTiempo = led.querySelector('.tiempo-transcurrido');
+                            if (!spanTiempo) {
+                                spanTiempo = document.createElement('span');
+                                spanTiempo.className = 'tiempo-transcurrido';
+                                led.appendChild(spanTiempo);
+                            }
+                            
+                            const tiempoTranscurridoMs = new Date() - new Date(horaInicio);
+                            const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
+                            
+                            // === MEJORA: Formato de dos líneas para la carga inicial ===
+                            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
+                        } else {
+                            led.innerHTML = '';
+                        }
+                    } else {
+                        led.innerHTML = '';
+                    }
+                });
+            } else {
+                contenedor.querySelectorAll('.led').forEach(led => {
+                    led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
+                    led.removeAttribute('data-hora-encendido');
+                    led.innerHTML = '';
+                });
+            }
+        });
+    });
 }
- 
+ 
 function formatoHora(isoString) {
-    if (!isoString) return 'N/A';
-    const date = new Date(isoString);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    if (!isoString) return 'N/A';
+    const date = new Date(isoString);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
 }
 
 function obtenerTurnoActual() {
-    const ahora = new Date();
-    const hora = ahora.getHours();
-    const minutos = ahora.getMinutes();
-    let fecha = new Date(ahora);
-    let turno;
-    if ((hora > 6 || (hora === 6 && minutos >= 30)) && (hora < 18 || (hora === 18 && minutos < 30))) {
-        turno = 'Turno 1';
-    } 
-    else {
-        turno = 'Turno 2';
-        if (hora < 6 || (hora === 6 && minutos < 30)) {
-            fecha.setDate(ahora.getDate() - 1);
-        }
-    }
-    const year = fecha.getFullYear();
-    const month = String(fecha.getMonth() + 1).padStart(2, '0');
-    const day = String(fecha.getDate()).padStart(2, '0');
-    const fechaFormateada = `${year}-${month}-${day}`;
-    return { fecha: fechaFormateada, turno };
+    const ahora = new Date();
+    const hora = ahora.getHours();
+    const minutos = ahora.getMinutes();
+    let fecha = new Date(ahora);
+    let turno;
+    if ((hora > 6 || (hora === 6 && minutos >= 30)) && (hora < 18 || (hora === 18 && minutos < 30))) {
+        turno = 'Turno 1';
+    } 
+    else {
+        turno = 'Turno 2';
+        if (hora < 6 || (hora === 6 && minutos < 30)) {
+            fecha.setDate(ahora.getDate() - 1);
+        }
+    }
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+    const fechaFormateada = `${year}-${month}-${day}`;
+    return { fecha: fechaFormateada, turno };
 }
 
 
 function iniciarListenersFirebase() {
-    const { fecha, turno } = obtenerTurnoActual();
-    document.getElementById('turnoActual').textContent = `Turno actual: ${turno}`;
+    const { fecha, turno } = obtenerTurnoActual();
+    document.getElementById('turnoActual').textContent = `Turno actual: ${turno}`;
 
-    if (historialRef) historialRef.off();
-    if (contadoresCalidadRef) contadoresCalidadRef.off();
-    if (rechazosDetalladosRef) rechazosDetalladosRef.off();
-   
-    historialRef = database.ref(`historialLogs/${fecha}/${turno}`);
-    contadoresCalidadRef = database.ref(`contadoresCalidad/${fecha}/${turno}`);
-    rechazosDetalladosRef = database.ref(`rechazosDetallados/${fecha}/${turno}`);
+    if (historialRef) historialRef.off();
+    if (contadoresCalidadRef) contadoresCalidadRef.off();
+    if (rechazosDetalladosRef) rechazosDetalladosRef.off();
+   
+    historialRef = database.ref(`historialLogs/${fecha}/${turno}`);
+    contadoresCalidadRef = database.ref(`contadoresCalidad/${fecha}/${turno}`);
+    rechazosDetalladosRef = database.ref(`rechazosDetallados/${fecha}/${turno}`);
 
-    historialRef.on('value', (snapshot) => {
-        const logs = snapshot.val() || {};
-        const contadores = { MULTIPORT: 0, BEDROCK: 0, DROPS: 0, CALIDAD_MULTIPORT: 0, CALIDAD_BEDROCK: 0, CALIDAD_DROPS: 0 };
-        const tiempos = { MULTIPORT: [], BEDROCK: [], DROPS: [] };
-        let tarimasTotales = 0;
-        let tiempoTotalRecoleccion = 0;
+    historialRef.on('value', (snapshot) => {
+        const logs = snapshot.val() || {};
+        const contadores = { MULTIPORT: 0, BEDROCK: 0, DROPS: 0, CALIDAD_MULTIPORT: 0, CALIDAD_BEDROCK: 0, CALIDAD_DROPS: 0 };
+        const tiempos = { MULTIPORT: [], BEDROCK: [], DROPS: [] };
+        let tarimasTotales = 0;
+        let tiempoTotalRecoleccion = 0;
 
-        if (logs) {
-            Object.values(logs).forEach(log => {
-                if (log.accion === 'encendido' && contadores.hasOwnProperty(log.grupo)) {
-                    contadores[log.grupo]++;
-                } else if (log.accion === 'apagado' && log.tiempoRecoleccion) {
-                    const grupoBase = log.grupo;
-                    if(tiempos[grupoBase]) {
-                        tiempos[grupoBase].push(log);
-                    }
-                    tarimasTotales++;
-                    tiempoTotalRecoleccion += log.tiempoRecoleccion;
-                }
-            });
-        }
-        const tiempoPromedio = tarimasTotales > 0 ? Math.round(tiempoTotalRecoleccion / tarimasTotales) : 0;
-        document.getElementById('tarimasTotales').textContent = tarimasTotales;
-        document.getElementById('tiempoPromedio').textContent = `${tiempoPromedio} min`;
-        const resumenTurnoDiv = document.getElementById('resumenTurno');
-        if (usuarioSeleccionado === 'LOGÍSTICA' || usuarioSeleccionado === 'SUPERVISOR') {
-            resumenTurnoDiv.classList.remove('oculto');
-        } else {
-            resumenTurnoDiv.classList.add('oculto');
-        }   
+        if (logs) {
+            Object.values(logs).forEach(log => {
+                if (log.accion === 'encendido' && contadores.hasOwnProperty(log.grupo)) {
+                    contadores[log.grupo]++;
+                } else if (log.accion === 'apagado' && log.tiempoRecoleccion) {
+                    const grupoBase = log.grupo;
+                    if(tiempos[grupoBase]) {
+                        tiempos[grupoBase].push(log);
+                    }
+                    tarimasTotales++;
+                    tiempoTotalRecoleccion += log.tiempoRecoleccion;
+                }
+            });
+        }
+        const tiempoPromedio = tarimasTotales > 0 ? Math.round(tiempoTotalRecoleccion / tarimasTotales) : 0;
+        document.getElementById('tarimasTotales').textContent = tarimasTotales;
+        document.getElementById('tiempoPromedio').textContent = `${tiempoPromedio} min`;
+        const resumenTurnoDiv = document.getElementById('resumenTurno');
+        if (usuarioSeleccionado === 'LOGÍSTICA' || usuarioSeleccionado === 'SUPERVISOR') {
+            resumenTurnoDiv.classList.remove('oculto');
+        } else {
+            resumenTurnoDiv.classList.add('oculto');
+        }   
 
-        document.querySelector('.grupo[data-grupo="MULTIPORT"] .tarimas').textContent = `Tarimas: ${contadores.MULTIPORT}`;
-        document.querySelector('.grupo[data-grupo="BEDROCK"] .tarimas').textContent = `Tarimas: ${contadores.BEDROCK}`;
-        document.querySelector('.grupo[data-grupo="DROPS"] .tarimas').textContent = `Tarimas: ${contadores.DROPS}`;
-        document.querySelector('.grupo[data-grupo="CALIDAD_MULTIPORT"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_MULTIPORT}`;
-        document.querySelector('.grupo[data-grupo="CALIDAD_BEDROCK"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_BEDROCK}`;
-        document.querySelector('.grupo[data-grupo="CALIDAD_DROPS"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_DROPS}`;
+        document.querySelector('.grupo[data-grupo="MULTIPORT"] .tarimas').textContent = `Tarimas: ${contadores.MULTIPORT}`;
+        document.querySelector('.grupo[data-grupo="BEDROCK"] .tarimas').textContent = `Tarimas: ${contadores.BEDROCK}`;
+        document.querySelector('.grupo[data-grupo="DROPS"] .tarimas').textContent = `Tarimas: ${contadores.DROPS}`;
+        document.querySelector('.grupo[data-grupo="CALIDAD_MULTIPORT"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_MULTIPORT}`;
+        document.querySelector('.grupo[data-grupo="CALIDAD_BEDROCK"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_BEDROCK}`;
+        document.querySelector('.grupo[data-grupo="CALIDAD_DROPS"] .tarimas').textContent = `Tarimas: ${contadores.CALIDAD_DROPS}`;
 
-        Object.keys(tiempos).forEach(grupo => {
-            const contenedorTiempos = document.querySelector(`.tiempos[data-grupo="${grupo}"]`);
-            if (!contenedorTiempos) return;
-            contenedorTiempos.innerHTML = '';
-            tiempos[grupo].forEach((logEntry, index) => {
-                const p = document.createElement('p');
-                const horaInicio = formatoHora(logEntry.horaEncendido);
-                const horaFin = formatoHora(logEntry.horaApagado);
-                p.textContent = `Tarima ${index + 1}: ${logEntry.tiempoRecoleccion} minutos (${horaInicio} - ${horaFin})`;
-                contenedorTiempos.appendChild(p);
-            });
-            contenedorTiempos.scrollTop = contenedorTiempos.scrollHeight;
-        });
-    });
-    contadoresCalidadRef.on('value', (snapshot) => {
-        const contadores = snapshot.val() || {};
-        const gruposCalidad = ['CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
-        gruposCalidad.forEach(grupo => {
-            const liberadas = contadores[grupo] ? contadores[grupo].liberadas || 0 : 0;
-            const rechazadas = contadores[grupo] ? contadores[grupo].rechazadas || 0 : 0;        
-            const liberadasSpan = document.getElementById(`liberadas_${grupo}`);
-            const rechazadasSpan = document.getElementById(`rechazadas_${grupo}`);
-            if (liberadasSpan) liberadasSpan.textContent = liberadas;
-            if (rechazadasSpan) rechazadasSpan.textContent = rechazadas;
-        });
-    });
+        Object.keys(tiempos).forEach(grupo => {
+            const contenedorTiempos = document.querySelector(`.tiempos[data-grupo="${grupo}"]`);
+            if (!contenedorTiempos) return;
+            contenedorTiempos.innerHTML = '';
+            tiempos[grupo].forEach((logEntry, index) => {
+                const p = document.createElement('p');
+                const horaInicio = formatoHora(logEntry.horaEncendido);
+                const horaFin = formatoHora(logEntry.horaApagado);
+                p.textContent = `Tarima ${index + 1}: ${logEntry.tiempoRecoleccion} minutos (${horaInicio} - ${horaFin})`;
+                contenedorTiempos.appendChild(p);
+            });
+            contenedorTiempos.scrollTop = contenedorTiempos.scrollHeight;
+        });
+    });
+    contadoresCalidadRef.on('value', (snapshot) => {
+        const contadores = snapshot.val() || {};
+        const gruposCalidad = ['CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
+        gruposCalidad.forEach(grupo => {
+            const liberadas = contadores[grupo] ? contadores[grupo].liberadas || 0 : 0;
+            const rechazadas = contadores[grupo] ? contadores[grupo].rechazadas || 0 : 0;        
+            const liberadasSpan = document.getElementById(`liberadas_${grupo}`);
+            const rechazadasSpan = document.getElementById(`rechazadas_${grupo}`);
+            if (liberadasSpan) liberadasSpan.textContent = liberadas;
+            if (rechazadasSpan) rechazadasSpan.textContent = rechazadas;
+        });
+    });
 }
 // ================= PERMISOS Y LÓGICA =================
 function esUsuarioProduccion() {
-    return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
+    return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
 }
 
 async function togglearLED(grupo, idx, linea = 'linea1') {
-    const ledRef = db.ref('estadoLEDs/' + grupo + '/' + linea + '/' + idx);
+    const ledRef = db.ref('estadoLEDs/' + grupo + '/' + linea + '/' + idx);
 
-    if (grupo.startsWith('CALIDAD_')) {
-        ledRef.once('value', async (snapshot) => {
-            const estadoActual = snapshot.val() || {};
-            const grupoBaseCalidad = grupo.replace('CALIDAD_', '');
+    if (grupo.startsWith('CALIDAD_')) {
+        ledRef.once('value', async (snapshot) => {
+            const estadoActual = snapshot.val() || {};
+            const grupoBaseCalidad = grupo.replace('CALIDAD_', '');
 
-            if (usuarioSeleccionado.startsWith('CALIDAD_')) {
-                if(estadoActual.color === 'verde') {
-                    return customAlert('Este LED ya está liberado y no puede ser modificado por Calidad.', 'Acción no permitida');
-                }
-                mostrarOpcionesCalidad(grupo, idx, linea); 
-            } else if (esUsuarioProduccion() && usuarioSeleccionado === grupoBaseCalidad) {
-                if (estadoActual.color === 'verde') {
-                    const confirmado = await customConfirm('¿Está seguro de que la tarima ha sido liberada y retirada?', 'Confirmar Retiro');
-                    if (!confirmado) return;
+            if (usuarioSeleccionado.startsWith('CALIDAD_')) {
+                if(estadoActual.color === 'verde') {
+                    return customAlert('Este LED ya está liberado y no puede ser modificado por Calidad.', 'Acción no permitida');
+                }
+                mostrarOpcionesCalidad(grupo, idx, linea); 
+            } else if (esUsuarioProduccion() && usuarioSeleccionado === grupoBaseCalidad) {
+                if (estadoActual.color === 'verde') {
+                    const confirmado = await customConfirm('¿Está seguro de que la tarima ha sido liberada y retirada?', 'Confirmar Retiro');
+                    if (!confirmado) return;
 
-                    ledRef.set(null);
-                    const log = {
-                        usuario: usuarioSeleccionado,
-                        grupo: grupo,
-                        led: `${linea}-${idx+1}`,
-                        accion: 'apagado_calidad',
-                        timestamp: new Date().toISOString(),
-                    };
-                    historialRef.push(log);
-                } else if (estadoActual.color === 'rojo' || estadoActual.color === 'naranja') {
-                    await customAlert('Solo puedes apagar LEDs liberados (verdes). Contacte a Calidad si es necesario.', 'Acción no permitida');
-                } else {
-                    await customAlert('Este LED aún no ha sido inspeccionado por Calidad.', 'Estado pendiente');
-                }
-            } else {
-                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
-            }
-        });
-    } else { // Grupos de Producción
-        ledRef.once('value', async (snapshot) => {
-            const estadoActual = snapshot.val() || {};
-            
-            if (usuarioSeleccionado === 'LOGÍSTICA') {
-                if (estadoActual.encendido) {
-                    const confirmado = await customConfirm('¿Confirma que la tarima ha sido recolectada?', 'Confirmar Recolección');
-                    if (!confirmado) return;
-                    
-                    const horaInicio = estadoActual.horaEncendido || estadoActual.timestamp;
-                    const tiempoRecoleccion = (new Date() - new Date(horaInicio)) / 60000;
+                    ledRef.set(null);
+                    const log = {
+                        usuario: usuarioSeleccionado,
+                        grupo: grupo,
+                        led: `${linea}-${idx+1}`,
+                        accion: 'apagado_calidad',
+                        timestamp: new Date().toISOString(),
+                    };
+                    historialRef.push(log);
+                } else if (estadoActual.color === 'rojo' || estadoActual.color === 'naranja') {
+                    await customAlert('Solo puedes apagar LEDs liberados (verdes). Contacte a Calidad si es necesario.', 'Acción no permitida');
+                } else {
+                    await customAlert('Este LED aún no ha sido inspeccionado por Calidad.', 'Estado pendiente');
+                }
+            } else {
+                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
+            }
+        });
+    } else { // Grupos de Producción
+        ledRef.once('value', async (snapshot) => {
+            const estadoActual = snapshot.val() || {};
+            
+            if (usuarioSeleccionado === 'LOGÍSTICA') {
+                if (estadoActual.encendido) {
+                    const confirmado = await customConfirm('¿Confirma que la tarima ha sido recolectada?', 'Confirmar Recolección');
+                    if (!confirmado) return;
+                    
+                    const horaInicio = estadoActual.horaEncendido || estadoActual.timestamp;
+                    const tiempoRecoleccion = (new Date() - new Date(horaInicio)) / 60000;
 
-                    ledRef.set({
-                        encendido: false,
-                        horaEncendido: null,
-                        usuario: usuarioSeleccionado,
-                    });
-                    
-                    const log = {
-                        usuario: usuarioSeleccionado,
-                        grupo: grupo,
-                        led: `${linea}-${idx+1}`,
-                        accion: 'apagado',
-                        timestamp: new Date().toISOString(),
-                        tiempoRecoleccion: Math.round(tiempoRecoleccion),
-                        horaEncendido: horaInicio,
-                        horaApagado: new Date().toISOString()
-                    };
-                    historialRef.push(log);
-                } else {
-                    await customAlert('LOGÍSTICA solo puede apagar LEDs que ya han sido encendidos por producción.', 'Acción no permitida');
-                }
-            } else if (esUsuarioProduccion()) {
-                if (!estadoActual.encendido) {
-                    const confirmado = await customConfirm('¿Confirma que hay una nueva tarima lista para recolección?', 'Confirmar Tarima');
-                    if (!confirmado) return;
+                    ledRef.set({
+                        encendido: false,
+                        horaEncendido: null,
+                        usuario: usuarioSeleccionado,
+                    });
+                    
+                    const log = {
+                        usuario: usuarioSeleccionado,
+                        grupo: grupo,
+                        led: `${linea}-${idx+1}`,
+                        accion: 'apagado',
+                        timestamp: new Date().toISOString(),
+                        tiempoRecoleccion: Math.round(tiempoRecoleccion),
+                        horaEncendido: horaInicio,
+                        horaApagado: new Date().toISOString()
+                    };
+                    historialRef.push(log);
+                } else {
+                    await customAlert('LOGÍSTICA solo puede apagar LEDs que ya han sido encendidos por producción.', 'Acción no permitida');
+                }
+            } else if (esUsuarioProduccion()) {
+                if (!estadoActual.encendido) {
+                    const confirmado = await customConfirm('¿Confirma que hay una nueva tarima lista para recolección?', 'Confirmar Tarima');
+                    if (!confirmado) return;
 
-                    ledRef.set({
-                        encendido: true,
-                        timestamp: new Date().toISOString(),
-                        usuario: usuarioSeleccionado,
-                        horaEncendido: new Date().toISOString(), // Usar hora del cliente para consistencia inmediata
-                    });
-                    
-                    const log = {
-                        usuario: usuarioSeleccionado,
-                        grupo: grupo,
-                        led: `${linea}-${idx+1}`,
-                        accion: 'encendido',
-                        timestamp: new Date().toISOString(),
-                        horaEncendido: new Date().toISOString(),
-                        horaApagado: null
-                    };
-                    historialRef.push(log);
-                } else {
-                    await customAlert('El LED ya está encendido. Logística debe recolectar la tarima antes de que pueda encender otra.', 'Tarima Pendiente');
-                }
-            } else {
-                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
-            }
-        });
-    }
+                    ledRef.set({
+                        encendido: true,
+                        timestamp: new Date().toISOString(),
+                        usuario: usuarioSeleccionado,
+                        horaEncendido: new Date().toISOString(), // Usar hora del cliente para consistencia inmediata
+                    });
+                    
+                    const log = {
+                        usuario: usuarioSeleccionado,
+                        grupo: grupo,
+                        led: `${linea}-${idx+1}`,
+                        accion: 'encendido',
+                        timestamp: new Date().toISOString(),
+                        horaEncendido: new Date().toISOString(),
+                        horaApagado: null
+                    };
+                    historialRef.push(log);
+                } else {
+                    await customAlert('El LED ya está encendido. Logística debe recolectar la tarima antes de que pueda encender otra.', 'Tarima Pendiente');
+                }
+            } else {
+                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
+            }
+        });
+    }
 }
 
 // ================= LÓGICA DE CALIDAD MODAL =================
 function mostrarOpcionesCalidad(grupo, idx, linea) {
-    ledActivoParaFormulario = { grupo, idx, linea };
-    document.getElementById('modalCalidad').classList.add('visible');
+    ledActivoParaFormulario = { grupo, idx, linea };
+    document.getElementById('modalCalidad').classList.add('visible');
 }
 
 function aplicarEstadoCalidad(nuevoColor) {
-    const { grupo, idx, linea } = ledActivoParaFormulario;
-    const ledRef = db.ref(`estadoLEDs/${grupo}/${linea}/${idx}`);
+    const { grupo, idx, linea } = ledActivoParaFormulario;
+    const ledRef = db.ref(`estadoLEDs/${grupo}/${linea}/${idx}`);
 
-    if (nuevoColor === 'verde') {
-        const contadorRef = contadoresCalidadRef.child(grupo);
-        contadorRef.child('liberadas').transaction(currentCount => (currentCount || 0) + 1);
-        ledRef.update({
-            color: nuevoColor,
-            timestamp: new Date().toISOString(),
-            usuario: usuarioSeleccionado,
-            disabled: true
-        });
-    } else {
-        ledRef.update({
-            color: nuevoColor,
-            timestamp: new Date().toISOString(),
-            usuario: usuarioSeleccionado,
-            disabled: false
-        });
-        if (nuevoColor === 'rojo') {
-            const contadorRef = contadoresCalidadRef.child(grupo);
-            contadorRef.child('rechazadas').transaction(currentCount => (currentCount || 0) + 1);
-        }
-    }
+    if (nuevoColor === 'verde') {
+        const contadorRef = contadoresCalidadRef.child(grupo);
+        contadorRef.child('liberadas').transaction(currentCount => (currentCount || 0) + 1);
+        ledRef.update({
+            color: nuevoColor,
+            timestamp: new Date().toISOString(),
+            usuario: usuarioSeleccionado,
+            disabled: true
+        });
+    } else {
+        ledRef.update({
+            color: nuevoColor,
+            timestamp: new Date().toISOString(),
+            usuario: usuarioSeleccionado,
+            disabled: false
+        });
+        if (nuevoColor === 'rojo') {
+            const contadorRef = contadoresCalidadRef.child(grupo);
+            contadorRef.child('rechazadas').transaction(currentCount => (currentCount || 0) + 1);
+        }
+    }
 }
 
 function mostrarFormularioRechazo() {
-    document.getElementById('modalCalidad').classList.remove('visible');
-    document.getElementById('modalRechazo').classList.add('visible');
+    document.getElementById('modalCalidad').classList.remove('visible');
+    document.getElementById('modalRechazo').classList.add('visible');
 }
 
 function guardarRechazo(datos) {
-    const ahora = new Date();
-    const fecha = ahora.toLocaleDateString('es-MX');
-    const hora = ahora.toLocaleTimeString('es-MX', {hour: '2-digit', minute: '2-digit'});
+    const ahora = new Date();
+    const fecha = ahora.toLocaleDateString('es-MX');
+    const hora = ahora.toLocaleTimeString('es-MX', {hour: '2-digit', minute: '2-digit'});
 
-    const datosCompletos = {
-        ...datos,
-        fecha: fecha,
-        hora: hora,
-        timestamp: ahora.toISOString(),
-        areaRechazo: ledActivoParaFormulario.grupo
-    };
+    const datosCompletos = {
+        ...datos,
+        fecha: fecha,
+        hora: hora,
+        timestamp: ahora.toISOString(),
+        areaRechazo: ledActivoParaFormulario.grupo
+    };
 
-    rechazosDetalladosRef.push(datosCompletos)
-        .then(() => {
-            console.log("Rechazo guardado exitosamente:", datosCompletos);
-            aplicarEstadoCalidad('rojo');
-        })
-        .catch(async (error) => {
-            console.error("Error guardando rechazo:", error);
-            await customAlert("Hubo un error al guardar el rechazo.", "Error");
-        })
-        .finally(() => {
-            document.getElementById('modalRechazo').classList.remove('visible');
-        });
+    rechazosDetalladosRef.push(datosCompletos)
+        .then(() => {
+            console.log("Rechazo guardado exitosamente:", datosCompletos);
+            aplicarEstadoCalidad('rojo');
+        })
+        .catch(async (error) => {
+            console.error("Error guardando rechazo:", error);
+            await customAlert("Hubo un error al guardar el rechazo.", "Error");
+        })
+        .finally(() => {
+            document.getElementById('modalRechazo').classList.remove('visible');
+        });
 }
 
 // ================= NAVEGACIÓN Y ARRANQUE =================
 function activarPantalla(id){
-    document.querySelectorAll('.pantalla').forEach(p => {
-        p.style.display = 'none';
-        p.classList.remove('activa');
-    });
-    const pantalla = document.getElementById(id);
-    pantalla.style.display = 'flex';
-    pantalla.classList.add('activa');
+    document.querySelectorAll('.pantalla').forEach(p => {
+        p.style.display = 'none';
+        p.classList.remove('activa');
+    });
+    const pantalla = document.getElementById(id);
+    pantalla.style.display = 'flex';
+    pantalla.classList.add('activa');
 }
 
 function volverAPantalla1(){
-    usuarioSeleccionado = null;
-    db.ref('estadoLEDs').off(); 
-    if (historialRef) historialRef.off();
-    if (contadoresCalidadRef) contadoresCalidadRef.off();
-    if (rechazosDetalladosRef) rechazosDetalladosRef.off();
-    clearInterval(dashboardUpdateInterval);
-    activarPantalla('pantalla1');
+    usuarioSeleccionado = null;
+    db.ref('estadoLEDs').off(); 
+    if (historialRef) historialRef.off();
+    if (contadoresCalidadRef) contadoresCalidadRef.off();
+    if (rechazosDetalladosRef) rechazosDetalladosRef.off();
+    clearInterval(dashboardUpdateInterval);
+    activarPantalla('pantalla1');
 }
 
 async function seleccionarUsuario(usuario) {
-    if (!CONFIG.USUARIOS.includes(usuario)) return;
-    
-    let password;
-    if (usuario === 'CALIDAD') {
-        password = await customPrompt('Introduce la contraseña para CALIDAD:');
-    } else {
-        password = await customPrompt(`Introduce la contraseña para ${usuario}:`);
-    }
+    if (!CONFIG.USUARIOS.includes(usuario)) return;
+    
+    let password;
+    if (usuario === 'CALIDAD') {
+        password = await customPrompt('Introduce la contraseña para CALIDAD:');
+    } else {
+        password = await customPrompt(`Introduce la contraseña para ${usuario}:`);
+    }
 
-    if (password === null) return;
+    if (password === null) return;
 
-    let loginSuccess = false;
-    let welcomeMessage = '';
-    
-    if (usuario === 'SUPERVISOR' && password === CONFIG.PASSWORDS['SUPERVISOR']) {
-        loginSuccess = true;
-        usuarioSeleccionado = 'SUPERVISOR';
-        document.getElementById('tituloFijo').textContent = 'SUPERVISOR';
-        welcomeMessage = `¡Bienvenido, SUPERVISOR!`;
-    } else if (usuario === 'CALIDAD') {
-        let subusuario = null;
-        if (password === CONFIG.PASSWORDS['CALIDAD_MULTIPORT']) subusuario = 'CALIDAD_MULTIPORT';
-        else if (password === CONFIG.PASSWORDS['CALIDAD_DROPS']) subusuario = 'CALIDAD_DROPS';
-        else if (password === CONFIG.PASSWORDS['CALIDAD_BEDROCK']) subusuario = 'CALIDAD_BEDROCK';
-        
-        if (subusuario) {
-            loginSuccess = true;
-            usuarioSeleccionado = subusuario;
-            document.getElementById('tituloFijo').textContent = `CALIDAD - ${subusuario.split('_')[1]}`;
-            welcomeMessage = `¡Bienvenido, ${subusuario.replace('_', ' ')}!`;
-        }
-    } else {
-        if (password === CONFIG.PASSWORDS[usuario]) {
-            loginSuccess = true;
-            usuarioSeleccionado = usuario;
-            document.getElementById('tituloFijo').textContent = usuario;
-            welcomeMessage = `¡Bienvenido, ${usuario}!`;
-        }
-    }
+    let loginSuccess = false;
+    let welcomeMessage = '';
+    
+    if (usuario === 'SUPERVISOR' && password === CONFIG.PASSWORDS['SUPERVISOR']) {
+        loginSuccess = true;
+        usuarioSeleccionado = 'SUPERVISOR';
+        document.getElementById('tituloFijo').textContent = 'SUPERVISOR';
+        welcomeMessage = `¡Bienvenido, SUPERVISOR!`;
+    } else if (usuario === 'CALIDAD') {
+        let subusuario = null;
+        if (password === CONFIG.PASSWORDS['CALIDAD_MULTIPORT']) subusuario = 'CALIDAD_MULTIPORT';
+        else if (password === CONFIG.PASSWORDS['CALIDAD_DROPS']) subusuario = 'CALIDAD_DROPS';
+        else if (password === CONFIG.PASSWORDS['CALIDAD_BEDROCK']) subusuario = 'CALIDAD_BEDROCK';
+        
+        if (subusuario) {
+            loginSuccess = true;
+            usuarioSeleccionado = subusuario;
+            document.getElementById('tituloFijo').textContent = `CALIDAD - ${subusuario.split('_')[1]}`;
+            welcomeMessage = `¡Bienvenido, ${subusuario.replace('_', ' ')}!`;
+        }
+    } else {
+        if (password === CONFIG.PASSWORDS[usuario]) {
+            loginSuccess = true;
+            usuarioSeleccionado = usuario;
+            document.getElementById('tituloFijo').textContent = usuario;
+            welcomeMessage = `¡Bienvenido, ${usuario}!`;
+        }
+    }
 
-    if (loginSuccess) {
-        activarPantalla('pantalla2');
-        inyectaLEDs();
-        pintarEstado();
-        iniciarListenersFirebase();
-        await customAlert(welcomeMessage, 'Acceso Concedido');
-    } else {
-        await customAlert('Contraseña incorrecta. Inténtalo de nuevo.', 'Error de Autenticación');
-    }
+    if (loginSuccess) {
+        activarPantalla('pantalla2');
+        inyectaLEDs();
+        pintarEstado();
+        iniciarListenersFirebase();
+        await customAlert(welcomeMessage, 'Acceso Concedido');
+    } else {
+        await customAlert('Contraseña incorrecta. Inténtalo de nuevo.', 'Error de Autenticación');
+    }
 }
 
 async function seleccionarReporte() {
-    const password = await customPrompt('Introduce la contraseña para REPORTES:');
-    if (password === CONFIG.PASSWORDS['REPORTES']) {
-        activarPantalla('pantalla3');
-        document.getElementById('tituloReportes').textContent = 'REPORTES';
-        document.getElementById('selectoresReportes').style.display = 'flex';
-        document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
-    } else if (password !== null) {
-        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
-    }
+    const password = await customPrompt('Introduce la contraseña para REPORTES:');
+    if (password === CONFIG.PASSWORDS['REPORTES']) {
+        activarPantalla('pantalla3');
+        document.getElementById('tituloReportes').textContent = 'REPORTES';
+        document.getElementById('selectoresReportes').style.display = 'flex';
+        document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
+    } else if (password !== null) {
+        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
+    }
 }
 
 async function seleccionarDashboard() {
-    const password = await customPrompt('Introduce la contraseña para DASHBOARD:');
-    if (password === CONFIG.PASSWORDS['DASHBOARD']) {
-        activarPantalla('pantalla4');
-        iniciarDashboard();
-    } else if (password !== null) {
-        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
-    }
+    const password = await customPrompt('Introduce la contraseña para DASHBOARD:');
+    if (password === CONFIG.PASSWORDS['DASHBOARD']) {
+        activarPantalla('pantalla4');
+        iniciarDashboard();
+    } else if (password !== null) {
+        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
+    }
 }
 
 // ================= FUNCIONES DE DASHBOARD =================
 function limpiarDashboardListeners() {
-    dashboardListeners.forEach(listener => listener.off());
-    dashboardListeners = [];
+    dashboardListeners.forEach(listener => listener.off());
+    dashboardListeners = [];
 }
 
 function iniciarDashboard() {
-    limpiarDashboardListeners();
-    const { fecha, turno } = obtenerTurnoActual();
-    document.getElementById('fechaDashboard').value = fecha;
-    document.getElementById('turnoDashboardSelect').value = 'todos';
-    
-    setupDashboardListeners(fecha, turno);
-    
-    document.getElementById('fechaDashboard').addEventListener('change', () => {
-        setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
-    });
+    limpiarDashboardListeners();
+    const { fecha, turno } = obtenerTurnoActual();
+    document.getElementById('fechaDashboard').value = fecha;
+    document.getElementById('turnoDashboardSelect').value = 'todos';
+    
+    setupDashboardListeners(fecha, turno);
+    
+    document.getElementById('fechaDashboard').addEventListener('change', () => {
+        setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
+    });
 
-    document.getElementById('turnoDashboardSelect').addEventListener('change', () => {
-        setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
-    });
+    document.getElementById('turnoDashboardSelect').addEventListener('change', () => {
+        setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
+    });
 }
 
 function setupDashboardListeners(fecha, turno) {
-    limpiarDashboardListeners();
-    
-    const historialRefDash = db.ref(`historialLogs/${fecha}`);
-    const calidadRefDash = db.ref(`contadoresCalidad/${fecha}`);
-    const ledsRefDash = db.ref('estadoLEDs');
+    limpiarDashboardListeners();
+    
+    const historialRefDash = db.ref(`historialLogs/${fecha}`);
+    const calidadRefDash = db.ref(`contadoresCalidad/${fecha}`);
+    const ledsRefDash = db.ref('estadoLEDs');
 
-    const historialListener = historialRefDash.on('value', snapshot => {
-        const logsPorTurno = snapshot.val() || {};
-        let logsFiltrados = {};
-        if (turno === 'todos') {
-            Object.values(logsPorTurno).forEach(logs => {
-                logsFiltrados = { ...logsFiltrados, ...logs };
-            });
-        } else {
-            logsFiltrados = logsPorTurno[turno] || {};
-        }
-        actualizarDashboard(logsFiltrados, 'historial', null, null);
-    });
-    dashboardListeners.push({ off: () => historialRefDash.off('value', historialListener) });
+    const historialListener = historialRefDash.on('value', snapshot => {
+        const logsPorTurno = snapshot.val() || {};
+        let logsFiltrados = {};
+        if (turno === 'todos') {
+            Object.values(logsPorTurno).forEach(logs => {
+                logsFiltrados = { ...logsFiltrados, ...logs };
+            });
+        } else {
+            logsFiltrados = logsPorTurno[turno] || {};
+        }
+        actualizarDashboard(logsFiltrados, 'historial', null, null);
+    });
+    dashboardListeners.push({ off: () => historialRefDash.off('value', historialListener) });
 
-    const calidadListener = calidadRefDash.on('value', snapshot => {
-        const contadoresPorTurno = snapshot.val() || {};
-        let contadoresFiltrados = {};
-        if (turno === 'todos') {
-            for (const t in contadoresPorTurno) {
-                for (const g in contadoresPorTurno[t]) {
-                    contadoresFiltrados[g] = contadoresFiltrados[g] || { liberadas: 0, rechazadas: 0 };
-                    contadoresFiltrados[g].liberadas += contadoresPorTurno[t][g].liberadas || 0;
-                    contadoresFiltrados[g].rechazadas += contadoresPorTurno[t][g].rechazadas || 0;
-                }
-            }
-        } else {
-            contadoresFiltrados = contadoresPorTurno[turno] || {};
-        }
-        actualizarDashboard(null, 'calidad', contadoresFiltrados, null);
-    });
-    dashboardListeners.push({ off: () => calidadRefDash.off('value', calidadListener) });
-    
-    const ledsListener = ledsRefDash.on('value', snapshot => {
-        const leds = snapshot.val() || {};
-        actualizarDashboard(null, 'leds', null, leds);
-    });
-    dashboardListeners.push({ off: () => ledsRefDash.off('value', ledsListener) });
+    const calidadListener = calidadRefDash.on('value', snapshot => {
+        const contadoresPorTurno = snapshot.val() || {};
+        let contadoresFiltrados = {};
+        if (turno === 'todos') {
+            for (const t in contadoresPorTurno) {
+                for (const g in contadoresPorTurno[t]) {
+                    contadoresFiltrados[g] = contadoresFiltrados[g] || { liberadas: 0, rechazadas: 0 };
+                    contadoresFiltrados[g].liberadas += contadoresPorTurno[t][g].liberadas || 0;
+                    contadoresFiltrados[g].rechazadas += contadoresPorTurno[t][g].rechazadas || 0;
+                }
+            }
+        } else {
+            contadoresFiltrados = contadoresPorTurno[turno] || {};
+        }
+        actualizarDashboard(null, 'calidad', contadoresFiltrados, null);
+    });
+    dashboardListeners.push({ off: () => calidadRefDash.off('value', calidadListener) });
+    
+    const ledsListener = ledsRefDash.on('value', snapshot => {
+        const leds = snapshot.val() || {};
+        actualizarDashboard(null, 'leds', null, leds);
+    });
+    dashboardListeners.push({ off: () => ledsRefDash.off('value', ledsListener) });
 }
 
 
 function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs, filtroArea = 'TODAS') {
-    if (tipo === 'historial') {
-        const produccionPorArea = { MULTIPORT: 0, DROPS: 0, BEDROCK: 0 };
-        const tarimasPorHora = {};
-        let tarimasRecolectadas = 0;
-        let tiempoTotalRecoleccion = 0;
-        
-        for (const logKey in historialLogs) {
-            const log = historialLogs[logKey];
-            
-            if (filtroArea === 'TODAS' || log.grupo === filtroArea) {
-                if (log.accion === 'encendido' && produccionPorArea.hasOwnProperty(log.grupo)) {
-                    produccionPorArea[log.grupo]++;
-                } else if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'BEDROCK', 'DROPS'].includes(log.grupo)) {
-                    tarimasRecolectadas++;
-                    tiempoTotalRecoleccion += log.tiempoRecoleccion;
-                    
-                    const horaApagado = new Date(log.horaApagado);
-                    const horaRedondeada = horaApagado.getHours();
-                    tarimasPorHora[horaRedondeada] = (tarimasPorHora[horaRedondeada] || 0) + 1;
-                }
-            }
-        }
-        
-        const tiempoPromedio = tarimasRecolectadas > 0 ? (tiempoTotalRecoleccion / tarimasRecolectadas).toFixed(1) : 0;
-        
-        document.getElementById('dashTarimasConfirmadas').textContent = Object.values(produccionPorArea).reduce((a, b) => a + b, 0);
-        document.getElementById('dashTarimasRecolectadas').textContent = tarimasRecolectadas;
-        document.getElementById('dashTiempoPromedio').textContent = `${tiempoPromedio} min`;
-        
-        const kpiTiempoPromedio = document.getElementById('kpiTiempoPromedio');
-        if (tiempoPromedio > 10) {
-            kpiTiempoPromedio.classList.add('alerta');
-        } else {
-            kpiTiempoPromedio.classList.remove('alerta');
-        }
-        
-        generarGraficoProduccionDash(produccionPorArea);
-        generarGraficoLogisticaDash(tarimasPorHora);
-    }
-    
-    if (tipo === 'calidad') {
-        let liberadas = 0;
-        let rechazadas = 0;
-        for (const grupo in contadoresCalidad) {
-            liberadas += contadoresCalidad[grupo].liberadas || 0;
-            rechazadas += contadoresCalidad[grupo].rechazadas || 0;
-        }
-        const totalCalidad = liberadas + rechazadas;
-        const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
-        
-        document.getElementById('dashTasaRechazo').textContent = `${tasaRechazo}%`;
+    if (tipo === 'historial') {
+        const produccionPorArea = { MULTIPORT: 0, DROPS: 0, BEDROCK: 0 };
+        const tarimasPorHora = {};
+        let tarimasRecolectadas = 0;
+        let tiempoTotalRecoleccion = 0;
+        
+        for (const logKey in historialLogs) {
+            const log = historialLogs[logKey];
+            
+            if (filtroArea === 'TODAS' || log.grupo === filtroArea) {
+                if (log.accion === 'encendido' && produccionPorArea.hasOwnProperty(log.grupo)) {
+                    produccionPorArea[log.grupo]++;
+                } else if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'BEDROCK', 'DROPS'].includes(log.grupo)) {
+                    tarimasRecolectadas++;
+                    tiempoTotalRecoleccion += log.tiempoRecoleccion;
+                    
+                    const horaApagado = new Date(log.horaApagado);
+                    const horaRedondeada = horaApagado.getHours();
+                    tarimasPorHora[horaRedondeada] = (tarimasPorHora[horaRedondeada] || 0) + 1;
+                }
+            }
+        }
+        
+        const tiempoPromedio = tarimasRecolectadas > 0 ? (tiempoTotalRecoleccion / tarimasRecolectadas).toFixed(1) : 0;
+        
+        document.getElementById('dashTarimasConfirmadas').textContent = Object.values(produccionPorArea).reduce((a, b) => a + b, 0);
+        document.getElementById('dashTarimasRecolectadas').textContent = tarimasRecolectadas;
+        document.getElementById('dashTiempoPromedio').textContent = `${tiempoPromedio} min`;
+        
+        const kpiTiempoPromedio = document.getElementById('kpiTiempoPromedio');
+        if (tiempoPromedio > 10) {
+            kpiTiempoPromedio.classList.add('alerta');
+        } else {
+            kpiTiempoPromedio.classList.remove('alerta');
+        }
+        
+        generarGraficoProduccionDash(produccionPorArea);
+        generarGraficoLogisticaDash(tarimasPorHora);
+    }
+    
+    if (tipo === 'calidad') {
+        let liberadas = 0;
+        let rechazadas = 0;
+        for (const grupo in contadoresCalidad) {
+            liberadas += contadoresCalidad[grupo].liberadas || 0;
+            rechazadas += contadoresCalidad[grupo].rechazadas || 0;
+        }
+        const totalCalidad = liberadas + rechazadas;
+        const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
+        
+        document.getElementById('dashTasaRechazo').textContent = `${tasaRechazo}%`;
 
-        const kpiTasaRechazo = document.getElementById('kpiTasaRechazo');
-        if (tasaRechazo > 5) {
-            kpiTasaRechazo.classList.add('alerta');
-        } else {
-            kpiTasaRechazo.classList.remove('alerta');
-        }
-        generarGraficoCalidadDash({ liberadas, rechazadas });
-    }
+        const kpiTasaRechazo = document.getElementById('kpiTasaRechazo');
+        if (tasaRechazo > 5) {
+            kpiTasaRechazo.classList.add('alerta');
+        } else {
+            kpiTasaRechazo.classList.remove('alerta');
+        }
+        generarGraficoCalidadDash({ liberadas, rechazadas });
+    }
 
-    if (tipo === 'leds') {
-        const pendientesPorArea = {};
-        
-        CONFIG.PRODUCCION_GRUPOS.forEach(grupo => {
-            pendientesPorArea[grupo] = 0;
-            if (estadoLEDs.hasOwnProperty(grupo)) {
-                for (const linea in estadoLEDs[grupo]) {
-                    for (const led in estadoLEDs[grupo][linea]) {
-                        if (estadoLEDs[grupo][linea][led].encendido) {
-                            pendientesPorArea[grupo]++;
-                        }
-                    }
-                }
-            }
-        });
-        
-        const tablaPendientesBody = document.querySelector('#tablaPendientes tbody');
-        tablaPendientesBody.innerHTML = '';
-        for (const area in pendientesPorArea) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${area}</td><td>${pendientesPorArea[area]}</td>`;
-            tablaPendientesBody.appendChild(tr);
-        }
-    }
+    if (tipo === 'leds') {
+        const pendientesPorArea = {};
+        
+        CONFIG.PRODUCCION_GRUPOS.forEach(grupo => {
+            pendientesPorArea[grupo] = 0;
+            if (estadoLEDs.hasOwnProperty(grupo)) {
+                for (const linea in estadoLEDs[grupo]) {
+                    for (const led in estadoLEDs[grupo][linea]) {
+                        if (estadoLEDs[grupo][linea][led].encendido) {
+                            pendientesPorArea[grupo]++;
+                        }
+                    }
+                }
+            }
+        });
+        
+        const tablaPendientesBody = document.querySelector('#tablaPendientes tbody');
+        tablaPendientesBody.innerHTML = '';
+        for (const area in pendientesPorArea) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${area}</td><td>${pendientesPorArea[area]}</td>`;
+            tablaPendientesBody.appendChild(tr);
+        }
+    }
 }
 function generarGraficoProduccionDash(datos) {
-    if (graficosDashboard.produccion) {
-        graficosDashboard.produccion.destroy();
-    }
-    const ctx = document.getElementById('graficoProduccionDash').getContext('2d');
-    const labels = Object.keys(datos);
-    const data = Object.values(datos);
-    graficosDashboard.produccion = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Tarimas Confirmadas',
-                data: data,
-                backgroundColor: ['#4BC0C0', '#36A2EB', '#FFCE56'],
-                borderColor: ['#4BC0C0', '#36A2EB', '#FFCE56'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true, title: { display: true, text: 'Tarimas' } }
-            },
-            plugins: {
-                legend: { display: false },
-                title: { display: false }
-            }
-        }
-    });
+    if (graficosDashboard.produccion) {
+        graficosDashboard.produccion.destroy();
+    }
+    const ctx = document.getElementById('graficoProduccionDash').getContext('2d');
+    const labels = Object.keys(datos);
+    const data = Object.values(datos);
+    graficosDashboard.produccion = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Tarimas Confirmadas',
+                data: data,
+                backgroundColor: ['#4BC0C0', '#36A2EB', '#FFCE56'],
+                borderColor: ['#4BC0C0', '#36A2EB', '#FFCE56'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Tarimas' } }
+            },
+            plugins: {
+                legend: { display: false },
+                title: { display: false }
+            }
+        }
+    });
 }
 
 function generarGraficoCalidadDash(datos) {
-    if (graficosDashboard.calidad) {
-        graficosDashboard.calidad.destroy();
-    }
-    const ctx = document.getElementById('graficoCalidadDash').getContext('2d');
-    const labels = ['Liberadas', 'Rechazadas'];
-    const data = [datos.liberadas, datos.rechazadas];
-    graficosDashboard.calidad = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: ['#4caf50', '#f44336']
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: false }
-            }
-        }
-    });
+    if (graficosDashboard.calidad) {
+        graficosDashboard.calidad.destroy();
+    }
+    const ctx = document.getElementById('graficoCalidadDash').getContext('2d');
+    const labels = ['Liberadas', 'Rechazadas'];
+    const data = [datos.liberadas, datos.rechazadas];
+    graficosDashboard.calidad = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#4caf50', '#f44336']
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: false }
+            }
+        }
+    });
 }
 
 function generarGraficoLogisticaDash(tarimasPorHora) {
-    if (graficosDashboard.logistica) {
-        graficosDashboard.logistica.destroy();
-    }
-    const ctx = document.getElementById('graficoLogisticaDash').getContext('2d');
-    
-    const horasOrdenadas = Object.keys(tarimasPorHora).sort((a, b) => a - b);
-    const labels = horasOrdenadas.map(hora => `${hora}:00 - ${parseInt(hora) + 1}:00`);
-    const data = horasOrdenadas.map(hora => tarimasPorHora[hora] || 0);
+    if (graficosDashboard.logistica) {
+        graficosDashboard.logistica.destroy();
+    }
+    const ctx = document.getElementById('graficoLogisticaDash').getContext('2d');
+    
+    const horasOrdenadas = Object.keys(tarimasPorHora).sort((a, b) => a - b);
+    const labels = horasOrdenadas.map(hora => `${hora}:00 - ${parseInt(hora) + 1}:00`);
+    const data = horasOrdenadas.map(hora => tarimasPorHora[hora] || 0);
 
-    graficosDashboard.logistica = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels, 
-            datasets: [{
-                label: 'Tarimas Recolectadas por Hora',
-                data: data,
-                backgroundColor: '#36A2EB',
-                borderColor: '#36A2EB',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Tarimas Recolectadas' },
-                    ticks: { stepSize: 1 }
-                },
-                x: {
-                    title: { display: true, text: 'Hora del Día' }
-                }
-            },
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
+    graficosDashboard.logistica = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, 
+            datasets: [{
+                label: 'Tarimas Recolectadas por Hora',
+                data: data,
+                backgroundColor: '#36A2EB',
+                borderColor: '#36A2EB',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Tarimas Recolectadas' },
+                    ticks: { stepSize: 1 }
+                },
+                x: {
+                    title: { display: true, text: 'Hora del Día' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
 }
 
 // ================= FUNCIONES DE REPORTE =================
 function mostrarReporte(tipo) {
-    reporteActual = tipo;
-    document.getElementById('selectoresReportes').style.display = 'none';
-    const contenedor = document.getElementById('contenedorReporte');
-    const { fecha: fechaActual, turno: turnoActual } = obtenerTurnoActual();
+    reporteActual = tipo;
+    document.getElementById('selectoresReportes').style.display = 'none';
+    const contenedor = document.getElementById('contenedorReporte');
+    const { fecha: fechaActual, turno: turnoActual } = obtenerTurnoActual();
 
-    let areaFiltroHtml = '';
-    const areas = ['TODAS', 'MULTIPORT', 'DROPS', 'BEDROCK', 'CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
-    areaFiltroHtml = `
-        <label for="areaFiltro">Área:</label>
-        <select id="areaFiltro">
-            ${areas.map(area => `<option value="${area}">${area.replace('CALIDAD_', 'Calidad ')}</option>`).join('')}
-        </select>
-    `;
+    let areaFiltroHtml = '';
+    const areas = ['TODAS', 'MULTIPORT', 'DROPS', 'BEDROCK', 'CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
+    areaFiltroHtml = `
+        <label for="areaFiltro">Área:</label>
+        <select id="areaFiltro">
+            ${areas.map(area => `<option value="${area}">${area.replace('CALIDAD_', 'Calidad ')}</option>`).join('')}
+        </select>
+    `;
 
-    let empleadoFiltroHtml = '';
-    if (tipo === 'calidad') {
-        empleadoFiltroHtml = `
-            <label for="empleadoFiltro">Empleado:</label>
-            <input type="text" id="empleadoFiltro" placeholder="Nombre de Empleado">
-        `;
-    }
+    let empleadoFiltroHtml = '';
+    if (tipo === 'calidad') {
+        empleadoFiltroHtml = `
+            <label for="empleadoFiltro">Empleado:</label>
+            <input type="text" id="empleadoFiltro" placeholder="Nombre de Empleado">
+        `;
+    }
 
-    let fechaFiltroHtml = `<label for="fechaReporte">Fecha:</label><input type="date" id="fechaReporte" value="${fechaActual}">`;
-    let turnoFiltroHtml = `
-        <label for="turnoFiltro">Turno:</label>
-        <select id="turnoFiltro">
-            <option value="todos">Todos</option>
-            <option value="Turno 1">Turno 1</option>
-            <option value="Turno 2">Turno 2</option>
-        </select>
-    `;
-    let exportButtons = `
-        <button class="usuario-btn" onclick="exportarReporte('excel')">Exportar a Excel</button>
-        <button class="usuario-btn" onclick="exportarReporte('pdf')">Exportar a PDF</button>
-        <button class="usuario-btn" onclick="exportarReporte('csv')">Exportar a CSV</button>
-    `;
+    let fechaFiltroHtml = `<label for="fechaReporte">Fecha:</label><input type="date" id="fechaReporte" value="${fechaActual}">`;
+    let turnoFiltroHtml = `
+        <label for="turnoFiltro">Turno:</label>
+        <select id="turnoFiltro">
+            <option value="todos">Todos</option>
+            <option value="Turno 1">Turno 1</option>
+            <option value="Turno 2">Turno 2</option>
+        </select>
+    `;
+    let exportButtons = `
+        <button class="usuario-btn" onclick="exportarReporte('excel')">Exportar a Excel</button>
+        <button class="usuario-btn" onclick="exportarReporte('pdf')">Exportar a PDF</button>
+        <button class="usuario-btn" onclick="exportarReporte('csv')">Exportar a CSV</button>
+    `;
 
-    let graficoSelector = '';
-    if (tipo !== 'resumen') {
-        graficoSelector = `
-            <div class="opciones-grafico">
-                <label>Tipo de Gráfico:</label>
-                <select id="tipoGrafico">
-                    <option value="bar">Barras</option>
-                    <option value="pie">Pastel</option>
-                    <option value="line">Línea</option>
-                </select>
-            </div>
-        `;
-    }
+    let graficoSelector = '';
+    if (tipo !== 'resumen') {
+        graficoSelector = `
+            <div class="opciones-grafico">
+                <label>Tipo de Gráfico:</label>
+                <select id="tipoGrafico">
+                    <option value="bar">Barras</option>
+                    <option value="pie">Pastel</option>
+                    <option value="line">Línea</option>
+                </select>
+            </div>
+        `;
+    }
 
-    contenedor.innerHTML = `
-        <div class="header-reporte">
-            <button onclick="regresarASelectores()" class="usuario-btn">Regresar</button>
-            <div class="filtros">
-                ${fechaFiltroHtml}
-                ${turnoFiltroHtml}
-                ${tipo === 'resumen' ? '' : areaFiltroHtml}
-                ${empleadoFiltroHtml}
-                <button onclick="buscarReporte()" class="usuario-btn">Buscar</button>
-            </div>
-        </div>
-        <h2 id="tituloReporteDinamico">Cargando...</h2>
-        ${graficoSelector}
-        <div id="contenidoReporte"></div>
-        <div class="botones-reporte">${exportButtons}</div>
-    `;
+    contenedor.innerHTML = `
+        <div class="header-reporte">
+            <button onclick="regresarASelectores()" class="usuario-btn">Regresar</button>
+            <div class="filtros">
+                ${fechaFiltroHtml}
+                ${turnoFiltroHtml}
+                ${tipo === 'resumen' ? '' : areaFiltroHtml}
+                ${empleadoFiltroHtml}
+                <button onclick="buscarReporte()" class="usuario-btn">Buscar</button>
+            </div>
+        </div>
+        <h2 id="tituloReporteDinamico">Cargando...</h2>
+        ${graficoSelector}
+        <div id="contenidoReporte"></div>
+        <div class="botones-reporte">${exportButtons}</div>
+    `;
 
-    if (document.getElementById('turnoFiltro')) document.getElementById('turnoFiltro').value = turnoActual;
-    if (document.getElementById('areaFiltro')) document.getElementById('areaFiltro').value = 'TODAS';
-    if (document.getElementById('tipoGrafico')) document.getElementById('tipoGrafico').addEventListener('change', actualizarGraficoReporte);
+    if (document.getElementById('turnoFiltro')) document.getElementById('turnoFiltro').value = turnoActual;
+    if (document.getElementById('areaFiltro')) document.getElementById('areaFiltro').value = 'TODAS';
+    if (document.getElementById('tipoGrafico')) document.getElementById('tipoGrafico').addEventListener('change', actualizarGraficoReporte);
 
-    cargarDatosReporte(tipo, document.getElementById('fechaReporte').value, document.getElementById('turnoFiltro').value, document.getElementById('areaFiltro')?.value, document.getElementById('empleadoFiltro')?.value);
+    cargarDatosReporte(tipo, document.getElementById('fechaReporte').value, document.getElementById('turnoFiltro').value, document.getElementById('areaFiltro')?.value, document.getElementById('empleadoFiltro')?.value);
 }
 
 function actualizarGraficoReporte() {
-    const tipoGraficoSeleccionado = document.getElementById('tipoGrafico').value;
-    const contenedorGrafico = document.querySelector('#grafico-contenedor');
-    
-    if (contenedorGrafico) {
-        contenedorGrafico.innerHTML = '<canvas id="graficoDinamico"></canvas>';
-    }
+    const tipoGraficoSeleccionado = document.getElementById('tipoGrafico').value;
+    const contenedorGrafico = document.querySelector('#grafico-contenedor');
+    
+    if (contenedorGrafico) {
+        contenedorGrafico.innerHTML = '<canvas id="graficoDinamico"></canvas>';
+    }
 
-    if (datosFiltradosReporte) {
-        let labels, data, chartTitle;
-        if (reporteActual === 'produccion') {
-            const conteo = {};
-            datosFiltradosReporte.forEach(log => {
-                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
-            });
-            labels = Object.keys(conteo);
-            data = Object.values(conteo);
-            chartTitle = 'Tarimas Producidas por Área';
-        } else if (reporteActual === 'logistica') {
-            const conteo = {};
-            datosFiltradosReporte.forEach(log => {
-                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
-            });
-            labels = Object.keys(conteo);
-            data = Object.values(conteo);
-            chartTitle = 'Total de Tarimas Recolectadas por Área';
-        } else if (reporteActual === 'calidad') {
-            const conteo = {};
-            datosFiltradosReporte.forEach(rechazo => {
-                conteo[rechazo.problema] = (conteo[rechazo.problema] || 0) + 1;
-            });
-            labels = Object.keys(conteo);
-            data = Object.values(conteo);
-            chartTitle = 'Causas de Rechazo';
-        }
+    if (datosFiltradosReporte) {
+        let labels, data, chartTitle;
+        if (reporteActual === 'produccion') {
+            const conteo = {};
+            datosFiltradosReporte.forEach(log => {
+                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
+            });
+            labels = Object.keys(conteo);
+            data = Object.values(conteo);
+            chartTitle = 'Tarimas Producidas por Área';
+        } else if (reporteActual === 'logistica') {
+            const conteo = {};
+            datosFiltradosReporte.forEach(log => {
+                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
+            });
+            labels = Object.keys(conteo);
+            data = Object.values(conteo);
+            chartTitle = 'Total de Tarimas Recolectadas por Área';
+        } else if (reporteActual === 'calidad') {
+            const conteo = {};
+            datosFiltradosReporte.forEach(rechazo => {
+                conteo[rechazo.problema] = (conteo[rechazo.problema] || 0) + 1;
+            });
+            labels = Object.keys(conteo);
+            data = Object.values(conteo);
+            chartTitle = 'Causas de Rechazo';
+        }
 
-        if (miGrafico) miGrafico.destroy();
+        if (miGrafico) miGrafico.destroy();
 
-        const ctx = document.getElementById('graficoDinamico').getContext('2d');
-        const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED', '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'];
+        const ctx = document.getElementById('graficoDinamico').getContext('2d');
+        const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED', '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'];
 
-        miGrafico = new Chart(ctx, {
-            type: tipoGraficoSeleccionado,
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: chartTitle,
-                    data: data,
-                    backgroundColor: backgroundColors,
-                    borderColor: backgroundColors,
-                    borderWidth: 1,
-                    fill: tipoGraficoSeleccionado === 'line',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top', labels: { font: { size: 14 } } },
-                    title: { display: true, text: chartTitle, font: { size: 20 } }
-                },
-                scales: { y: { beginAtZero: true } }
-            }
-        });
-    }
+        miGrafico = new Chart(ctx, {
+            type: tipoGraficoSeleccionado,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: chartTitle,
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors,
+                    borderWidth: 1,
+                    fill: tipoGraficoSeleccionado === 'line',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 14 } } },
+                    title: { display: true, text: chartTitle, font: { size: 20 } }
+                },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
 }
 
 
 function regresarASelectores() {
-    document.getElementById('tituloReportes').textContent = 'REPORTES';
-    document.getElementById('selectoresReportes').style.display = 'flex';
-    document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
-    if (miGrafico) miGrafico.destroy();
-    datosFiltradosReporte = null;
+    document.getElementById('tituloReportes').textContent = 'REPORTES';
+    document.getElementById('selectoresReportes').style.display = 'flex';
+    document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
+    if (miGrafico) miGrafico.destroy();
+    datosFiltradosReporte = null;
 }
 
 function buscarReporte() {
-    const tipo = reporteActual;
-    const fecha = document.getElementById('fechaReporte').value;
-    const turno = document.getElementById('turnoFiltro').value;
-    const area = document.getElementById('areaFiltro') ? document.getElementById('areaFiltro').value : null;
-    const empleado = document.getElementById('empleadoFiltro') ? document.getElementById('empleadoFiltro').value : null;
+    const tipo = reporteActual;
+    const fecha = document.getElementById('fechaReporte').value;
+    const turno = document.getElementById('turnoFiltro').value;
+    const area = document.getElementById('areaFiltro') ? document.getElementById('areaFiltro').value : null;
+    const empleado = document.getElementById('empleadoFiltro') ? document.getElementById('empleadoFiltro').value : null;
 
-    cargarDatosReporte(tipo, fecha, turno, area, empleado);
+    cargarDatosReporte(tipo, fecha, turno, area, empleado);
 }
 
 
 function cargarDatosReporte(tipo, fecha, turno, area, empleado) {
-    const contenedor = document.getElementById('contenidoReporte');
-    const tituloReporte = document.getElementById('tituloReporteDinamico');
-    contenedor.innerHTML = '<p>Cargando datos...</p>';
-    
-    if (miGrafico) miGrafico.destroy();
-    
-    const refHistorial = db.ref(`historialLogs`);
-    const refCalidad = db.ref(`contadoresCalidad`);
-    const refRechazos = db.ref(`rechazosDetallados`);
+    const contenedor = document.getElementById('contenidoReporte');
+    const tituloReporte = document.getElementById('tituloReporteDinamico');
+    contenedor.innerHTML = '<p>Cargando datos...</p>';
+    
+    if (miGrafico) miGrafico.destroy();
+    
+    const refHistorial = db.ref(`historialLogs`);
+    const refCalidad = db.ref(`contadoresCalidad`);
+    const refRechazos = db.ref(`rechazosDetallados`);
 
-    Promise.all([
-        refHistorial.once('value').then(s => s.val()),
-        refCalidad.once('value').then(s => s.val()),
-        refRechazos.once('value').then(s => s.val())
-    ]).then(([historial, calidad, rechazos]) => {
-        const datosCompletos = { historial, calidad, rechazos };
-        
-        if (tipo === 'calidad') {
-            tituloReporte.textContent = `Reporte de Calidad - ${fecha}`;
-            procesarReporteCalidad(datosCompletos, contenedor, fecha, turno, area, empleado);
-        } else if (tipo === 'produccion') {
-            tituloReporte.textContent = `Reporte de Producción - ${fecha}`;
-            procesarReporteProduccion(datosCompletos, contenedor, fecha, turno, area);
-        } else if (tipo === 'logistica') {
-            tituloReporte.textContent = `Reporte de Logística - ${fecha}`;
-            procesarReporteLogistica(datosCompletos, contenedor, fecha, turno, area);
-        } else if (tipo === 'resumen') {
-            tituloReporte.textContent = `Resumen Ejecutivo`;
-            procesarReporteResumen(datosCompletos, contenedor, fecha, turno);
-        }
-    }).catch(error => {
-        console.error("Error al cargar los datos:", error);
-        contenedor.innerHTML = `<p>Error al cargar los datos. Intenta de nuevo.</p>`;
-    });
+    Promise.all([
+        refHistorial.once('value').then(s => s.val()),
+        refCalidad.once('value').then(s => s.val()),
+        refRechazos.once('value').then(s => s.val())
+    ]).then(([historial, calidad, rechazos]) => {
+        const datosCompletos = { historial, calidad, rechazos };
+        
+        if (tipo === 'calidad') {
+            tituloReporte.textContent = `Reporte de Calidad - ${fecha}`;
+            procesarReporteCalidad(datosCompletos, contenedor, fecha, turno, area, empleado);
+        } else if (tipo === 'produccion') {
+            tituloReporte.textContent = `Reporte de Producción - ${fecha}`;
+            procesarReporteProduccion(datosCompletos, contenedor, fecha, turno, area);
+        } else if (tipo === 'logistica') {
+            tituloReporte.textContent = `Reporte de Logística - ${fecha}`;
+            procesarReporteLogistica(datosCompletos, contenedor, fecha, turno, area);
+        } else if (tipo === 'resumen') {
+            tituloReporte.textContent = `Resumen Ejecutivo`;
+            procesarReporteResumen(datosCompletos, contenedor, fecha, turno);
+        }
+    }).catch(error => {
+        console.error("Error al cargar los datos:", error);
+        contenedor.innerHTML = `<p>Error al cargar los datos. Intenta de nuevo.</p>`;
+    });
 }
 
 
 function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado) {
-    let rechazosFiltrados = [];
-    
-    for (const fechaKey in datos.rechazos) {
-        if (fecha !== fechaKey) continue;
-        for (const turnoKey in datos.rechazos[fechaKey]) {
-            if (turno !== 'todos' && turnoKey !== turno) continue;
-            for (const rechazoKey in datos.rechazos[fechaKey][turnoKey]) {
-                const rechazo = datos.rechazos[fechaKey][turnoKey][rechazoKey];
-                if (
-                    (area === 'TODAS' || rechazo.areaRechazo === area) &&
-                    (!empleado || (rechazo.empleado && rechazo.empleado.toLowerCase().includes(empleado.toLowerCase())))
-                ) {
-                    rechazosFiltrados.push(rechazo);
-                }
-            }
-        }
-    }
-    
-    datosFiltradosReporte = rechazosFiltrados;
+    let rechazosFiltrados = [];
+    
+    for (const fechaKey in datos.rechazos) {
+        if (fecha !== fechaKey) continue;
+        for (const turnoKey in datos.rechazos[fechaKey]) {
+            if (turno !== 'todos' && turnoKey !== turno) continue;
+            for (const rechazoKey in datos.rechazos[fechaKey][turnoKey]) {
+                const rechazo = datos.rechazos[fechaKey][turnoKey][rechazoKey];
+                if (
+                    (area === 'TODAS' || rechazo.areaRechazo === area) &&
+                    (!empleado || (rechazo.empleado && rechazo.empleado.toLowerCase().includes(empleado.toLowerCase())))
+                ) {
+                    rechazosFiltrados.push(rechazo);
+                }
+            }
+        }
+    }
+    
+    datosFiltradosReporte = rechazosFiltrados;
 
-    const conteoProblemas = {};
-    rechazosFiltrados.forEach(r => { conteoProblemas[r.problema || 'Desconocido'] = (conteoProblemas[r.problema || 'Desconocido'] || 0) + 1; });
+    const conteoProblemas = {};
+    rechazosFiltrados.forEach(r => { conteoProblemas[r.problema || 'Desconocido'] = (conteoProblemas[r.problema || 'Desconocido'] || 0) + 1; });
 
-    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${rechazosFiltrados.length}</div><div class="etiqueta">Tarimas Rechazadas</div></div><div class="dato"><div class="valor">${Object.keys(conteoProblemas).length}</div><div class="etiqueta">Problemas Identificados</div></div></div>`;
-    
-    let tablaHtml = `<table><thead><tr><th>Fecha</th><th>Hora</th><th>Área</th><th>Línea</th><th>Empleado</th><th>No. de Parte</th><th>Descripción de la Parte</th><th>Descripción del Problema</th><th>Causa Raíz</th><th>Acción Correctiva</th></tr></thead><tbody>`;
-    rechazosFiltrados.forEach(r => {
-        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
-        tablaHtml += `<tr><td>${r.fecha}</td><td>${r.hora}</td><td>${areaFmt}</td><td>${r.linea||'N/A'}</td><td>${r.empleado||'N/A'}</td><td>${r.parte||'N/A'}</td><td>${r.descripcionParte||'N/A'}</td><td>${r.problema||'N/A'}</td><td>${r.causa||'N/A'}</td><td>${r.accion||'N/A'}</td></tr>`;
-    });
-    tablaHtml += `</tbody></table>`;
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${rechazosFiltrados.length}</div><div class="etiqueta">Tarimas Rechazadas</div></div><div class="dato"><div class="valor">${Object.keys(conteoProblemas).length}</div><div class="etiqueta">Problemas Identificados</div></div></div>`;
+    
+    let tablaHtml = `<table><thead><tr><th>Fecha</th><th>Hora</th><th>Área</th><th>Línea</th><th>Empleado</th><th>No. de Parte</th><th>Descripción de la Parte</th><th>Descripción del Problema</th><th>Causa Raíz</th><th>Acción Correctiva</th></tr></thead><tbody>`;
+    rechazosFiltrados.forEach(r => {
+        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
+        tablaHtml += `<tr><td>${r.fecha}</td><td>${r.hora}</td><td>${areaFmt}</td><td>${r.linea||'N/A'}</td><td>${r.empleado||'N/A'}</td><td>${r.parte||'N/A'}</td><td>${r.descripcionParte||'N/A'}</td><td>${r.problema||'N/A'}</td><td>${r.causa||'N/A'}</td><td>${r.accion||'N/A'}</td></tr>`;
+    });
+    tablaHtml += `</tbody></table>`;
 
-    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
-    rechazosFiltrados.forEach(r => {
-        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
-        tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Fecha:</span> <span class="valor">${r.fecha}</span><br><span class="etiqueta">Hora:</span> <span class="valor">${r.hora}</span><br><span class="etiqueta">Área:</span> <span class="valor">${areaFmt}</span><br><span class="etiqueta">Línea:</span> <span class="valor">${r.linea||'N/A'}</span><br><span class="etiqueta">Empleado:</span> <span class="valor">${r.empleado||'N/A'}</span><br><span class="etiqueta">Problema:</span> <span class="valor">${r.problema||'N/A'}</span></div>`;
-    });
-    tablaMovilHtml += `</div></div>`;
+    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
+    rechazosFiltrados.forEach(r => {
+        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
+        tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Fecha:</span> <span class="valor">${r.fecha}</span><br><span class="etiqueta">Hora:</span> <span class="valor">${r.hora}</span><br><span class="etiqueta">Área:</span> <span class="valor">${areaFmt}</span><br><span class="etiqueta">Línea:</span> <span class="valor">${r.linea||'N/A'}</span><br><span class="etiqueta">Empleado:</span> <span class="valor">${r.empleado||'N/A'}</span><br><span class="etiqueta">Problema:</span> <span class="valor">${r.problema||'N/A'}</span></div>`;
+    });
+    tablaMovilHtml += `</div></div>`;
 
-    let graficoHtml = Object.keys(conteoProblemas).length > 0 ? `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>` : '';
-    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
+    let graficoHtml = Object.keys(conteoProblemas).length > 0 ? `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>` : '';
+    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
 
-    if (Object.keys(conteoProblemas).length > 0) actualizarGraficoReporte();
+    if (Object.keys(conteoProblemas).length > 0) actualizarGraficoReporte();
 }
 
 
 function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
-    let logsProduccion = [];
-    const conteo = { MULTIPORT: 0, DROPS: 0, BEDROCK: 0 };
-    
-    for (const fechaKey in datos.historial) {
-        if (fecha !== fechaKey) continue;
-        for (const turnoKey in datos.historial[fechaKey]) {
-            if (turno !== 'todos' && turnoKey !== turno) continue;
-            for (const logKey in datos.historial[fechaKey][turnoKey]) {
-                const log = datos.historial[fechaKey][turnoKey][logKey];
-                if (log.accion === 'encendido' && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
-                    if (area === 'TODAS' || log.grupo === area) {
-                        logsProduccion.push(log);
-                        conteo[log.grupo]++;
-                    }
-                }
-            }
-        }
-    }
-    
-    datosFiltradosReporte = logsProduccion;
+    let logsProduccion = [];
+    const conteo = { MULTIPORT: 0, DROPS: 0, BEDROCK: 0 };
+    
+    for (const fechaKey in datos.historial) {
+        if (fecha !== fechaKey) continue;
+        for (const turnoKey in datos.historial[fechaKey]) {
+            if (turno !== 'todos' && turnoKey !== turno) continue;
+            for (const logKey in datos.historial[fechaKey][turnoKey]) {
+                const log = datos.historial[fechaKey][turnoKey][logKey];
+                if (log.accion === 'encendido' && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
+                    if (area === 'TODAS' || log.grupo === area) {
+                        logsProduccion.push(log);
+                        conteo[log.grupo]++;
+                    }
+                }
+            }
+        }
+    }
+    
+    datosFiltradosReporte = logsProduccion;
 
-    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsProduccion.length}</div><div class="etiqueta">Tarimas Confirmadas</div></div></div>`;
-    const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsProduccion.length}</div><div class="etiqueta">Tarimas Confirmadas</div></div></div>`;
+    const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
 
-    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Hora de Confirmación</th><th>Usuario</th></tr></thead><tbody>`;
-    logsProduccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${formatoHora(log.timestamp)}</td><td>${log.usuario}</td></tr>`; });
-    tablaHtml += `</tbody></table>`;
-    
-    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
-    logsProduccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span><span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span><span class="valor">${log.led}</span><br><span class="etiqueta">Hora:</span><span class="valor">${formatoHora(log.timestamp)}</span><br><span class="etiqueta">Usuario:</span><span class="valor">${log.usuario}</span></div>`; });
-    tablaMovilHtml += `</div></div>`;
+    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Hora de Confirmación</th><th>Usuario</th></tr></thead><tbody>`;
+    logsProduccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${formatoHora(log.timestamp)}</td><td>${log.usuario}</td></tr>`; });
+    tablaHtml += `</tbody></table>`;
+    
+    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
+    logsProduccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span><span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span><span class="valor">${log.led}</span><br><span class="etiqueta">Hora:</span><span class="valor">${formatoHora(log.timestamp)}</span><br><span class="etiqueta">Usuario:</span><span class="valor">${log.usuario}</span></div>`; });
+    tablaMovilHtml += `</div></div>`;
 
-    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
-    actualizarGraficoReporte();
+    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
+    actualizarGraficoReporte();
 }
 
 
 function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
-    let logsRecoleccion = [];
-    let tiempoTotal = 0;
-    
-    for (const fechaKey in datos.historial) {
-        if (fecha !== fechaKey) continue;
-        for (const turnoKey in datos.historial[fechaKey]) {
-            if (turno !== 'todos' && turnoKey !== turno) continue;
-            for (const logKey in datos.historial[fechaKey][turnoKey]) {
-                const log = datos.historial[fechaKey][turnoKey][logKey];
-                if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
-                    if (area === 'TODAS' || log.grupo === area) {
-                        logsRecoleccion.push(log);
-                        tiempoTotal += log.tiempoRecoleccion;
-                    }
-                }
-            }
-        }
-    }
+    let logsRecoleccion = [];
+    let tiempoTotal = 0;
+    
+    for (const fechaKey in datos.historial) {
+        if (fecha !== fechaKey) continue;
+        for (const turnoKey in datos.historial[fechaKey]) {
+            if (turno !== 'todos' && turnoKey !== turno) continue;
+            for (const logKey in datos.historial[fechaKey][turnoKey]) {
+                const log = datos.historial[fechaKey][turnoKey][logKey];
+                if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
+                    if (area === 'TODAS' || log.grupo === area) {
+                        logsRecoleccion.push(log);
+                        tiempoTotal += log.tiempoRecoleccion;
+                    }
+                }
+            }
+        }
+    }
 
-    datosFiltradosReporte = logsRecoleccion;
-    
-    const tiempoPromedio = logsRecoleccion.length > 0 ? (tiempoTotal / logsRecoleccion.length).toFixed(1) : 0;
-    
-    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsRecoleccion.length}</div><div class="etiqueta">Tarimas Recolectadas</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">Tiempo Promedio</div></div></div>`;
-    const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
+    datosFiltradosReporte = logsRecoleccion;
+    
+    const tiempoPromedio = logsRecoleccion.length > 0 ? (tiempoTotal / logsRecoleccion.length).toFixed(1) : 0;
+    
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsRecoleccion.length}</div><div class="etiqueta">Tarimas Recolectadas</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">Tiempo Promedio</div></div></div>`;
+    const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
 
-    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Tiempo de Recolección (min)</th><th>Hora de Encendido</th><th>Hora de Apagado</th></tr></thead><tbody>`;
-    logsRecoleccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${log.tiempoRecoleccion}</td><td>${formatoHora(log.horaEncendido)}</td><td>${formatoHora(log.horaApagado)}</td></tr>`; });
-    tablaHtml += `</tbody></table>`;
-    
-    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
-    logsRecoleccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br><span class="etiqueta">Tiempo:</span> <span class="valor">${log.tiempoRecoleccion} min</span><br><span class="etiqueta">Hora de Recolección:</span> <span class="valor">${formatoHora(log.horaApagado)}</span></div>`; });
-    tablaMovilHtml += `</div></div>`;
+    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Tiempo de Recolección (min)</th><th>Hora de Encendido</th><th>Hora de Apagado</th></tr></thead><tbody>`;
+    logsRecoleccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${log.tiempoRecoleccion}</td><td>${formatoHora(log.horaEncendido)}</td><td>${formatoHora(log.horaApagado)}</td></tr>`; });
+    tablaHtml += `</tbody></table>`;
+    
+    let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
+    logsRecoleccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br><span class="etiqueta">Tiempo:</span> <span class="valor">${log.tiempoRecoleccion} min</span><br><span class="etiqueta">Hora de Recolección:</span> <span class="valor">${formatoHora(log.horaApagado)}</span></div>`; });
+    tablaMovilHtml += `</div></div>`;
 
-    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
-    document.getElementById('tipoGrafico').value = 'bar';
-    actualizarGraficoReporte();
+    contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
+    document.getElementById('tipoGrafico').value = 'bar';
+    actualizarGraficoReporte();
 }
 
 function procesarReporteResumen(datos, contenedor, fecha, turno) {
-    const areas = ['MULTIPORT', 'DROPS', 'BEDROCK'];
-    const resumen = {};
-    
-    areas.forEach(area => { resumen[area] = { produccion: 0, liberadas: 0, rechazadas: 0, tiempoLogistica: { total: 0, count: 0, promedio: 0 } }; });
+    const areas = ['MULTIPORT', 'DROPS', 'BEDROCK'];
+    const resumen = {};
+    
+    areas.forEach(area => { resumen[area] = { produccion: 0, liberadas: 0, rechazadas: 0, tiempoLogistica: { total: 0, count: 0, promedio: 0 } }; });
 
-    for (const fechaKey in datos.historial) {
-        if (fechaKey !== fecha && fecha !== null) continue;
-        for (const turnoKey in datos.historial[fechaKey]) {
-            if (turnoKey !== turno && turno !== 'todos') continue;
-            for (const logKey in datos.historial[fechaKey][turnoKey]) {
-                const log = datos.historial[fechaKey][turnoKey][logKey];
-                if (log.accion === 'encendido' && resumen.hasOwnProperty(log.grupo)) {
-                    resumen[log.grupo].produccion++;
-                } else if (log.accion === 'apagado' && log.tiempoRecoleccion && resumen.hasOwnProperty(log.grupo)) {
-                    resumen[log.grupo].tiempoLogistica.total += log.tiempoRecoleccion;
-                    resumen[log.grupo].tiempoLogistica.count++;
-                }
-            }
-        }
-    }
+    for (const fechaKey in datos.historial) {
+        if (fechaKey !== fecha && fecha !== null) continue;
+        for (const turnoKey in datos.historial[fechaKey]) {
+            if (turnoKey !== turno && turno !== 'todos') continue;
+            for (const logKey in datos.historial[fechaKey][turnoKey]) {
+                const log = datos.historial[fechaKey][turnoKey][logKey];
+                if (log.accion === 'encendido' && resumen.hasOwnProperty(log.grupo)) {
+                    resumen[log.grupo].produccion++;
+                } else if (log.accion === 'apagado' && log.tiempoRecoleccion && resumen.hasOwnProperty(log.grupo)) {
+                    resumen[log.grupo].tiempoLogistica.total += log.tiempoRecoleccion;
+                    resumen[log.grupo].tiempoLogistica.count++;
+                }
+            }
+        }
+    }
 
-    for (const fechaKey in datos.calidad) {
-        if (fechaKey !== fecha && fecha !== null) continue;
-        for (const turnoKey in datos.calidad[fechaKey]) {
-            if (turnoKey !== turno && turno !== 'todos') continue;
-            for (const grupoKey in datos.calidad[fechaKey][turnoKey]) {
-                const grupoBase = grupoKey.replace('CALIDAD_', '');
-                if (resumen.hasOwnProperty(grupoBase)) {
-                    const contadores = datos.calidad[fechaKey][turnoKey][grupoKey];
-                    resumen[grupoBase].liberadas += contadores.liberadas || 0;
-                    resumen[grupoBase].rechazadas += contadores.rechazadas || 0;
-                }
-            }
-        }
-    }
+    for (const fechaKey in datos.calidad) {
+        if (fechaKey !== fecha && fecha !== null) continue;
+        for (const turnoKey in datos.calidad[fechaKey]) {
+            if (turnoKey !== turno && turno !== 'todos') continue;
+            for (const grupoKey in datos.calidad[fechaKey][turnoKey]) {
+                const grupoBase = grupoKey.replace('CALIDAD_', '');
+                if (resumen.hasOwnProperty(grupoBase)) {
+                    const contadores = datos.calidad[fechaKey][turnoKey][grupoKey];
+                    resumen[grupoBase].liberadas += contadores.liberadas || 0;
+                    resumen[grupoBase].rechazadas += contadores.rechazadas || 0;
+                }
+            }
+        }
+    }
 
-    let html = ``;
-    areas.forEach(area => {
-        const { produccion, liberadas, rechazadas, tiempoLogistica } = resumen[area];
-        const totalCalidad = liberadas + rechazadas;
-        const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
-        const tiempoPromedio = tiempoLogistica.count > 0 ? (tiempoLogistica.total / tiempoLogistica.count).toFixed(1) : 0;
+    let html = ``;
+    areas.forEach(area => {
+        const { produccion, liberadas, rechazadas, tiempoLogistica } = resumen[area];
+        const totalCalidad = liberadas + rechazadas;
+        const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
+        const tiempoPromedio = tiempoLogistica.count > 0 ? (tiempoLogistica.total / tiempoLogistica.count).toFixed(1) : 0;
 
-        html += `<h3>${area}</h3><div class="resumen-datos"><div class="dato"><div class="valor">${produccion}</div><div class="etiqueta">Producidas</div></div><div class="dato"><div class="valor">${liberadas}</div><div class="etiqueta">Liberadas</div></div><div class="dato"><div class="valor">${rechazadas}</div><div class="etiqueta">Rechazadas</div></div><div class="dato"><div class="valor">${tasaRechazo}%</div><div class="etiqueta">Tasa Rechazo</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">T. Recolección</div></div></div>`;
-    });
-    contenedor.innerHTML = html;
+        html += `<h3>${area}</h3><div class="resumen-datos"><div class="dato"><div class="valor">${produccion}</div><div class="etiqueta">Producidas</div></div><div class="dato"><div class="valor">${liberadas}</div><div class="etiqueta">Liberadas</div></div><div class="dato"><div class="valor">${rechazadas}</div><div class="etiqueta">Rechazadas</div></div><div class="dato"><div class="valor">${tasaRechazo}%</div><div class="etiqueta">Tasa Rechazo</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">T. Recolección</div></div></div>`;
+    });
+    contenedor.innerHTML = html;
 }
 
 async function exportarReporte(formato) {
-    const tabla = document.querySelector('#contenidoReporte table');
-    if (!tabla) {
-        return await customAlert('No hay datos para exportar. Por favor, genera un reporte primero.', 'Exportación Fallida');
-    }
-    const chart = miGrafico;
-    const tipo = reporteActual;
-    const nombreArchivo = `${tipo}_${document.getElementById('fechaReporte').value}`;
+    const tabla = document.querySelector('#contenidoReporte table');
+    if (!tabla) {
+        return await customAlert('No hay datos para exportar. Por favor, genera un reporte primero.', 'Exportación Fallida');
+    }
+    const chart = miGrafico;
+    const tipo = reporteActual;
+    const nombreArchivo = `${tipo}_${document.getElementById('fechaReporte').value}`;
 
-    if (formato === 'excel') {
-        const data = XLSX.utils.table_to_sheet(tabla);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, data, 'Reporte');
-        XLSX.writeFile(wb, `${nombreArchivo}.xlsx`);
-    } else if (formato === 'pdf') {
-        exportarAPdf(tabla, chart, nombreArchivo);
-    } else if (formato === 'csv') {
-        exportarACsv(tabla, nombreArchivo);
-    }
+    if (formato === 'excel') {
+        const data = XLSX.utils.table_to_sheet(tabla);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, data, 'Reporte');
+        XLSX.writeFile(wb, `${nombreArchivo}.xlsx`);
+    } else if (formato === 'pdf') {
+        exportarAPdf(tabla, chart, nombreArchivo);
+    } else if (formato === 'csv') {
+        exportarACsv(tabla, nombreArchivo);
+    }
 }
 
 function exportarACsv(tabla, nombreReporte) {
-    let csv = [];
-    tabla.querySelectorAll('tr').forEach(fila => {
-        let filaDatos = [];
-        fila.querySelectorAll('th, td').forEach(celda => {
-            filaDatos.push(`"${celda.textContent.trim().replace(/"/g, '""')}"`);
-        });
-        csv.push(filaDatos.join(','));
-    });
-    const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${nombreReporte}.csv`;
-    link.click();
-    URL.revokeObjectURL(link.href);
+    let csv = [];
+    tabla.querySelectorAll('tr').forEach(fila => {
+        let filaDatos = [];
+        fila.querySelectorAll('th, td').forEach(celda => {
+            filaDatos.push(`"${celda.textContent.trim().replace(/"/g, '""')}"`);
+        });
+        csv.push(filaDatos.join(','));
+    });
+    const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${nombreReporte}.csv`;
+    link.click();
+    URL.revokeObjectURL(link.href);
 }
 
 function exportarAPdf(tabla, chart, nombreArchivo) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'pt', 'letter');
-    const margin = 20;
-    let y = margin;
-    let pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'letter');
+    const margin = 20;
+    let y = margin;
+    let pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
 
-    doc.setFontSize(22);
-    doc.text(`Reporte de ${reporteActual.toUpperCase()}`, pageWidth / 2, y, { align: 'center' });
-    y += 30;
-    doc.setFontSize(12);
-    doc.text(`Fecha: ${document.getElementById('fechaReporte').value}`, margin, y);
-    y += 20;
+    doc.setFontSize(22);
+    doc.text(`Reporte de ${reporteActual.toUpperCase()}`, pageWidth / 2, y, { align: 'center' });
+    y += 30;
+    doc.setFontSize(12);
+    doc.text(`Fecha: ${document.getElementById('fechaReporte').value}`, margin, y);
+    y += 20;
 
-    const resumenDiv = document.querySelector('#contenidoReporte .resumen-datos');
-    if (resumenDiv) {
-        const resumenText = Array.from(resumenDiv.children).map(dato => `${dato.querySelector('.etiqueta').textContent}: ${dato.querySelector('.valor').textContent}`).join('  |  ');
-        doc.text(resumenText, margin, y);
-        y += 30;
-    }
+    const resumenDiv = document.querySelector('#contenidoReporte .resumen-datos');
+    if (resumenDiv) {
+        const resumenText = Array.from(resumenDiv.children).map(dato => `${dato.querySelector('.etiqueta').textContent}: ${dato.querySelector('.valor').textContent}`).join('  |  ');
+        doc.text(resumenText, margin, y);
+        y += 30;
+    }
 
-    if (chart) {
-        const chartDataURL = chart.toBase64Image();
-        const imgWidth = 500;
-        const imgHeight = 250;
-        const imgX = (pageWidth - imgWidth) / 2;
-        if (y + imgHeight + 30 > doc.internal.pageSize.height) { doc.addPage(); y = margin; }
-        doc.addImage(chartDataURL, 'PNG', imgX, y, imgWidth, imgHeight);
-        y += imgHeight + 30;
-    }
+    if (chart) {
+        const chartDataURL = chart.toBase64Image();
+        const imgWidth = 500;
+        const imgHeight = 250;
+        const imgX = (pageWidth - imgWidth) / 2;
+        if (y + imgHeight + 30 > doc.internal.pageSize.height) { doc.addPage(); y = margin; }
+        doc.addImage(chartDataURL, 'PNG', imgX, y, imgWidth, imgHeight);
+        y += imgHeight + 30;
+    }
 
-    doc.autoTable({
-        startY: y,
-        html: tabla,
-        theme: 'striped',
-        styles: { fontSize: 8, cellPadding: 5 },
-    });
+    doc.autoTable({
+        startY: y,
+        html: tabla,
+        theme: 'striped',
+        styles: { fontSize: 8, cellPadding: 5 },
+    });
 
-    doc.save(`${nombreArchivo}.pdf`);
+    doc.save(`${nombreArchivo}.pdf`);
 }
 // ==========================================================
 
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
-    firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
-    
-    firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-            iniciarListenersFirebase(); 
-        }
-    });
+    firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
+    
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            iniciarListenersFirebase(); 
+        }
+    });
 
-    setTimeout(() => {
-        const splash = document.getElementById('splashScreen');
-        splash.style.opacity = '0';
-        splash.addEventListener('transitionend', () => {
-            splash.classList.remove('activa');
-            activarPantalla('pantalla1');
-        }, { once: true });
-    }, 3000);
-    
-    const modalCalidad = document.getElementById('modalCalidad');
-    modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => modalCalidad.classList.remove('visible'));
-    modalCalidad.querySelectorAll('.opcion-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const nuevoColor = btn.dataset.color;
-            if (nuevoColor === 'rojo') {
-                mostrarFormularioRechazo();
-            } else {
-                aplicarEstadoCalidad(nuevoColor);
-                modalCalidad.classList.remove('visible');
-            }
-        });
-    });
+    setTimeout(() => {
+        const splash = document.getElementById('splashScreen');
+        splash.style.opacity = '0';
+        splash.addEventListener('transitionend', () => {
+            splash.classList.remove('activa');
+            activarPantalla('pantalla1');
+        }, { once: true });
+    }, 3000);
+    
+    const modalCalidad = document.getElementById('modalCalidad');
+    modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => modalCalidad.classList.remove('visible'));
+    modalCalidad.querySelectorAll('.opcion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const nuevoColor = btn.dataset.color;
+            if (nuevoColor === 'rojo') {
+                mostrarFormularioRechazo();
+            } else {
+                aplicarEstadoCalidad(nuevoColor);
+                modalCalidad.classList.remove('visible');
+            }
+        });
+    });
 
-    const modalRechazo = document.getElementById('modalRechazo');
-    const formRechazo = document.getElementById('formularioRechazo');
-    
-    formRechazo.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const datos = {
-            empleado: formRechazo.empleado.value,
-            linea: formRechazo.linea.value,
-            parte: formRechazo.parte.value,
-            descripcionParte: formRechazo.descripcionParte.value,
-            problema: formRechazo.problema.value,
-            causa: formRechazo.causa.value,
-            accion: formRechazo.accion.value,
-        };
-        guardarRechazo(datos);
-        formRechazo.reset();
-    });
+    const modalRechazo = document.getElementById('modalRechazo');
+    const formRechazo = document.getElementById('formularioRechazo');
+    
+    formRechazo.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const datos = {
+            empleado: formRechazo.empleado.value,
+            linea: formRechazo.linea.value,
+            parte: formRechazo.parte.value,
+            descripcionParte: formRechazo.descripcionParte.value,
+            problema: formRechazo.problema.value,
+            causa: formRechazo.causa.value,
+            accion: formRechazo.accion.value,
+        };
+        guardarRechazo(datos);
+        formRechazo.reset();
+    });
 
-    document.getElementById('cancelRechazo').addEventListener('click', () => {
-        modalRechazo.classList.remove('visible');
-        formRechazo.reset();
-    });
+    document.getElementById('cancelRechazo').addEventListener('click', () => {
+        modalRechazo.classList.remove('visible');
+        formRechazo.reset();
+    });
 
-    document.getElementById('selectoresReportes').querySelectorAll('.usuario-btn').forEach(btn => {
-        btn.addEventListener('click', () => mostrarReporte(btn.dataset.reporte));
-    });
+    document.getElementById('selectoresReportes').querySelectorAll('.usuario-btn').forEach(btn => {
+        btn.addEventListener('click', () => mostrarReporte(btn.dataset.reporte));
+    });
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').then(reg => console.log("✅ Service Worker registrado:", reg)).catch(err => console.error("❌ Error al registrar Service Worker:", err));
-    }
-    
-    // === MEJORA: Iniciar el actualizador de contadores global ===
-    setInterval(actualizarTodosLosContadores, 10000); // Actualiza cada 10 segundos
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(reg => console.log("✅ Service Worker registrado:", reg)).catch(err => console.error("❌ Error al registrar Service Worker:", err));
+    }
+    
+    // === MEJORA: Iniciar el actualizador de contadores global ===
+    setInterval(actualizarTodosLosContadores, 10000); // Actualiza cada 10 segundos
 });
 </script>
 </body>
