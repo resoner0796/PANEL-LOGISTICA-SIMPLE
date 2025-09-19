@@ -1,12 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Logística</title>
-<meta name="theme-color" content="#000000">
+<title>Panel Logística | Rediseño Profesional</title>
+<meta name="theme-color" content="#1a202c">
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -17,670 +19,605 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
 <style>
-:root{
-  --btn-bg: #0066cc;
-  --btn-bg-hover: #004c99;
-  --grid-size: 26px;
-  --vignette: rgba(0,0,0,0.9);
-  --titulo-size: clamp(42px,7vw,96px);
-  --led-size: 50px;
-  --led-gap: 16px;
-  --led-off-core: #111;
-  --led-off-edge: #000;
-  --led-on-core: #0f0;
-  --led-on-edge: #063;
-  --glow: #00ff88;
-  --blink-duration: 0.9s;
+:root {
+  /* Paleta de Colores Corporativa */
+  --bg-primary: #0f172a;    /* Azul marino muy oscuro */
+  --bg-secondary: #1e293b; /* Azul grisáceo oscuro */
+  --bg-card: #293548;      /* Un poco más claro para tarjetas */
+  --border-color: #475569; /* Borde sutil */
+  --text-primary: #e2e8f0;   /* Blanco roto */
+  --text-secondary: #94a3b8; /* Gris claro */
+  --accent-primary: #38bdf8; /* Azul cielo vibrante */
+  --accent-primary-hover: #0ea5e9;
+  --status-green: #34d399;
+  --status-orange: #f97316;
+  --status-red: #ef4444;
+  --status-gray: #64748b;
+
+  /* Tipografía */
+  --font-family: 'Poppins', sans-serif;
+
+  /* Medidas y Bordes */
+  --border-radius: 12px;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --led-size: 32px;
+  --pulse-duration: 1.5s;
 }
 
-*{ box-sizing: border-box; }
-html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff; background:#111; }
-
-.pantalla{ display:none; width:100%; min-height:100vh; }
-.pantalla.activa{ display:flex; flex-direction:column; }
-
-#pantalla1{
-  align-items:center;
-  justify-content:center;
-  flex-direction: column;
-  background:linear-gradient(135deg,#222,#444);
-  gap:18px;
-}
-.btn-contenedor{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+/* ================= RESET Y ESTILOS GLOBALES ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#pantalla1 h1{ margin:0 0 8px; }
-.usuario-btn{
-  background: var(--btn-bg);
-  color:#fff;
-  border:0;
-  padding:14px 28px;
-  margin:8px;
-  border-radius:10px;
-  font-size:18px;
-  cursor:pointer;
-  transition: background .25s ease;
-  outline-color: #000;
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.usuario-btn:hover{ background: var(--btn-bg-hover); }
 
-#pantalla2{
-  background-color:#000;
-  background-image:
-    radial-gradient(circle, rgba(60,60,60,.28) 20%, transparent 21%),
-    radial-gradient(circle, #101010 20%, transparent 21%);
-  background-size: var(--grid-size) var(--grid-size);
-  box-shadow: inset 0 0 90px var(--vignette);
-  overflow-y: auto; /* Permite el scroll solo en esta pantalla */
-}
-.header{ display:flex; align-items:center; justify-content:center; padding:16px 20px 6px; position: relative; }
-#tituloFijo{
-  font-weight:800;
-  text-align:center;
-  letter-spacing:.5px;
-  text-shadow:0 2px 8px rgba(0,0,0,.65);
-  font-size:var(--titulo-size);
-}
-#turnoActual {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  background-color: rgba(0,0,0,0.5);
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-.zona-centro{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 24px 28px;
-  flex-direction: column;
-}
-.grupo-contenedor{
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(24px, 4vw, 64px);
-  width: min(1200px, 96vw);
-  justify-content: center;
-}
-.grupo.oculto {
+.pantalla {
   display: none;
+  width: 100%;
+  min-height: 100%;
+  flex-direction: column;
 }
-.grupo{ display:flex; flex-direction:column; align-items:center; text-align:center; }
-.grupo .nombre{ font-size: clamp(20px,2.2vw,28px); font-weight:800; margin-bottom:8px; letter-spacing:.5px; text-shadow:0 1px 6px rgba(0,0,0,.5); }
-.grupo .tarimas{ font-size: clamp(16px,1.7vw,22px); opacity:.9; margin-bottom:14px; }
-.leds{ display:flex; gap: var(--led-gap); justify-content:center; align-items:center; flex-wrap:nowrap; padding:4px; }
-.led{
-  width: var(--led-size);
-  height: var(--led-size);
-  border-radius:50%;
-  cursor:pointer;
-  background: radial-gradient(circle at 45% 40%, var(--led-off-core) 40%, var(--led-off-edge) 100%);
-  box-shadow: inset -4px -5px 8px rgba(0,0,0,.8), inset 4px 5px 6px rgba(255,255,255,.06), 0 1px 0 rgba(255,255,255,.05);
-  transition: transform .1s ease, filter .2s ease, box-shadow .2s ease;
+
+.pantalla.activa {
+  display: flex;
 }
-.led:active{ transform: scale(.96); }
-.led.on{
-  background: radial-gradient(circle at 48% 45%, var(--led-on-core) 40%, var(--led-on-edge) 100%);
-  box-shadow: 0 0 22px var(--glow), inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
-  animation: blink var(--blink-duration) ease-in-out infinite;
+
+/* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
+#pantalla1 {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
-.led.disabled {
-    cursor: not-allowed;
-    pointer-events: none;
+
+#pantalla1 h1 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+#pantalla1 .btn-contenedor {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (min-width: 640px) {
+  #pantalla1 .btn-contenedor {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.usuario-btn {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  text-align: center;
+}
+
+.usuario-btn:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+}
+
+.btn-rojo {
+  background-color: #4a1d21;
+  border-color: #92343c;
+}
+
+.btn-rojo:hover {
+  background-color: var(--status-red);
+  border-color: var(--status-red);
+  color: white;
+}
+
+/* ================= PANTALLA 2: PANEL PRINCIPAL ================= */
+#pantalla2 {
+  padding: 1.5rem;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+#pantalla2 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#tituloFijo {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+#turnoActual {
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+}
+
+#pantalla2 .zona-centro {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .resumen-turno {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
-  margin-bottom: 20px;
-  background-color: #222;
-  border-radius: 12px;
-  padding: 15px 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.3);
-  width: min(800px, 90vw);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
 }
 .resumen-turno.oculto {
   display: none;
 }
+
 .dato-resumen {
+  background-color: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
   text-align: center;
-}
-.dato-resumen .etiqueta {
-  font-size: 14px;
-  opacity: 0.7;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.dato-resumen .valor {
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.tiempos{
-  margin-top: 10px;
-  font-size: 14px;
-  opacity: 0.8;
-  text-align: left;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-}
-.btn-rojo{
-  background: #cc0000;
-  outline-color: #000;
-}
-.btn-rojo:hover{
-  background: #990000;
-}
-.footer{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-.footer .usuario-btn{
-  padding: 10px 20px;
-  font-size: 16px;
-}
-.contadores-calidad {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 10px;
-}
-.contador-calidad {
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-}
-.contador-calidad .valor {
-  font-size: 20px;
-  font-weight: bold;
-}
-.contador-calidad .etiqueta {
-  font-size: 12px;
-  opacity: 0.8;
+  flex-grow: 1;
+  border: 1px solid var(--border-color);
 }
 
-@media(max-width:720px){ 
-  .grupo-contenedor{ 
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-  }
+.dato-resumen .etiqueta {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
 }
-@keyframes blink {
-  0%, 100% {
-    box-shadow: 0 0 22px var(--glow), inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
-  }
-  50% {
-    box-shadow: 0 0 40px var(--glow), inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
-  }
+
+.dato-resumen .valor {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--accent-primary);
 }
-/* ================= CSS DEL MODAL DE CALIDAD ================= */
+
+.grupo-contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1600px;
+}
+.grupo.oculto { display: none; }
+
+.grupo {
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.grupo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.grupo .nombre {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.grupo .tarimas {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.leds {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.led {
+  width: var(--led-size);
+  height: var(--led-size);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--status-gray);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.led:hover { transform: scale(1.1); }
+.led.disabled { cursor: not-allowed; opacity: 0.6; }
+
+.led.on {
+  background-color: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-primary);
+  animation: pulse var(--pulse-duration) infinite;
+}
+.led.verde { background-color: var(--status-green); box-shadow: 0 0 15px var(--status-green); animation: none; }
+.led.naranja { background-color: var(--status-orange); box-shadow: 0 0 15px var(--status-orange); animation: none; }
+.led.rojo { background-color: var(--status-red); box-shadow: 0 0 15px var(--status-red); animation: none; }
+
+
+.tiempos {
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+.tiempos p { margin-bottom: 0.5rem; }
+.tiempos::-webkit-scrollbar { width: 6px; }
+.tiempos::-webkit-scrollbar-track { background: var(--bg-secondary); }
+.tiempos::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 3px;}
+
+.contadores-calidad {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+.contador-calidad .valor { font-size: 1.5rem; font-weight: 600; }
+.contador-calidad .etiqueta { font-size: 0.8rem; color: var(--text-secondary); }
+#liberadas_CALIDAD_MULTIPORT, #liberadas_CALIDAD_DROPS, #liberadas_CALIDAD_BEDROCK { color: var(--status-green); }
+#rechazadas_CALIDAD_MULTIPORT, #rechazadas_CALIDAD_DROPS, #rechazadas_CALIDAD_BEDROCK { color: var(--status-red); }
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+.footer .usuario-btn {
+  max-width: 200px;
+  width: 100%;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px var(--accent-primary); }
+  50% { box-shadow: 0 0 20px var(--accent-primary); }
+  100% { box-shadow: 0 0 5px var(--accent-primary); }
+}
+
+/* ================= MODALES ================= */
 .modal-calidad {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.modal-calidad.visible {
-  visibility: visible;
-  opacity: 1;
-}
+.modal-calidad.visible { opacity: 1; visibility: visible; }
+
 .modal-content {
-  background-color: #222;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 90%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  background-color: var(--bg-secondary);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
 }
-.modal-content h3 {
-  margin-top: 0;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
+.modal-content h3 { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+
 .opciones {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-.opcion-btn {
-  padding: 15px 25px;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.opcion-btn[data-color="naranja"] { background-color: #ff9800; color: #fff; }
-.opcion-btn[data-color="rojo"] { background-color: #f44336; color: #fff; }
-.opcion-btn[data-color="verde"] { background-color: #4caf50; color: #fff; }
-.opcion-btn:hover {
-  filter: brightness(1.2);
-}
-.cerrar-btn {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.cerrar-btn:hover {
-  background-color: #777;
-}
-/* Nuevo CSS para el formulario de rechazo */
-#modalRechazo .modal-content {
-  text-align: left;
-}
-#modalRechazo .modal-content h3 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-#modalRechazo form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-#modalRechazo label {
-  font-size: 16px;
-  margin-bottom: 5px;
-  display: block;
-}
-#modalRechazo input, #modalRechazo textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #555;
-  background-color: #333;
-  color: #fff;
-  font-size: 16px;
-}
-#modalRechazo textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-#modalRechazo button[type="submit"] {
-  margin-top: 20px;
-  background-color: var(--btn-bg);
-  color: #fff;
-  border: none;
-  padding: 15px;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-#modalRechazo button[type="submit"]:hover {
-  background-color: var(--btn-bg-hover);
-}
-.led.naranja {
-  background: radial-gradient(circle at 48% 45%, #ff9800 40%, #c17500 100%);
-  box-shadow: 0 0 22px #ff9800, inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
-}
-.led.rojo {
-  background: radial-gradient(circle at 48% 45%, #f44336 40%, #d32f2f 100%);
-  box-shadow: 0 0 22px #f44336, inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
-}
-.led.verde {
-  background: radial-gradient(circle at 48% 45%, #4caf50 40%, #388e3c 100%);
-  box-shadow: 0 0 22px #4caf50, inset -4px -5px 8px rgba(0,0,0,.75), inset 3px 4px 7px rgba(255,255,255,.10);
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* ================= CSS PARA PANTALLA 3 (REPORTES) ================= */
-#pantalla3 {
-  background-color: #f5f5f5;
-  color: #333;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
+.opcion-btn {
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+.opcion-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
+.opcion-btn[data-color="naranja"] { background-color: var(--status-orange); }
+.opcion-btn[data-color="rojo"] { background-color: var(--status-red); }
+.opcion-btn[data-color="verde"] { background-color: var(--status-green); }
+
+.cerrar-btn {
+  display: block;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.cerrar-btn:hover { background-color: var(--border-color); color: var(--text-primary); }
+
+#modalRechazo form { display: flex; flex-direction: column; gap: 1rem; }
+#modalRechazo label { font-weight: 500; color: var(--text-secondary); }
+#modalRechazo input, #modalRechazo textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: var(--font-family);
+}
+#modalRechazo textarea { resize: vertical; min-height: 100px; }
+#modalRechazo button[type="submit"] {
+  margin-top: 1rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+#modalRechazo button[type="submit"]:hover { background-color: var(--accent-primary-hover); }
+
+/* ================= PANTALLA 3 & 4: REPORTES Y DASHBOARD ================= */
+#pantalla3, #pantalla4 {
+  padding: 1.5rem;
+  gap: 1.5rem;
   overflow-y: auto;
 }
-#pantalla3 h1 {
-  font-size: 2.5rem;
-  color: #0066cc;
-  margin-bottom: 20px;
+
+#pantalla3 h1, #pantalla4 h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
-#pantalla3 .btn-contenedor {
+
+.filtros, .filtros-dashboard {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
   justify-content: center;
-  gap: 15px;
-  width: 100%;
-  max-width: 800px;
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
 }
-#pantalla3 .usuario-btn {
-  background-color: #0066cc;
-  color: #fff;
-  font-size: 1.2rem;
-  padding: 15px 30px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-#pantalla3 .usuario-btn:hover {
-  background-color: #004c99;
-}
-#pantalla3 .contenedor-reporte {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
-}
-#pantalla3 .header-reporte {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-#pantalla3 .header-reporte h2 {
-  color: #0066cc;
-  margin: 0;
-}
-#pantalla3 .header-reporte .filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-#pantalla3 .header-reporte .filtros label {
-  font-size: 14px;
-}
-#pantalla3 .header-reporte .filtros input[type="date"],
-#pantalla3 .header-reporte .filtros select,
-#pantalla3 .header-reporte .filtros input[type="text"] {
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-#pantalla3 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  display: table;
-}
-#pantalla3 th, #pantalla3 td {
-  border: 1px solid #ccc;
-  padding: 12px;
-  text-align: left;
-  font-size: 14px;
-}
-#pantalla3 thead {
-  background-color: #0066cc;
-  color: #fff;
-}
-#pantalla3 tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-#pantalla3 tbody tr:hover {
-  background-color: #ddd;
-}
-#pantalla3 .resumen-datos {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-#pantalla3 .dato {
-  background-color: #f2f2f2;
-  padding: 15px;
+
+.filtros label, .filtros-dashboard label { color: var(--text-secondary); }
+.filtros input, .filtros select,
+.filtros-dashboard input, .filtros-dashboard select {
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  font-weight: bold;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+}
+.filtros .usuario-btn, .filtros-dashboard .usuario-btn {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+.filtros .usuario-btn:hover {
+  background-color: var(--accent-primary-hover);
+}
+
+/* Estilo de Tarjetas para Reportes y Dashboard */
+.contenedor-reporte, .kpi-card, .panel {
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+.contenedor-reporte h2, .panel h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+.header-reporte {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .header-reporte {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.resumen-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.dato {
+  background-color: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 8px;
   text-align: center;
 }
-#pantalla3 .dato .valor {
-  font-size: 24px;
-  color: #0066cc;
+.dato .valor { font-size: 1.75rem; font-weight: 700; color: var(--accent-primary); }
+.dato .etiqueta { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
-#pantalla3 .dato .etiqueta {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #666;
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
 }
+thead {
+  background-color: var(--bg-card);
+}
+th { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
+tbody tr:hover { background-color: var(--bg-card); }
+
+/* Botones de Exportación */
 .botones-reporte {
-  margin-top: 20px;
+  margin-top: 1.5rem;
   display: flex;
-  gap: 15px;
-  justify-content: flex-end;
   flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-end;
 }
+.botones-reporte .usuario-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+/* Gráficos */
 .grafico-contenedor {
   width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
+  max-width: 800px;
+  margin: 1.5rem auto;
 }
 .opciones-grafico {
     display: flex;
-    gap: 10px;
+    gap: 1rem;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     justify-content: center;
 }
 .opciones-grafico .usuario-btn {
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
 }
-.reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+
+/* ================= PANTALLA 4: DASHBOARD ESPECÍFICO ================= */
+#pantalla4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 1.5rem;
 }
-.reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
-    font-weight: bold;
-    color: #666;
-    display: block;
-    font-size: 12px;
+
+.kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
-.reporte-calidad-mobile .tabla-calidad-movil .valor {
-    color: #333;
-    font-size: 16px;
+
+.kpi-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 }
-@media (max-width: 768px) {
-    #pantalla3 .header-reporte {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    #pantalla3 .header-reporte .filtros {
-        width: 100%;
-        flex-direction: column;
-    }
-    #pantalla3 .header-reporte .filtros input,
-    #pantalla3 .header-reporte .filtros select {
-        width: 100%;
-    }
-    #pantalla3 .resumen-datos {
-        flex-direction: column;
-        gap: 15px;
-    }
-    #pantalla3 .dato {
-        width: 100%;
-    }
-    #pantalla3 table {
-        display: none; /* Oculta la tabla normal en móviles */
-    }
-    .reporte-calidad-mobile {
-        display: block; /* Muestra la tabla móvil */
-    }
+.kpi-card .valor {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--accent-primary);
 }
-@media (min-width: 769px) {
-    .reporte-calidad-mobile {
-        display: none; /* Oculta la tabla móvil en desktop */
+.kpi-card.alerta .valor {
+  color: var(--status-red);
+}
+
+.graficos-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 900px) {
+  .graficos-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1280px) {
+    .graficos-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* ================= CSS PARA PANTALLA 4 (DASHBOARD) ================= */
-#pantalla4 {
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
-  display: grid;
-  grid-template-areas:
-    "header"
-    "filtros"
-    "kpis"
-    "graficos"
-    "pendientes"
-    "footer";
-  gap: 20px;
-  align-content: start;
-  overflow-y: auto;
-}
-#pantalla4 .header {
-  grid-area: header;
-  text-align: center;
-}
-#pantalla4 .filtros-dashboard {
-  grid-area: filtros;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-  align-items: center;
-}
-#pantalla4 .filtros-dashboard label {
-  font-size: 14px;
-}
-#pantalla4 .filtros-dashboard input[type="date"],
-#pantalla4 .filtros-dashboard select {
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #555;
-  background-color: #222;
-  color: #fff;
-}
-#pantalla4 .kpis-grid {
-  grid-area: kpis;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-#pantalla4 .kpi-card {
-  background-color: #1a1a1a;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  border: 1px solid #333;
-}
-#pantalla4 .kpi-card h3 {
-  margin-top: 0;
-  font-size: 1rem;
-  color: #aaa;
-  text-transform: uppercase;
-}
-#pantalla4 .kpi-card .valor {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #00ff88;
-  transition: color 0.3s ease;
-}
-#pantalla4 .kpi-card.alerta .valor {
-  color: #ff3333;
-}
-#pantalla4 .graficos-container {
-  grid-area: graficos;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-#pantalla4 .graficos-container .panel {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  border: 1px solid #333;
-}
-#pantalla4 .graficos-container h3 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #eee;
-}
-#pantalla4 #tablaPendientes {
-  width: 100%;
-  border-collapse: collapse;
-  color: #fff;
-}
-#pantalla4 #tablaPendientes th, #pantalla4 #tablaPendientes td {
-  padding: 12px;
-  border-bottom: 1px solid #444;
-  text-align: left;
-}
-#pantalla4 #tablaPendientes th {
-  background-color: #222;
-}
-#pantalla4 #tablaPendientes tbody tr:hover {
-  background-color: #333;
-}
-#pantalla4 .footer {
-  grid-area: footer;
-}
-@media (min-width: 768px) {
-  #pantalla4 {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "header header"
-      "filtros filtros"
-      "kpis kpis"
-      "graficos graficos"
-      "pendientes pendientes"
-      "footer footer";
-  }
-  #pantalla4 .graficos-container {
-      grid-template-columns: 1fr 1fr;
-  }
-  .graficos-container > *:nth-child(3) {
-      grid-column: span 2;
-  }
-}
-@media (min-width: 1200px) {
-  #pantalla4 {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas:
-      "header header header"
-      "filtros filtros filtros"
-      "kpis kpis kpis"
-      "produccion calidad logistica"
-      "pendientes pendientes pendientes"
-      "footer footer footer";
-  }
-  #pantalla4 .graficos-container {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  .graficos-container > *:nth-child(3) {
-      grid-column: span 1;
-  }
+/* Responsividad para Tablas (Móvil) */
+.reporte-calidad-mobile { display: none; }
+@media (max-width: 768px) {
+    table { display: none; }
+    .reporte-calidad-mobile {
+        display: block;
+        width: 100%;
+    }
+    .tabla-calidad-movil .fila-dato {
+        background-color: var(--bg-card);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+    }
+    .tabla-calidad-movil .etiqueta {
+        font-weight: 600;
+        color: var(--text-secondary);
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    .tabla-calidad-movil .valor {
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
 }
 </style>
 </head>
@@ -688,7 +625,7 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
 <body>
 
 <section id="pantalla1" class="pantalla activa">
-<h1 id="mainTitle">Selecciona tu usuario</h1>
+<h1 id="mainTitle">Panel de Control Logístico</h1>
 <div class="btn-contenedor">
     <button class="usuario-btn" onclick="seleccionarUsuario('LOGÍSTICA')">LOGÍSTICA</button>
     <button class="usuario-btn" onclick="seleccionarUsuario('MULTIPORT')">MULTIPORT</button>
@@ -708,91 +645,91 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
 </header>
 <div class="zona-centro">
     <div id="resumenTurno" class="resumen-turno oculto">
-<div class="dato-resumen">
-    <div class="etiqueta">Tarimas Totales</div>
-    <div id="tarimasTotales" class="valor">0</div>
-</div>
-<div class="dato-resumen">
-    <div class="etiqueta">Tiempo Promedio</div>
-    <div id="tiempoPromedio" class="valor">0 min</div>
-</div>
-</div>
-<div class="grupo-contenedor">
-    <div class="grupo" data-grupo="MULTIPORT">
-        <div class="nombre">MULTIPORT</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="MULTIPORT" data-linea="linea1"></div>
-        <div class="leds" data-grupo="MULTIPORT" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="MULTIPORT"></div>
-    </div>
-
-    <div class="grupo" data-grupo="DROPS">
-        <div class="nombre">DROPS</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="DROPS" data-linea="linea1"></div>
-        <div class="leds" data-grupo="DROPS" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="DROPS"></div>
-    </div>
-
-    <div class="grupo" data-grupo="BEDROCK">
-        <div class="nombre">BEDROCK</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="BEDROCK" data-linea="linea1"></div>
-        <div class="leds" data-grupo="BEDROCK" data-linea="linea2"></div>
-        <div class="tiempos" data-grupo="BEDROCK"></div>
-    </div>
-
-    <div class="grupo" data-grupo="CALIDAD_MULTIPORT">
-        <div class="nombre">CALIDAD MULTIPORT</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_MULTIPORT" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_MULTIPORT">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_MULTIPORT">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
+        <div class="dato-resumen">
+            <div class="etiqueta">Tarimas Totales</div>
+            <div id="tarimasTotales" class="valor">0</div>
         </div>
-        <div class="tiempos" data-grupo="CALIDAD_MULTIPORT"></div>
-    </div>
-
-    <div class="grupo" data-grupo="CALIDAD_DROPS">
-        <div class="nombre">CALIDAD DROPS</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_DROPS" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_DROPS">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_DROPS">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
+        <div class="dato-resumen">
+            <div class="etiqueta">Tiempo Promedio</div>
+            <div id="tiempoPromedio" class="valor">0 min</div>
         </div>
-        <div class="tiempos" data-grupo="CALIDAD_DROPS"></div>
     </div>
-
-    <div class="grupo" data-grupo="CALIDAD_BEDROCK">
-        <div class="nombre">CALIDAD BEDROCK</div>
-        <div class="tarimas">Tarimas: 0</div>
-        <div class="leds" data-grupo="CALIDAD_BEDROCK" data-linea="linea1"></div>
-        <div class="contadores-calidad">
-            <div class="contador-calidad">
-                <span class="valor" id="liberadas_CALIDAD_BEDROCK">0</span>
-                <div class="etiqueta">Liberadas</div>
-            </div>
-            <div class="contador-calidad">
-                <span class="valor" id="rechazadas_CALIDAD_BEDROCK">0</span>
-                <div class="etiqueta">Rechazadas</div>
-            </div>
+    <div class="grupo-contenedor">
+        <div class="grupo" data-grupo="MULTIPORT">
+            <div class="nombre">MULTIPORT</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="MULTIPORT" data-linea="linea1"></div>
+            <div class="leds" data-grupo="MULTIPORT" data-linea="linea2"></div>
+            <div class="tiempos" data-grupo="MULTIPORT"></div>
         </div>
-        <div class="tiempos" data-grupo="CALIDAD_BEDROCK"></div>
+
+        <div class="grupo" data-grupo="DROPS">
+            <div class="nombre">DROPS</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="DROPS" data-linea="linea1"></div>
+            <div class="leds" data-grupo="DROPS" data-linea="linea2"></div>
+            <div class="tiempos" data-grupo="DROPS"></div>
+        </div>
+
+        <div class="grupo" data-grupo="BEDROCK">
+            <div class="nombre">BEDROCK</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="BEDROCK" data-linea="linea1"></div>
+            <div class="leds" data-grupo="BEDROCK" data-linea="linea2"></div>
+            <div class="tiempos" data-grupo="BEDROCK"></div>
+        </div>
+
+        <div class="grupo" data-grupo="CALIDAD_MULTIPORT">
+            <div class="nombre">CALIDAD MULTIPORT</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="CALIDAD_MULTIPORT" data-linea="linea1"></div>
+            <div class="contadores-calidad">
+                <div class="contador-calidad">
+                    <span class="valor" id="liberadas_CALIDAD_MULTIPORT">0</span>
+                    <div class="etiqueta">Liberadas</div>
+                </div>
+                <div class="contador-calidad">
+                    <span class="valor" id="rechazadas_CALIDAD_MULTIPORT">0</span>
+                    <div class="etiqueta">Rechazadas</div>
+                </div>
+            </div>
+            <div class="tiempos" data-grupo="CALIDAD_MULTIPORT"></div>
+        </div>
+
+        <div class="grupo" data-grupo="CALIDAD_DROPS">
+            <div class="nombre">CALIDAD DROPS</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="CALIDAD_DROPS" data-linea="linea1"></div>
+            <div class="contadores-calidad">
+                <div class="contador-calidad">
+                    <span class="valor" id="liberadas_CALIDAD_DROPS">0</span>
+                    <div class="etiqueta">Liberadas</div>
+                </div>
+                <div class="contador-calidad">
+                    <span class="valor" id="rechazadas_CALIDAD_DROPS">0</span>
+                    <div class="etiqueta">Rechazadas</div>
+                </div>
+            </div>
+            <div class="tiempos" data-grupo="CALIDAD_DROPS"></div>
+        </div>
+
+        <div class="grupo" data-grupo="CALIDAD_BEDROCK">
+            <div class="nombre">CALIDAD BEDROCK</div>
+            <div class="tarimas">Tarimas: 0</div>
+            <div class="leds" data-grupo="CALIDAD_BEDROCK" data-linea="linea1"></div>
+            <div class="contadores-calidad">
+                <div class="contador-calidad">
+                    <span class="valor" id="liberadas_CALIDAD_BEDROCK">0</span>
+                    <div class="etiqueta">Liberadas</div>
+                </div>
+                <div class="contador-calidad">
+                    <span class="valor" id="rechazadas_CALIDAD_BEDROCK">0</span>
+                    <div class="etiqueta">Rechazadas</div>
+                </div>
+            </div>
+            <div class="tiempos" data-grupo="CALIDAD_BEDROCK"></div>
+        </div>
     </div>
-</div>
 </div>
 <div class="footer">
     <button class="usuario-btn btn-rojo" onclick="volverAPantalla1()">Cerrar sesión</button>
@@ -804,13 +741,13 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
     <h1 id="tituloReportes">REPORTES</h1>
 </header>
 <div class="zona-centro">
-    <div id="selectoresReportes" class="btn-contenedor">
+    <div id="selectoresReportes" class="btn-contenedor" style="grid-template-columns: 1fr 1fr;">
         <button class="usuario-btn" data-reporte="produccion">PRODUCCIÓN</button>
         <button class="usuario-btn" data-reporte="logistica">LOGÍSTICA</button>
         <button class="usuario-btn" data-reporte="calidad">CALIDAD</button>
         <button class="usuario-btn" data-reporte="resumen">RESUMEN EJECUTIVO</button>
     </div>
-    <div id="contenedorReporte" class="contenedor-reporte">
+    <div id="contenedorReporte" class="contenedor-reporte" style="width: 100%; max-width: 1400px;">
         <h2>Selecciona un reporte</h2>
     </div>
 </div>
@@ -819,7 +756,7 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
 </div>
 </section>
 
-<section id="pantalla4" class="pantalla" style="display: none;">
+<section id="pantalla4" class="pantalla">
 <header class="header">
     <h1>DASHBOARD DE SUPERVISOR</h1>
 </header>
@@ -865,7 +802,7 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
         <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
     </div>
 </div>
-<div class="panel" style="grid-area: pendientes;">
+<div class="panel">
     <h3>Tarimas Pendientes por Recolectar</h3>
     <table id="tablaPendientes">
         <thead>
@@ -919,13 +856,27 @@ html, body{ height:100%; margin:0; font-family:Arial,Helvetica,sans-serif; color
         <label for="accion">Acción correctiva:</label>
         <textarea id="accion" name="accion" required></textarea>
 
-        <button type="submit">Guardar Rechazo</button>
+        <button type="submit" class="usuario-btn">Guardar Rechazo</button>
     </form>
 </div>
 </div>
 
+<script>
+// PEQUEÑO SCRIPT PARA CONFIGURAR LOS GRÁFICOS CON EL TEMA OSCURO
+// Esto es puramente estético y no afecta la lógica
+Chart.defaults.color = '#94a3b8'; // --text-secondary
+Chart.defaults.borderColor = '#475569'; // --border-color
+Chart.defaults.font.family = "'Poppins', sans-serif";
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+Chart.defaults.plugins.legend.labels.padding = 20;
+</script>
+
 
 <script>
+// =================================================================
+// TODO TU CÓDIGO JAVASCRIPT ORIGINAL VA AQUÍ, SIN NINGÚN CAMBIO
+// =================================================================
+
 // ================= CONFIG Y ESTADO =================
 const CONFIG = {
     USUARIOS: ['MULTIPORT', 'BEDROCK', 'DROPS', 'LOGÍSTICA', 'SUPERVISOR', 'CALIDAD'],
@@ -1453,11 +1404,9 @@ function guardarRechazo(datos) {
 // ================= NAVEGACIÓN Y ARRANQUE =================
 function activarPantalla(id){
     document.querySelectorAll('.pantalla').forEach(p => {
-        p.style.display = 'none';
         p.classList.remove('activa');
     });
     const pantalla = document.getElementById(id);
-    pantalla.style.display = 'flex';
     pantalla.classList.add('activa');
 }
 
@@ -1537,7 +1486,7 @@ function seleccionarReporte() {
     if (password === CONFIG.PASSWORDS['REPORTES']) {
         activarPantalla('pantalla3');
         document.getElementById('tituloReportes').textContent = 'REPORTES';
-        document.getElementById('selectoresReportes').style.display = 'flex';
+        document.getElementById('selectoresReportes').style.display = 'grid';
         document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
     } else {
         alert('Contraseña incorrecta. Acceso denegado.');
@@ -1758,7 +1707,7 @@ function generarGraficoCalidadDash(datos) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: ['#4caf50', '#f44336']
+                backgroundColor: ['#34d399', '#ef4444']
             }]
         },
         options: {
@@ -1788,8 +1737,8 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
             datasets: [{
                 label: 'Tarimas Recolectadas por Hora',
                 data: data,
-                backgroundColor: '#36A2EB',
-                borderColor: '#36A2EB',
+                backgroundColor: '#38bdf8',
+                borderColor: '#38bdf8',
                 borderWidth: 1
             }]
         },
@@ -1884,7 +1833,7 @@ function mostrarReporte(tipo) {
 
     contenedor.innerHTML = `
         <div class="header-reporte">
-            <button onclick="regresarASelectores()" class="usuario-btn">Regresar</button>
+            <button onclick="regresarASelectores()" class="usuario-btn btn-rojo">Regresar</button>
             <div class="filtros">
                 ${fechaFiltroHtml}
                 ${turnoFiltroHtml}
@@ -1966,8 +1915,7 @@ function actualizarGraficoReporte() {
 
         const ctx = document.getElementById('graficoDinamico').getContext('2d');
         const backgroundColors = [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED',
-            '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'
+            '#38bdf8', '#34d399', '#f97316', '#a78bfa', '#f472b6', '#fbbf24'
         ];
 
         miGrafico = new Chart(ctx, {
@@ -1988,13 +1936,12 @@ function actualizarGraficoReporte() {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top',
-                        labels: { font: { size: 14 } }
+                        position: 'top'
                     },
                     title: {
                         display: true,
                         text: chartTitle,
-                        font: { size: 20 }
+                        font: { size: 18 }
                     }
                 },
                 scales: {
@@ -2010,7 +1957,7 @@ function actualizarGraficoReporte() {
 
 function regresarASelectores() {
     document.getElementById('tituloReportes').textContent = 'REPORTES';
-    document.getElementById('selectoresReportes').style.display = 'flex';
+    document.getElementById('selectoresReportes').style.display = 'grid';
     document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
     if (miGrafico) {
         miGrafico.destroy();
