@@ -311,6 +311,7 @@ html, body {
   align-items: center;
   margin-bottom: 10px;
 }
+/* === MEJORA LED === */
 .led {
   width: var(--led-size);
   height: var(--led-size);
@@ -319,6 +320,13 @@ html, body {
   background: radial-gradient(circle at 45% 40%, var(--led-off-core) 40%, var(--led-off-edge) 100%);
   border: 2px solid var(--led-off-edge);
   transition: all .2s ease;
+  /* Flexbox para centrar el texto del contador */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-dark);
+  line-height: 1;
 }
 .led:active { transform: scale(.96); }
 .led.on {
@@ -327,6 +335,17 @@ html, body {
   border-color: var(--accent-green);
   animation: blink var(--blink-duration) ease-in-out infinite;
 }
+/* Estilos para el texto del contador */
+.led .tiempo-transcurrido b {
+    font-size: 18px;
+    font-weight: 700;
+}
+.led .tiempo-transcurrido small {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
 .led.naranja {
   background: radial-gradient(circle at 48% 45%, #FBBF24 40%, var(--accent-orange) 100%);
   box-shadow: 0 0 22px var(--glow-orange);
@@ -1108,8 +1127,6 @@ let miGrafico;
 let graficosDashboard = {};
 let dashboardUpdateInterval;
 
-const temporizadores = {};
-
 
 // ================= FIREBASE =================
 const firebaseConfig = {
@@ -1255,27 +1272,27 @@ function inyectaLEDs(){
     });
 }
 
-function iniciarContadorTiempo(idLed, horaEncendido) {
-    if (temporizadores[idLed]) {
-        clearInterval(temporizadores[idLed]);
-    }
-    
-    const ledBoton = document.getElementById(idLed);
-    const spanTiempo = ledBoton ? ledBoton.querySelector('.tiempo-transcurrido') : null;
-
-    if (!spanTiempo) return;
-
-    const actualizarTiempo = () => {
-        const ahora = new Date();
-        const tiempoTranscurridoMs = ahora - new Date(horaEncendido);
-        const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
-        spanTiempo.innerHTML = `<b>${minutosTranscurridos} min</b>`;
-    };
-
-    actualizarTiempo();
-    const intervalo = setInterval(actualizarTiempo, 10000);
-    temporizadores[idLed] = intervalo;
+// === MEJORA: Función global para actualizar todos los contadores a la vez ===
+function actualizarTodosLosContadores() {
+    document.querySelectorAll('.led.on').forEach(led => {
+        const horaEncendido = led.dataset.horaEncendido;
+        if (horaEncendido) {
+            const tiempoTranscurridoMs = new Date() - new Date(horaEncendido);
+            const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
+            
+            let spanTiempo = led.querySelector('.tiempo-transcurrido');
+            if (!spanTiempo) {
+                spanTiempo = document.createElement('span');
+                spanTiempo.className = 'tiempo-transcurrido';
+                led.appendChild(spanTiempo);
+            }
+            
+            // Formato de dos líneas
+            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
+        }
+    });
 }
+
 
 function pintarEstado() {
     db.ref('estadoLEDs').on('value', snapshot => {
@@ -1288,59 +1305,42 @@ function pintarEstado() {
                 const ledsEstado = estados[grupoLeds][linea];
                 contenedor.querySelectorAll('.led').forEach((led, index) => {
                     led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
+                    led.removeAttribute('data-hora-encendido'); // Limpiar el atributo
                     
                     if (ledsEstado[index]) {
                         if (grupoLeds.startsWith('CALIDAD_') && ledsEstado[index].color) {
                             led.classList.add(ledsEstado[index].color);
-                            if (temporizadores[led.id]) {
-                                clearInterval(temporizadores[led.id]);
-                                delete temporizadores[led.id];
-                            }
-                            const spanTiempo = led.querySelector('.tiempo-transcurrido');
-                            if (spanTiempo) {
-                                spanTiempo.remove();
-                            }
                             led.innerHTML = '';
                         } else if (ledsEstado[index].encendido) {
                             led.classList.add('on');
                             const horaInicio = ledsEstado[index].horaEncendido || ledsEstado[index].timestamp;
                             
+                            // === MEJORA: Guardamos la hora de inicio en el elemento para el actualizador global ===
+                            led.dataset.horaEncendido = horaInicio;
+
                             let spanTiempo = led.querySelector('.tiempo-transcurrido');
                             if (!spanTiempo) {
                                 spanTiempo = document.createElement('span');
-                                spanTiempo.classList.add('tiempo-transcurrido');
+                                spanTiempo.className = 'tiempo-transcurrido';
                                 led.appendChild(spanTiempo);
                             }
                             
                             const tiempoTranscurridoMs = new Date() - new Date(horaInicio);
                             const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
-                            spanTiempo.innerHTML = `<b>${minutosTranscurridos} min</b>`;
                             
-                            if (!temporizadores[led.id]) {
-                                iniciarContadorTiempo(led.id, horaInicio);
-                            }
+                            // === MEJORA: Formato de dos líneas para la carga inicial ===
+                            spanTiempo.innerHTML = `<b>${minutosTranscurridos}</b><small>min</small>`;
                         } else {
-                            if (temporizadores[led.id]) {
-                                clearInterval(temporizadores[led.id]);
-                                delete temporizadores[led.id];
-                            }
                             led.innerHTML = '';
                         }
                     } else {
-                         if (temporizadores[led.id]) {
-                                clearInterval(temporizadores[led.id]);
-                                delete temporizadores[led.id];
-                        }
                         led.innerHTML = '';
                     }
                 });
             } else {
                 contenedor.querySelectorAll('.led').forEach(led => {
                     led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
-                    if (temporizadores[led.id]) {
-                        clearInterval(temporizadores[led.id]);
-                        delete temporizadores[led.id];
-                    }
+                    led.removeAttribute('data-hora-encendido');
                     led.innerHTML = '';
                 });
             }
@@ -1538,7 +1538,7 @@ async function togglearLED(grupo, idx, linea = 'linea1') {
                         encendido: true,
                         timestamp: new Date().toISOString(),
                         usuario: usuarioSeleccionado,
-                        horaEncendido: firebase.database.ServerValue.TIMESTAMP,
+                        horaEncendido: new Date().toISOString(), // Usar hora del cliente para consistencia inmediata
                     });
                     
                     const log = {
@@ -2497,6 +2497,9 @@ window.addEventListener('load', ()=>{
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').then(reg => console.log("✅ Service Worker registrado:", reg)).catch(err => console.error("❌ Error al registrar Service Worker:", err));
     }
+    
+    // === MEJORA: Iniciar el actualizador de contadores global ===
+    setInterval(actualizarTodosLosContadores, 10000); // Actualiza cada 10 segundos
 });
 </script>
 </body>
