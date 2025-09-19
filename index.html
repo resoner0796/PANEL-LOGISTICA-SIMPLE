@@ -38,7 +38,7 @@
   --led-size: 50px;
   --led-gap: 16px;
   --led-off-core: #2d3748;
-  --led-off-edge: #1a20c;
+  --led-off-edge: #1a202c;
   --glow-green: rgba(16, 185, 129, 0.7);
   --glow-red: rgba(239, 68, 68, 0.7);
   --glow-orange: rgba(245, 158, 11, 0.7);
@@ -77,8 +77,8 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(22px, 3vw, 28px);
-  font-weight: normal;
+  font-size: clamp(22px, 3vw, 28px); 
+  font-weight: normal; 
   text-align: center;
   width: 100%;
   letter-spacing: 2px;
@@ -424,51 +424,25 @@ html, body {
 }
 
 /* ================= PANTALLA 3: REPORTES ================= */
-/* <<< CORRECCIÓN: Estilos base del tema oscuro restaurados */
+/* <<< ESTILOS RESTAURADOS Y CORREGIDOS */
 #pantalla3 {
+  background-color: #f4f7f9;
+  color: var(--text-dark);
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+  overflow-y: auto;
 }
 #pantalla3 .zona-centro {
   margin-top: 0;
 }
-#pantalla3 .header-reporte {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-#pantalla3 .header-reporte .filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-#pantalla3 .resumen-datos {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-#pantalla3 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-/* <<< CORRECCIÓN: Overrides específicos y correctos para el TEMA CLARO */
-#pantalla3 {
-  background-color: #f4f7f9;
+#pantalla3 .brand-title {
   color: var(--text-dark);
 }
-#pantalla3 .brand-title,
-#pantalla3 .header h1,
-#pantalla3 .header-reporte h2 {
+#pantalla3 .header h1 {
+  font-size: 2.5rem;
   color: var(--text-dark);
+  margin-bottom: 20px;
 }
 #pantalla3 .contenedor-reporte {
   background-color: #ffffff;
@@ -481,14 +455,36 @@ html, body {
   max-width: 1400px;
   margin-top: 20px;
 }
+#pantalla3 .header-reporte {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+#pantalla3 .header-reporte h2 {
+  color: var(--text-dark);
+  margin: 0;
+}
+#pantalla3 .header-reporte .filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
 #pantalla3 .header-reporte .filtros label { 
+  font-size: 14px;
   color: #64748b; 
 }
 #pantalla3 .header-reporte .filtros input,
 #pantalla3 .header-reporte .filtros select {
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
   background-color: #ffffff;
   color: var(--text-dark);
   border: 1px solid #cbd5e1;
+  font-size: 14px;
 }
 #pantalla3 .header-reporte .filtros input:focus,
 #pantalla3 .header-reporte .filtros select:focus {
@@ -496,10 +492,16 @@ html, body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
   outline: none;
 }
+#pantalla3 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 #pantalla3 th, #pantalla3 td {
   border-bottom: 1px solid #e2e8f0;
   padding: 12px;
   text-align: left;
+  font-size: 14px;
 }
 #pantalla3 thead {
   background-color: #f1f5f9;
@@ -508,6 +510,13 @@ html, body {
 }
 #pantalla3 tbody tr:hover { 
   background-color: #f8fafc; 
+}
+#pantalla3 .resumen-datos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 #pantalla3 .dato {
   background-color: #f8fafc;
@@ -519,14 +528,14 @@ html, body {
   min-width: 150px;
 }
 #pantalla3 .dato .valor {
-  color: var(--accent-blue);
   font-size: 24px;
   font-weight: 700;
+  color: var(--accent-blue);
 }
 #pantalla3 .dato .etiqueta {
-  color: #64748b;
   font-size: 12px;
   text-transform: uppercase;
+  color: #64748b;
 }
 #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
     background-color: #f1f5f9;
@@ -1880,7 +1889,6 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
     });
 }
 
-// ================= FUNCIONES DE REPORTE =================
 function mostrarReporte(tipo) {
     reporteActual = tipo;
     document.getElementById('selectoresReportes').style.display = 'none';
@@ -2334,7 +2342,6 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
 
     doc.save(`${nombreArchivo}.pdf`);
 }
-// ==========================================================
 
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
