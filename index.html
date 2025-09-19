@@ -82,7 +82,7 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(22px, 3vw, 28px);
+  font-size: clamp(40px, 3vw, 28px);
   font-weight: normal;
   text-align: center;
   width: 100%;
@@ -666,6 +666,7 @@ html, body {
 }
 #pantalla4 > * {
   width: 100%; /* Asegurar que los hijos directos ocupen el ancho */
+  max-width: 1400px; /* Mantenemos un ancho máximo para pantallas grandes */
 }
 #pantalla4 .header { text-align: center; }
 #pantalla4 .filtros-dashboard {
@@ -787,6 +788,106 @@ html, body {
 
 @media (min-width: 769px) {
   .reporte-calidad-mobile { display: none; }
+}
+
+/* === MEJORA: Media Queries para Móvil en Horizontal (Landscape) === */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    /* Ajustes generales para ahorrar espacio vertical */
+    .pantalla {
+        padding: 10px;
+        gap: 10px;
+        justify-content: center;
+    }
+    .brand-title {
+        margin-top: 5px;
+        margin-bottom: 0;
+        font-size: 18px !important;
+    }
+    .footer {
+        padding: 10px 0 0;
+        display: none; /* Ocultar footer para dar más espacio al contenido principal */
+    }
+
+    /* Pantalla 1: Login */
+    #pantalla1 h1 {
+        font-size: 28px !important;
+        margin-bottom: 15px;
+    }
+    .login-columns-container {
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+    }
+    .login-column {
+        gap: 10px;
+    }
+    .usuario-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    /* Pantalla 2: Panel Principal */
+    #tituloFijo {
+        font-size: 32px !important;
+    }
+    #turnoActual {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    .zona-centro {
+        margin-top: 5px;
+        gap: 15px;
+    }
+    .grupo-contenedor {
+        flex-wrap: nowrap; /* CLAVE: Evita que los grupos se envuelvan */
+        gap: 15px;
+    }
+    .grupo {
+        padding: 15px;
+        min-width: 180px; /* Permitir que se encojan un poco más */
+    }
+    .grupo .nombre {
+        font-size: 16px !important;
+    }
+    .grupo .tarimas {
+        font-size: 12px !important;
+        margin-bottom: 10px;
+    }
+    .leds {
+        gap: 8px;
+    }
+    .led {
+        --led-size: 38px; /* Hacer los LEDs más pequeños */
+    }
+    .led .tiempo-transcurrido b {
+        font-size: 14px;
+    }
+    .led .tiempo-transcurrido small {
+        font-size: 8px;
+    }
+
+    /* Pantalla 4: Dashboard */
+    #pantalla4 {
+        justify-content: flex-start; /* Alinear al inicio para permitir scroll */
+    }
+    #pantalla4 .header h1 {
+        font-size: 22px;
+    }
+    #pantalla4 .kpi-card {
+        padding: 10px;
+    }
+    #pantalla4 .kpi-card h3 {
+        font-size: 0.7rem;
+    }
+    #pantalla4 .kpi-card .valor {
+        font-size: 1.8rem;
+    }
+    #pantalla4 .panel {
+        padding: 15px;
+    }
+    #pantalla4 .panel div[style*="height"] {
+        height: 220px !important; /* Reducir altura de contenedores de gráficos */
+    }
 }
 </style>
 </head>
@@ -943,6 +1044,7 @@ html, body {
     </div>
 </section>
 
+<!-- === MEJORA: HTML del Dashboard reorganizado === -->
 <section id="pantalla4" class="pantalla" style="display: none;">
     <p class="brand-title">CORNING</p>
     <header class="header">
@@ -977,6 +1079,7 @@ html, body {
         </div>
     </div>
 
+    <!-- Bloque de Pendientes movido aquí arriba -->
     <div class="panel">
         <h3>Tarimas Pendientes por Recolectar</h3>
         <table id="tablaPendientes">
@@ -990,6 +1093,7 @@ html, body {
         </table>
     </div>
 
+    <!-- Fila con 2 gráficos -->
     <div class="charts-row">
         <div class="panel">
             <h3>Producción por Área</h3>
@@ -1001,6 +1105,7 @@ html, body {
         </div>
     </div>
 
+    <!-- Fila con 1 gráfico grande -->
     <div class="panel">
         <h3>Evolución Tiempos de Recolección</h3>
         <div style="position: relative; height: 300px;"><canvas id="graficoLogisticaDash"></canvas></div>
@@ -1117,8 +1222,6 @@ let graficosDashboard = {};
 let dashboardUpdateInterval;
 
 
-// ================= FIREBASE =================
-// ================= FIREBASE =================
 // ================= FIREBASE =================
 const firebaseConfig = {
   apiKey: "AIzaSyDahnSPvBNTYot00JCn5CBjggAYFVGhbjE",
