@@ -33,7 +33,7 @@
   --accent-green: #10B981;  /* Verde Esmeralda (Éxito, Liberado) */
   --accent-red: #EF4444;    /* Rojo (Peligro, Rechazado) */
   --accent-orange: #F59E0B; /* Ámbar (Advertencia, En Proceso) */
-
+  
   /* Estilos de LED */
   --led-size: 50px;
   --led-gap: 16px;
@@ -49,8 +49,8 @@
   --titulo-size: clamp(36px, 6vw, 72px);
 
   /* Otros */
-  --border-radius-md: 12px;
-  --border-radius-sm: 8px;
+  --border-radius-md: 16px; /* Aumentamos el radio para un look más moderno */
+  --border-radius-sm: 10px;
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
@@ -63,6 +63,10 @@ html, body {
   font-family: var(--font-family);
   color: var(--text-light);
   background-color: var(--bg-dark);
+  /* Fondo degradado para que el efecto glass se aprecie mejor */
+  background-image: 
+    radial-gradient(at 47% 33%, hsl(225, 39%, 30%) 0, transparent 59%), 
+    radial-gradient(at 82% 65%, hsl(253, 16%, 7%) 0, transparent 55%);
 }
 
 .pantalla {
@@ -102,9 +106,9 @@ html, body {
   gap: 15px;
 }
 .splash-logo-container {
-  border-radius: 25px; /* <<< CAMBIO: Bordes redondeados */
+  border-radius: 25px;
   margin: 20px 0;
-  padding: 15px; /* Espacio para que el efecto de cristal rodee la imagen */
+  padding: 15px;
   /* Efecto Glassmorphism */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
@@ -116,7 +120,7 @@ html, body {
   width: 150px;
   height: auto;
   display: block;
-  border-radius: 15px; /* <<< CAMBIO: Bordes de la imagen redondeados */
+  border-radius: 15px;
 }
 .splash-loading {
   font-size: 1.2rem;
@@ -127,17 +131,9 @@ html, body {
   animation: blink-dot 1.4s infinite;
   opacity: 0;
 }
-.splash-loading .dot:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.splash-loading .dot:nth-child(3) {
-  animation-delay: 0.4s;
-}
-@keyframes blink-dot {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
+.splash-loading .dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-loading .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink-dot { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
 #pantalla1 {
@@ -145,9 +141,7 @@ html, body {
   justify-content: center;
   gap: 24px;
 }
-#pantalla1 .brand-header {
-  text-align: center;
-}
+#pantalla1 .brand-header { text-align: center; }
 #pantalla1 h1 {
   margin: 0;
   font-size: clamp(32px, 5vw, 48px);
@@ -169,9 +163,7 @@ html, body {
   flex: 1;
   min-width: 250px;
 }
-.login-column .usuario-btn {
-  width: 100%;
-}
+.login-column .usuario-btn { width: 100%; }
 .btn-contenedor {
   display: flex;
   flex-wrap: wrap;
@@ -179,29 +171,31 @@ html, body {
   gap: 16px;
   max-width: 800px;
 }
+/* === BOTÓN ESTILO GLASS === */
 .usuario-btn {
-  background-color: var(--accent-blue);
+  background: rgba(59, 130, 246, 0.25); /* Color base con transparencia */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--text-light);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 14px 28px;
   border-radius: var(--border-radius-sm);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color .2s ease, transform .2s ease;
+  transition: background .2s ease, transform .2s ease;
   box-shadow: var(--shadow-md);
 }
 .usuario-btn:hover {
-  background-color: var(--accent-blue-hover);
+  background: rgba(59, 130, 246, 0.4); /* Aumentar opacidad en hover */
   transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
-.btn-rojo { background-color: var(--accent-red); }
-.btn-rojo:hover { background-color: #d03030; }
+.btn-rojo { background: rgba(239, 68, 68, 0.25); }
+.btn-rojo:hover { background: rgba(239, 68, 68, 0.4); }
 
 /* ================= PANTALLA 2: PANEL PRINCIPAL ================= */
-#pantalla2 {
-  gap: 10px;
-}
+#pantalla2 { gap: 10px; }
 .header {
   position: relative;
   display: flex;
@@ -224,10 +218,13 @@ html, body {
   transform: translateY(-50%);
   font-size: 1rem;
   font-weight: 600;
-  background-color: var(--bg-medium);
   padding: 8px 16px;
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--bg-light);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .zona-centro {
   flex: 1;
@@ -238,16 +235,20 @@ html, body {
   gap: 24px;
   margin-top: 20px;
 }
+/* === CARD ESTILO GLASS === */
 .resumen-turno {
   display: flex;
   justify-content: center;
   gap: 40px;
-  background-color: var(--bg-medium);
-  border-radius: var(--border-radius-md);
   padding: 20px 40px;
-  border: 1px solid var(--bg-light);
   width: 100%;
   max-width: 700px;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .resumen-turno.oculto { display: none; }
 .dato-resumen { text-align: center; }
@@ -271,18 +272,22 @@ html, body {
   max-width: 1400px;
   justify-content: center;
 }
+/* === CARD ESTILO GLASS === */
 .grupo {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: var(--bg-medium);
-  border-radius: var(--border-radius-md);
   padding: 24px;
-  border: 1px solid var(--bg-light);
   flex-grow: 1;
   min-width: 300px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .grupo:hover {
   transform: translateY(-5px);
@@ -347,7 +352,7 @@ html, body {
   width: 100%;
   max-height: 150px;
   overflow-y: auto;
-  background-color: var(--bg-dark);
+  background-color: rgba(17, 24, 39, 0.5); /* --bg-dark con transparencia */
   padding: 10px;
   border-radius: var(--border-radius-sm);
 }
@@ -366,19 +371,18 @@ html, body {
 .footer { width: 100%; display: flex; justify-content: center; padding: 20px 0 0; }
 .footer .usuario-btn { padding: 10px 20px; font-size: 16px; }
 
-@keyframes blink {
-  50% { box-shadow: 0 0 35px var(--glow-green); }
-}
+@keyframes blink { 50% { box-shadow: 0 0 35px var(--glow-green); } }
 
-/* ================= MODALES ================= */
+/* ================= MODALES ESTILO GLASS ================= */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo del overlay */
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -388,15 +392,19 @@ html, body {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .modal.visible { visibility: visible; opacity: 1; }
+/* === MODAL ESTILO GLASS === */
 .modal-content {
-  background-color: var(--bg-medium);
   padding: 30px;
-  border-radius: var(--border-radius-md);
   text-align: center;
   width: 90%;
   max-width: 500px;
-  border: 1px solid var(--bg-light);
   box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.7); /* Mayor opacidad para legibilidad */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .modal-content h3 {
   margin-top: 0;
@@ -415,47 +423,55 @@ html, body {
   padding: 15px 25px;
   font-size: 18px;
   font-weight: 600;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  transition: filter 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
-.opcion-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
-.opcion-btn[data-color="naranja"] { background-color: var(--accent-orange); }
-.opcion-btn[data-color="rojo"] { background-color: var(--accent-red); }
-.opcion-btn[data-color="verde"] { background-color: var(--accent-green); }
+.opcion-btn:hover { transform: scale(1.02); }
+.opcion-btn[data-color="naranja"] { background: rgba(245, 158, 11, 0.3); }
+.opcion-btn[data-color="naranja"]:hover { background: rgba(245, 158, 11, 0.5); }
+.opcion-btn[data-color="rojo"] { background: rgba(239, 68, 68, 0.3); }
+.opcion-btn[data-color="rojo"]:hover { background: rgba(239, 68, 68, 0.5); }
+.opcion-btn[data-color="verde"] { background: rgba(16, 185, 129, 0.3); }
+.opcion-btn[data-color="verde"]:hover { background: rgba(16, 185, 129, 0.5); }
 
 .cerrar-btn {
-  background-color: var(--bg-light);
+  background: rgba(55, 65, 81, 0.4); /* --bg-light con transparencia */
   color: var(--text-light);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 10px 20px;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-weight: 600;
+  backdrop-filter: blur(5px);
 }
-.cerrar-btn:hover { background-color: #4B5563; }
+.cerrar-btn:hover { background: rgba(75, 85, 99, 0.6); }
 
 /* Modal de Rechazo */
 #modalRechazo .modal-content {
   text-align: left;
-  max-height: 85vh;
+  max-height: 85vh; 
   overflow-y: auto;
 }
 #modalRechazo form { display: flex; flex-direction: column; gap: 15px; }
 #modalRechazo label { font-size: 14px; margin-bottom: 5px; display: block; color: var(--text-medium); }
-#modalRechazo input, #modalRechazo textarea {
+/* === INPUTS ESTILO GLASS === */
+#modalRechazo input, #modalRechazo textarea, .modal-prompt-input {
   width: 100%;
   padding: 12px;
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--bg-light);
-  background-color: var(--bg-dark);
   color: var(--text-light);
   font-size: 16px;
   font-family: var(--font-family);
+  /* Efecto Glass */
+  background: rgba(17, 24, 39, 0.5); /* --bg-dark con transparencia */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-#modalRechazo input:focus, #modalRechazo textarea:focus {
+#modalRechazo input:focus, #modalRechazo textarea:focus, .modal-prompt-input:focus {
     outline: none;
     border-color: var(--accent-blue);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
@@ -475,49 +491,37 @@ html, body {
   gap: 15px;
   margin-top: 20px;
 }
-.modal-prompt-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--bg-light);
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-  font-size: 16px;
-  font-family: var(--font-family);
-  margin-bottom: 20px;
-}
-.modal-prompt-input:focus {
-  outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-}
 
 /* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
 #pantalla3 {
   background-color: #f4f7f9;
+  /* Fondo degradado suave para tema claro */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(210, 40%, 98%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(200, 50%, 90%, 1) 0, transparent 50%);
   color: var(--text-dark);
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
 }
-#pantalla3 .zona-centro {
-  margin-top: 0;
-}
+#pantalla3 .zona-centro { margin-top: 0; }
 #pantalla3 .brand-title,
 #pantalla3 .header h1,
-#pantalla3 .header-reporte h2 {
-  color: var(--text-dark);
-}
+#pantalla3 .header-reporte h2 { color: var(--text-dark); }
+/* === CARD ESTILO GLASS (TEMA CLARO) === */
 #pantalla3 .contenedor-reporte {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
   box-shadow: var(--shadow-lg);
   color: var(--text-dark);
-  border-radius: var(--border-radius-md);
   padding: 20px;
   width: 100%;
   max-width: 1400px;
   margin-top: 20px;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background-color: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 #pantalla3 .header-reporte {
   display: flex;
@@ -533,15 +537,12 @@ html, body {
   gap: 10px;
   align-items: center;
 }
-#pantalla3 .header-reporte .filtros label {
-  font-size: 14px;
-  color: #64748b;
-}
+#pantalla3 .header-reporte .filtros label { font-size: 14px; color: #64748b; }
 #pantalla3 .header-reporte .filtros input,
 #pantalla3 .header-reporte .filtros select {
   padding: 8px;
   border-radius: var(--border-radius-sm);
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.5); /* Sutilmente transparente */
   color: var(--text-dark);
   border: 1px solid #cbd5e1;
   font-size: 14px;
@@ -552,6 +553,21 @@ html, body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
   outline: none;
 }
+/* Estilo de botones para tema claro */
+#pantalla3 .usuario-btn {
+    color: var(--text-dark);
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+#pantalla3 .usuario-btn:hover { background: rgba(59, 130, 246, 0.25); }
+#pantalla3 .btn-rojo {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+#pantalla3 .btn-rojo:hover { background: rgba(239, 68, 68, 0.25); }
+
 #pantalla3 table {
   width: 100%;
   border-collapse: collapse;
@@ -565,13 +581,11 @@ html, body {
   text-align: left;
 }
 #pantalla3 thead {
-  background-color: #f1f5f9;
+  background-color: rgba(241, 245, 249, 0.7); /* Semi-transparente */
   color: #334155;
   font-weight: 600;
 }
-#pantalla3 tbody tr:hover {
-  background-color: #f8fafc;
-}
+#pantalla3 tbody tr:hover { background-color: rgba(248, 250, 252, 0.8); }
 #pantalla3 .resumen-datos {
   display: flex;
   flex-wrap: wrap;
@@ -580,7 +594,7 @@ html, body {
   margin-bottom: 20px;
 }
 #pantalla3 .dato {
-  background-color: #f8fafc;
+  background-color: rgba(248, 250, 252, 0.7);
   border: 1px solid #e2e8f0;
   box-shadow: var(--shadow-md);
   padding: 15px;
@@ -608,18 +622,12 @@ html, body {
 
 /* ================= PANTALLA 4: DASHBOARD ================= */
 #pantalla4 {
-  background-color: var(--bg-dark);
+  background-color: transparent; /* Usar el fondo del body */
   color: var(--text-light);
   padding: 20px;
   display: grid;
   grid-template-areas:
-    "brand"
-    "header"
-    "filtros"
-    "kpis"
-    "graficos"
-    "pendientes"
-    "footer";
+    "brand" "header" "filtros" "kpis" "graficos" "pendientes" "footer";
   gap: 10px;
   align-content: start;
   overflow-y: auto;
@@ -640,8 +648,8 @@ html, body {
 #pantalla4 .filtros-dashboard select {
   padding: 8px;
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--bg-light);
-  background-color: var(--bg-medium);
+  background-color: rgba(31, 41, 55, 0.5); /* --bg-medium con transparencia */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-light);
 }
 #pantalla4 .kpis-grid {
@@ -650,13 +658,17 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
+/* === CARD ESTILO GLASS === */
 #pantalla4 .kpi-card {
-  background-color: var(--bg-medium);
-  border-radius: var(--border-radius-md);
   padding: 25px;
   text-align: center;
-  border: 1px solid var(--bg-light);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--border-radius-md);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 #pantalla4 .kpi-card:hover {
     transform: translateY(-5px);
@@ -683,16 +695,18 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
+/* === PANEL ESTILO GLASS === */
 #pantalla4 .panel {
   grid-area: pendientes;
-  background-color: var(--bg-medium);
   padding: 20px;
   border-radius: var(--border-radius-md);
-  border: 1px solid var(--bg-light);
+  /* Efecto Glass */
+  background: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-#pantalla4 .graficos-container .panel {
-    grid-area: unset;
-}
+#pantalla4 .graficos-container .panel { grid-area: unset; }
 #pantalla4 .panel h3 {
   text-align: center;
   margin-top: 0;
@@ -706,11 +720,11 @@ html, body {
 }
 #pantalla4 #tablaPendientes th, #pantalla4 #tablaPendientes td {
   padding: 12px;
-  border-bottom: 1px solid var(--bg-light);
+  border-bottom: 1px solid rgba(55, 65, 81, 0.5); /* --bg-light con transparencia */
   text-align: left;
 }
-#pantalla4 #tablaPendientes thead { background-color: var(--bg-light); }
-#pantalla4 #tablaPendientes tbody tr:hover { background-color: #4B5563; }
+#pantalla4 #tablaPendientes thead { background-color: rgba(55, 65, 81, 0.4); }
+#pantalla4 #tablaPendientes tbody tr:hover { background-color: rgba(75, 85, 99, 0.4); }
 #pantalla4 .footer { grid-area: footer; }
 
 
@@ -718,12 +732,12 @@ html, body {
 @media (max-width: 768px) {
   .header { justify-content: center; text-align: center; }
   #turnoActual { position: static; transform: none; margin-top: 10px; }
-
+  
   #pantalla3 table { display: none; }
   .reporte-calidad-mobile { display: block; }
-
+  
   #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
-    background-color: #f1f5f9;
+    background-color: rgba(241, 245, 249, 0.8);
     padding: 10px;
     border-radius: var(--border-radius-sm);
     margin-bottom: 10px;
@@ -749,43 +763,26 @@ html, body {
   #pantalla4 {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "brand brand"
-      "header header"
-      "filtros filtros"
-      "kpis kpis"
-      "graficos graficos"
-      "pendientes pendientes"
-      "footer footer";
+      "brand brand" "header header" "filtros filtros"
+      "kpis kpis" "graficos graficos" "pendientes pendientes" "footer footer";
   }
-  #pantalla4 .graficos-container {
-      grid-template-columns: 1fr 1fr;
-  }
-  .graficos-container > *:nth-child(3) {
-      grid-column: span 2;
-  }
+  #pantalla4 .graficos-container { grid-template-columns: 1fr 1fr; }
+  .graficos-container > *:nth-child(3) { grid-column: span 2; }
 }
 @media (min-width: 1200px) {
   #pantalla4 {
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
-      "brand brand brand brand"
-      "header header header header"
-      "filtros filtros filtros filtros"
-      "kpis kpis kpis kpis"
-      "graficos graficos pendientes pendientes"
-      "footer footer footer footer";
+      "brand brand brand brand" "header header header header" "filtros filtros filtros filtros"
+      "kpis kpis kpis kpis" "graficos graficos pendientes pendientes" "footer footer footer footer";
   }
    #pantalla4 .graficos-container {
     grid-area: graficos;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, auto);
   }
-  .graficos-container > * {
-    grid-column: span 1 !important;
-  }
-  #pantalla4 .panel {
-      grid-area: pendientes;
-  }
+  .graficos-container > * { grid-column: span 1 !important; }
+  #pantalla4 .panel { grid-area: pendientes; }
 }
 </style>
 </head>
@@ -1126,7 +1123,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const db = database;
+const db = database; 
 const ledRef = database.ref('estadoLEDs');
 let historialRef;
 let contadoresCalidadRef;
@@ -1143,7 +1140,7 @@ const customAlert = (message, title = "Notificación") => {
         modal.classList.add('visible');
 
         const okButton = document.getElementById('modalAlertOk');
-
+        
         const closeListener = () => {
             modal.classList.remove('visible');
             okButton.removeEventListener('click', closeListener);
@@ -1187,7 +1184,7 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
         document.getElementById('modalPromptMessage').textContent = message;
         input.value = '';
         modal.classList.add('visible');
-
+        
         setTimeout(() => {
             input.focus();
         }, 50);
@@ -1205,7 +1202,7 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
 
         const okListener = () => resolveListener(input.value);
         const cancelListener = () => resolveListener(null);
-
+        
         const enterListener = (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -1244,10 +1241,10 @@ function inyectaLEDs(){
     document.querySelectorAll('.grupo:not(.oculto) .leds').forEach(contenedor => {
         const grupoLeds = contenedor.dataset.grupo;
         const linea = contenedor.dataset.linea;
-
+        
         const ledsPorLinea = 5;
         contenedor.innerHTML = '';
-
+        
         for(let i = 0; i < ledsPorLinea; i++){
             const led = document.createElement('div');
             led.className = 'led';
@@ -1262,7 +1259,7 @@ function iniciarContadorTiempo(idLed, horaEncendido) {
     if (temporizadores[idLed]) {
         clearInterval(temporizadores[idLed]);
     }
-
+    
     const ledBoton = document.getElementById(idLed);
     const spanTiempo = ledBoton ? ledBoton.querySelector('.tiempo-transcurrido') : null;
 
@@ -1291,7 +1288,7 @@ function pintarEstado() {
                 const ledsEstado = estados[grupoLeds][linea];
                 contenedor.querySelectorAll('.led').forEach((led, index) => {
                     led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
-
+                    
                     if (ledsEstado[index]) {
                         if (grupoLeds.startsWith('CALIDAD_') && ledsEstado[index].color) {
                             led.classList.add(ledsEstado[index].color);
@@ -1307,18 +1304,18 @@ function pintarEstado() {
                         } else if (ledsEstado[index].encendido) {
                             led.classList.add('on');
                             const horaInicio = ledsEstado[index].horaEncendido || ledsEstado[index].timestamp;
-
+                            
                             let spanTiempo = led.querySelector('.tiempo-transcurrido');
                             if (!spanTiempo) {
                                 spanTiempo = document.createElement('span');
                                 spanTiempo.classList.add('tiempo-transcurrido');
                                 led.appendChild(spanTiempo);
                             }
-
+                            
                             const tiempoTranscurridoMs = new Date() - new Date(horaInicio);
                             const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
                             spanTiempo.innerHTML = `<b>${minutosTranscurridos} min</b>`;
-
+                            
                             if (!temporizadores[led.id]) {
                                 iniciarContadorTiempo(led.id, horaInicio);
                             }
@@ -1350,7 +1347,7 @@ function pintarEstado() {
         });
     });
 }
-
+ 
 function formatoHora(isoString) {
     if (!isoString) return 'N/A';
     const date = new Date(isoString);
@@ -1367,7 +1364,7 @@ function obtenerTurnoActual() {
     let turno;
     if ((hora > 6 || (hora === 6 && minutos >= 30)) && (hora < 18 || (hora === 18 && minutos < 30))) {
         turno = 'Turno 1';
-    }
+    } 
     else {
         turno = 'Turno 2';
         if (hora < 6 || (hora === 6 && minutos < 30)) {
@@ -1389,7 +1386,7 @@ function iniciarListenersFirebase() {
     if (historialRef) historialRef.off();
     if (contadoresCalidadRef) contadoresCalidadRef.off();
     if (rechazosDetalladosRef) rechazosDetalladosRef.off();
-
+   
     historialRef = database.ref(`historialLogs/${fecha}/${turno}`);
     contadoresCalidadRef = database.ref(`contadoresCalidad/${fecha}/${turno}`);
     rechazosDetalladosRef = database.ref(`rechazosDetallados/${fecha}/${turno}`);
@@ -1423,7 +1420,7 @@ function iniciarListenersFirebase() {
             resumenTurnoDiv.classList.remove('oculto');
         } else {
             resumenTurnoDiv.classList.add('oculto');
-        }
+        }   
 
         document.querySelector('.grupo[data-grupo="MULTIPORT"] .tarimas').textContent = `Tarimas: ${contadores.MULTIPORT}`;
         document.querySelector('.grupo[data-grupo="BEDROCK"] .tarimas').textContent = `Tarimas: ${contadores.BEDROCK}`;
@@ -1451,7 +1448,7 @@ function iniciarListenersFirebase() {
         const gruposCalidad = ['CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
         gruposCalidad.forEach(grupo => {
             const liberadas = contadores[grupo] ? contadores[grupo].liberadas || 0 : 0;
-            const rechazadas = contadores[grupo] ? contadores[grupo].rechazadas || 0 : 0;
+            const rechazadas = contadores[grupo] ? contadores[grupo].rechazadas || 0 : 0;        
             const liberadasSpan = document.getElementById(`liberadas_${grupo}`);
             const rechazadasSpan = document.getElementById(`rechazadas_${grupo}`);
             if (liberadasSpan) liberadasSpan.textContent = liberadas;
@@ -1476,7 +1473,7 @@ async function togglearLED(grupo, idx, linea = 'linea1') {
                 if(estadoActual.color === 'verde') {
                     return customAlert('Este LED ya está liberado y no puede ser modificado por Calidad.', 'Acción no permitida');
                 }
-                mostrarOpcionesCalidad(grupo, idx, linea);
+                mostrarOpcionesCalidad(grupo, idx, linea); 
             } else if (esUsuarioProduccion() && usuarioSeleccionado === grupoBaseCalidad) {
                 if (estadoActual.color === 'verde') {
                     const confirmado = await customConfirm('¿Está seguro de que la tarima ha sido liberada y retirada?', 'Confirmar Retiro');
@@ -1503,12 +1500,12 @@ async function togglearLED(grupo, idx, linea = 'linea1') {
     } else { // Grupos de Producción
         ledRef.once('value', async (snapshot) => {
             const estadoActual = snapshot.val() || {};
-
+            
             if (usuarioSeleccionado === 'LOGÍSTICA') {
                 if (estadoActual.encendido) {
                     const confirmado = await customConfirm('¿Confirma que la tarima ha sido recolectada?', 'Confirmar Recolección');
                     if (!confirmado) return;
-
+                    
                     const horaInicio = estadoActual.horaEncendido || estadoActual.timestamp;
                     const tiempoRecoleccion = (new Date() - new Date(horaInicio)) / 60000;
 
@@ -1517,7 +1514,7 @@ async function togglearLED(grupo, idx, linea = 'linea1') {
                         horaEncendido: null,
                         usuario: usuarioSeleccionado,
                     });
-
+                    
                     const log = {
                         usuario: usuarioSeleccionado,
                         grupo: grupo,
@@ -1543,7 +1540,7 @@ async function togglearLED(grupo, idx, linea = 'linea1') {
                         usuario: usuarioSeleccionado,
                         horaEncendido: firebase.database.ServerValue.TIMESTAMP,
                     });
-
+                    
                     const log = {
                         usuario: usuarioSeleccionado,
                         grupo: grupo,
@@ -1642,7 +1639,7 @@ function activarPantalla(id){
 
 function volverAPantalla1(){
     usuarioSeleccionado = null;
-    db.ref('estadoLEDs').off();
+    db.ref('estadoLEDs').off(); 
     if (historialRef) historialRef.off();
     if (contadoresCalidadRef) contadoresCalidadRef.off();
     if (rechazosDetalladosRef) rechazosDetalladosRef.off();
@@ -1652,7 +1649,7 @@ function volverAPantalla1(){
 
 async function seleccionarUsuario(usuario) {
     if (!CONFIG.USUARIOS.includes(usuario)) return;
-
+    
     let password;
     if (usuario === 'CALIDAD') {
         password = await customPrompt('Introduce la contraseña para CALIDAD:');
@@ -1664,7 +1661,7 @@ async function seleccionarUsuario(usuario) {
 
     let loginSuccess = false;
     let welcomeMessage = '';
-
+    
     if (usuario === 'SUPERVISOR' && password === CONFIG.PASSWORDS['SUPERVISOR']) {
         loginSuccess = true;
         usuarioSeleccionado = 'SUPERVISOR';
@@ -1675,7 +1672,7 @@ async function seleccionarUsuario(usuario) {
         if (password === CONFIG.PASSWORDS['CALIDAD_MULTIPORT']) subusuario = 'CALIDAD_MULTIPORT';
         else if (password === CONFIG.PASSWORDS['CALIDAD_DROPS']) subusuario = 'CALIDAD_DROPS';
         else if (password === CONFIG.PASSWORDS['CALIDAD_BEDROCK']) subusuario = 'CALIDAD_BEDROCK';
-
+        
         if (subusuario) {
             loginSuccess = true;
             usuarioSeleccionado = subusuario;
@@ -1735,9 +1732,9 @@ function iniciarDashboard() {
     const { fecha, turno } = obtenerTurnoActual();
     document.getElementById('fechaDashboard').value = fecha;
     document.getElementById('turnoDashboardSelect').value = 'todos';
-
+    
     setupDashboardListeners(fecha, turno);
-
+    
     document.getElementById('fechaDashboard').addEventListener('change', () => {
         setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
     });
@@ -1749,7 +1746,7 @@ function iniciarDashboard() {
 
 function setupDashboardListeners(fecha, turno) {
     limpiarDashboardListeners();
-
+    
     const historialRefDash = db.ref(`historialLogs/${fecha}`);
     const calidadRefDash = db.ref(`contadoresCalidad/${fecha}`);
     const ledsRefDash = db.ref('estadoLEDs');
@@ -1785,7 +1782,7 @@ function setupDashboardListeners(fecha, turno) {
         actualizarDashboard(null, 'calidad', contadoresFiltrados, null);
     });
     dashboardListeners.push({ off: () => calidadRefDash.off('value', calidadListener) });
-
+    
     const ledsListener = ledsRefDash.on('value', snapshot => {
         const leds = snapshot.val() || {};
         actualizarDashboard(null, 'leds', null, leds);
@@ -1800,41 +1797,41 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
         const tarimasPorHora = {};
         let tarimasRecolectadas = 0;
         let tiempoTotalRecoleccion = 0;
-
+        
         for (const logKey in historialLogs) {
             const log = historialLogs[logKey];
-
+            
             if (filtroArea === 'TODAS' || log.grupo === filtroArea) {
                 if (log.accion === 'encendido' && produccionPorArea.hasOwnProperty(log.grupo)) {
                     produccionPorArea[log.grupo]++;
                 } else if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'BEDROCK', 'DROPS'].includes(log.grupo)) {
                     tarimasRecolectadas++;
                     tiempoTotalRecoleccion += log.tiempoRecoleccion;
-
+                    
                     const horaApagado = new Date(log.horaApagado);
                     const horaRedondeada = horaApagado.getHours();
                     tarimasPorHora[horaRedondeada] = (tarimasPorHora[horaRedondeada] || 0) + 1;
                 }
             }
         }
-
+        
         const tiempoPromedio = tarimasRecolectadas > 0 ? (tiempoTotalRecoleccion / tarimasRecolectadas).toFixed(1) : 0;
-
+        
         document.getElementById('dashTarimasConfirmadas').textContent = Object.values(produccionPorArea).reduce((a, b) => a + b, 0);
         document.getElementById('dashTarimasRecolectadas').textContent = tarimasRecolectadas;
         document.getElementById('dashTiempoPromedio').textContent = `${tiempoPromedio} min`;
-
+        
         const kpiTiempoPromedio = document.getElementById('kpiTiempoPromedio');
         if (tiempoPromedio > 10) {
             kpiTiempoPromedio.classList.add('alerta');
         } else {
             kpiTiempoPromedio.classList.remove('alerta');
         }
-
+        
         generarGraficoProduccionDash(produccionPorArea);
         generarGraficoLogisticaDash(tarimasPorHora);
     }
-
+    
     if (tipo === 'calidad') {
         let liberadas = 0;
         let rechazadas = 0;
@@ -1844,7 +1841,7 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
         }
         const totalCalidad = liberadas + rechazadas;
         const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
-
+        
         document.getElementById('dashTasaRechazo').textContent = `${tasaRechazo}%`;
 
         const kpiTasaRechazo = document.getElementById('kpiTasaRechazo');
@@ -1858,7 +1855,7 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
 
     if (tipo === 'leds') {
         const pendientesPorArea = {};
-
+        
         CONFIG.PRODUCCION_GRUPOS.forEach(grupo => {
             pendientesPorArea[grupo] = 0;
             if (estadoLEDs.hasOwnProperty(grupo)) {
@@ -1871,7 +1868,7 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
                 }
             }
         });
-
+        
         const tablaPendientesBody = document.querySelector('#tablaPendientes tbody');
         tablaPendientesBody.innerHTML = '';
         for (const area in pendientesPorArea) {
@@ -1944,7 +1941,7 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
         graficosDashboard.logistica.destroy();
     }
     const ctx = document.getElementById('graficoLogisticaDash').getContext('2d');
-
+    
     const horasOrdenadas = Object.keys(tarimasPorHora).sort((a, b) => a - b);
     const labels = horasOrdenadas.map(hora => `${hora}:00 - ${parseInt(hora) + 1}:00`);
     const data = horasOrdenadas.map(hora => tarimasPorHora[hora] || 0);
@@ -1952,7 +1949,7 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
     graficosDashboard.logistica = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: labels, 
             datasets: [{
                 label: 'Tarimas Recolectadas por Hora',
                 data: data,
@@ -2061,7 +2058,7 @@ function mostrarReporte(tipo) {
 function actualizarGraficoReporte() {
     const tipoGraficoSeleccionado = document.getElementById('tipoGrafico').value;
     const contenedorGrafico = document.querySelector('#grafico-contenedor');
-
+    
     if (contenedorGrafico) {
         contenedorGrafico.innerHTML = '<canvas id="graficoDinamico"></canvas>';
     }
@@ -2149,9 +2146,9 @@ function cargarDatosReporte(tipo, fecha, turno, area, empleado) {
     const contenedor = document.getElementById('contenidoReporte');
     const tituloReporte = document.getElementById('tituloReporteDinamico');
     contenedor.innerHTML = '<p>Cargando datos...</p>';
-
+    
     if (miGrafico) miGrafico.destroy();
-
+    
     const refHistorial = db.ref(`historialLogs`);
     const refCalidad = db.ref(`contadoresCalidad`);
     const refRechazos = db.ref(`rechazosDetallados`);
@@ -2162,7 +2159,7 @@ function cargarDatosReporte(tipo, fecha, turno, area, empleado) {
         refRechazos.once('value').then(s => s.val())
     ]).then(([historial, calidad, rechazos]) => {
         const datosCompletos = { historial, calidad, rechazos };
-
+        
         if (tipo === 'calidad') {
             tituloReporte.textContent = `Reporte de Calidad - ${fecha}`;
             procesarReporteCalidad(datosCompletos, contenedor, fecha, turno, area, empleado);
@@ -2185,7 +2182,7 @@ function cargarDatosReporte(tipo, fecha, turno, area, empleado) {
 
 function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado) {
     let rechazosFiltrados = [];
-
+    
     for (const fechaKey in datos.rechazos) {
         if (fecha !== fechaKey) continue;
         for (const turnoKey in datos.rechazos[fechaKey]) {
@@ -2201,14 +2198,14 @@ function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado)
             }
         }
     }
-
+    
     datosFiltradosReporte = rechazosFiltrados;
 
     const conteoProblemas = {};
     rechazosFiltrados.forEach(r => { conteoProblemas[r.problema || 'Desconocido'] = (conteoProblemas[r.problema || 'Desconocido'] || 0) + 1; });
 
     const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${rechazosFiltrados.length}</div><div class="etiqueta">Tarimas Rechazadas</div></div><div class="dato"><div class="valor">${Object.keys(conteoProblemas).length}</div><div class="etiqueta">Problemas Identificados</div></div></div>`;
-
+    
     let tablaHtml = `<table><thead><tr><th>Fecha</th><th>Hora</th><th>Área</th><th>Línea</th><th>Empleado</th><th>No. de Parte</th><th>Descripción de la Parte</th><th>Descripción del Problema</th><th>Causa Raíz</th><th>Acción Correctiva</th></tr></thead><tbody>`;
     rechazosFiltrados.forEach(r => {
         const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
@@ -2233,7 +2230,7 @@ function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado)
 function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
     let logsProduccion = [];
     const conteo = { MULTIPORT: 0, DROPS: 0, BEDROCK: 0 };
-
+    
     for (const fechaKey in datos.historial) {
         if (fecha !== fechaKey) continue;
         for (const turnoKey in datos.historial[fechaKey]) {
@@ -2249,7 +2246,7 @@ function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
             }
         }
     }
-
+    
     datosFiltradosReporte = logsProduccion;
 
     const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsProduccion.length}</div><div class="etiqueta">Tarimas Confirmadas</div></div></div>`;
@@ -2258,7 +2255,7 @@ function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
     let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Hora de Confirmación</th><th>Usuario</th></tr></thead><tbody>`;
     logsProduccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${formatoHora(log.timestamp)}</td><td>${log.usuario}</td></tr>`; });
     tablaHtml += `</tbody></table>`;
-
+    
     let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
     logsProduccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span><span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span><span class="valor">${log.led}</span><br><span class="etiqueta">Hora:</span><span class="valor">${formatoHora(log.timestamp)}</span><br><span class="etiqueta">Usuario:</span><span class="valor">${log.usuario}</span></div>`; });
     tablaMovilHtml += `</div></div>`;
@@ -2271,7 +2268,7 @@ function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
 function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
     let logsRecoleccion = [];
     let tiempoTotal = 0;
-
+    
     for (const fechaKey in datos.historial) {
         if (fecha !== fechaKey) continue;
         for (const turnoKey in datos.historial[fechaKey]) {
@@ -2289,16 +2286,16 @@ function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
     }
 
     datosFiltradosReporte = logsRecoleccion;
-
+    
     const tiempoPromedio = logsRecoleccion.length > 0 ? (tiempoTotal / logsRecoleccion.length).toFixed(1) : 0;
-
+    
     const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsRecoleccion.length}</div><div class="etiqueta">Tarimas Recolectadas</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">Tiempo Promedio</div></div></div>`;
     const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
 
     let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Tiempo de Recolección (min)</th><th>Hora de Encendido</th><th>Hora de Apagado</th></tr></thead><tbody>`;
     logsRecoleccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${log.tiempoRecoleccion}</td><td>${formatoHora(log.horaEncendido)}</td><td>${formatoHora(log.horaApagado)}</td></tr>`; });
     tablaHtml += `</tbody></table>`;
-
+    
     let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
     logsRecoleccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br><span class="etiqueta">Tiempo:</span> <span class="valor">${log.tiempoRecoleccion} min</span><br><span class="etiqueta">Hora de Recolección:</span> <span class="valor">${formatoHora(log.horaApagado)}</span></div>`; });
     tablaMovilHtml += `</div></div>`;
@@ -2311,7 +2308,7 @@ function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
 function procesarReporteResumen(datos, contenedor, fecha, turno) {
     const areas = ['MULTIPORT', 'DROPS', 'BEDROCK'];
     const resumen = {};
-
+    
     areas.forEach(area => { resumen[area] = { produccion: 0, liberadas: 0, rechazadas: 0, tiempoLogistica: { total: 0, count: 0, promedio: 0 } }; });
 
     for (const fechaKey in datos.historial) {
@@ -2440,10 +2437,10 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
     firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
-
+    
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
-            iniciarListenersFirebase();
+            iniciarListenersFirebase(); 
         }
     });
 
@@ -2455,7 +2452,7 @@ window.addEventListener('load', ()=>{
             activarPantalla('pantalla1');
         }, { once: true });
     }, 3000);
-
+    
     const modalCalidad = document.getElementById('modalCalidad');
     modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => modalCalidad.classList.remove('visible'));
     modalCalidad.querySelectorAll('.opcion-btn').forEach(btn => {
@@ -2472,7 +2469,7 @@ window.addEventListener('load', ()=>{
 
     const modalRechazo = document.getElementById('modalRechazo');
     const formRechazo = document.getElementById('formularioRechazo');
-
+    
     formRechazo.addEventListener('submit', (e) => {
         e.preventDefault();
         const datos = {
