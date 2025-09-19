@@ -77,8 +77,8 @@ html, body {
 .brand-title {
   font-family: 'Times New Roman', Times, serif;
   color: white;
-  font-size: clamp(22px, 3vw, 28px); 
-  font-weight: normal; 
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: normal;
   text-align: center;
   width: 100%;
   letter-spacing: 2px;
@@ -423,7 +423,7 @@ html, body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
-/* ================= PANTALLA 3: REPORTES ================= */
+/* ================= PANTALLA 3: REPORTES (TEMA CLARO) ================= */
 /* <<< ESTILOS RESTAURADOS Y CORREGIDOS */
 #pantalla3 {
   background-color: #f4f7f9;
@@ -431,18 +431,14 @@ html, body {
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
-  overflow-y: auto;
 }
 #pantalla3 .zona-centro {
   margin-top: 0;
 }
-#pantalla3 .brand-title {
+#pantalla3 .brand-title,
+#pantalla3 .header h1,
+#pantalla3 .header-reporte h2 {
   color: var(--text-dark);
-}
-#pantalla3 .header h1 {
-  font-size: 2.5rem;
-  color: var(--text-dark);
-  margin-bottom: 20px;
 }
 #pantalla3 .contenedor-reporte {
   background-color: #ffffff;
@@ -462,10 +458,6 @@ html, body {
   gap: 15px;
   justify-content: space-between;
   margin-bottom: 20px;
-}
-#pantalla3 .header-reporte h2 {
-  color: var(--text-dark);
-  margin: 0;
 }
 #pantalla3 .header-reporte .filtros {
   display: flex;
@@ -496,12 +488,13 @@ html, body {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  color: var(--text-dark);
+  display: table;
 }
 #pantalla3 th, #pantalla3 td {
   border-bottom: 1px solid #e2e8f0;
   padding: 12px;
   text-align: left;
-  font-size: 14px;
 }
 #pantalla3 thead {
   background-color: #f1f5f9;
@@ -537,13 +530,8 @@ html, body {
   text-transform: uppercase;
   color: #64748b;
 }
-#pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
-    background-color: #f1f5f9;
-    color: var(--text-dark);
-}
-#pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
-    color: #64748b;
-}
+
+.reporte-calidad-mobile { display: none; }
 
 
 /* ================= PANTALLA 4: DASHBOARD ================= */
@@ -654,11 +642,35 @@ html, body {
 #pantalla4 .footer { grid-area: footer; }
 
 
+/* ================= MEDIA QUERIES RESPONSIVE ================= */
 @media (max-width: 768px) {
   .header { justify-content: center; text-align: center; }
   #turnoActual { position: static; transform: none; margin-top: 10px; }
-  .reporte-calidad-mobile { display: block; }
+  
   #pantalla3 table { display: none; }
+  .reporte-calidad-mobile { display: block; }
+  
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
+    background-color: #f1f5f9;
+    padding: 10px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 10px;
+    color: var(--text-dark);
+  }
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .etiqueta {
+    font-weight: bold;
+    color: #64748b;
+    display: block;
+    font-size: 12px;
+  }
+  #pantalla3 .reporte-calidad-mobile .tabla-calidad-movil .valor {
+    color: var(--text-dark);
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  .reporte-calidad-mobile { display: none; }
 }
 
 @media (min-width: 992px) {
@@ -1889,6 +1901,7 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
     });
 }
 
+// ================= FUNCIONES DE REPORTE =================
 function mostrarReporte(tipo) {
     reporteActual = tipo;
     document.getElementById('selectoresReportes').style.display = 'none';
