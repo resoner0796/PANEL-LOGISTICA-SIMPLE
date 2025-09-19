@@ -101,10 +101,23 @@ html, body {
   align-items: center;
   gap: 15px;
 }
+.splash-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
 .splash-logo {
   width: 150px;
   height: auto;
-  margin: 20px 0;
 }
 .splash-loading {
   font-size: 1.2rem;
@@ -125,6 +138,7 @@ html, body {
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
 }
+
 
 /* ================= PANTALLA 1: SELECCIÓN DE USUARIO ================= */
 #pantalla1 {
@@ -158,6 +172,13 @@ html, body {
 }
 .login-column .usuario-btn {
   width: 100%;
+}
+.btn-contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  max-width: 800px;
 }
 .usuario-btn {
   background-color: var(--accent-blue);
@@ -775,7 +796,9 @@ html, body {
 <section id="splashScreen" class="pantalla activa">
     <div class="splash-content">
         <p class="brand-title">CORNING</p>
-        <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
+        <div class="splash-logo-container">
+            <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
+        </div>
         <p class="splash-loading">Cargando<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
     </div>
 </section>
@@ -985,7 +1008,6 @@ html, body {
     </div>
 </section>
 
-<!-- ========== MODALES ========== -->
 <div id="modalCalidad" class="modal">
 <div class="modal-content">
     <h3>Selecciona el estado de la tarima:</h3>
@@ -997,32 +1019,24 @@ html, body {
     <button class="cerrar-btn">Cerrar</button>
 </div>
 </div>
-
 <div id="modalRechazo" class="modal">
 <div class="modal-content">
     <h3>Detalles del Rechazo</h3>
     <form id="formularioRechazo">
         <label for="empleado">Empleado Originador:</label>
         <input type="text" id="empleado" name="empleado" required>
-        
         <label for="linea">Línea afectada:</label>
         <input type="text" id="linea" name="linea" required>
-
         <label for="parte">No. de parte:</label>
         <input type="text" id="parte" name="parte" required>
-
         <label for="descripcionParte">Descripción del No. de parte:</label>
         <input type="text" id="descripcionParte" name="descripcionParte" required>
-
         <label for="problema">Descripción del problema:</label>
         <textarea id="problema" name="problema" required></textarea>
-
         <label for="causa">Causa raíz del problema:</label>
         <textarea id="causa" name="causa" required></textarea>
-
         <label for="accion">Acción correctiva:</label>
         <textarea id="accion" name="accion" required></textarea>
-        
         <div class="modal-buttons">
             <button type="button" id="cancelRechazo" class="usuario-btn btn-rojo">Cancelar</button>
             <button type="submit" class="usuario-btn">Guardar Rechazo</button>
@@ -1030,8 +1044,6 @@ html, body {
     </form>
 </div>
 </div>
-
-<!-- ---- MODALES GENÉRICOS ---- -->
 <div id="modalAlert" class="modal">
     <div class="modal-content">
         <h3 id="modalAlertTitle">Notificación</h3>
@@ -1041,7 +1053,6 @@ html, body {
         </div>
     </div>
 </div>
-
 <div id="modalConfirm" class="modal">
     <div class="modal-content">
         <h3 id="modalConfirmTitle">Confirmación</h3>
@@ -1052,7 +1063,6 @@ html, body {
         </div>
     </div>
 </div>
-
 <div id="modalPrompt" class="modal">
     <div class="modal-content">
         <h3 id="modalPromptTitle">Introducir Datos</h3>
@@ -1064,9 +1074,6 @@ html, body {
         </div>
     </div>
 </div>
-<!-- --------------------------------- -->
-
-
 <script>
 // =================================================================================================
 // ================================ INICIO DEL CÓDIGO JAVASCRIPT ================================
@@ -1402,7 +1409,9 @@ function iniciarListenersFirebase() {
                     contadores[log.grupo]++;
                 } else if (log.accion === 'apagado' && log.tiempoRecoleccion) {
                     const grupoBase = log.grupo;
-                    tiempos[grupoBase].push(log);
+                    if(tiempos[grupoBase]) {
+                        tiempos[grupoBase].push(log);
+                    }
                     tarimasTotales++;
                     tiempoTotalRecoleccion += log.tiempoRecoleccion;
                 }
