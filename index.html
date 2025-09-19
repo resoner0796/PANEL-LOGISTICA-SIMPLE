@@ -102,22 +102,21 @@ html, body {
   gap: 15px;
 }
 .splash-logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
+  border-radius: 25px; /* <<< CAMBIO: Bordes redondeados */
   margin: 20px 0;
+  padding: 15px; /* Espacio para que el efecto de cristal rodee la imagen */
+  /* Efecto Glassmorphism */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Para Safari */
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 .splash-logo {
   width: 150px;
   height: auto;
+  display: block;
+  border-radius: 15px; /* <<< CAMBIO: Bordes de la imagen redondeados */
 }
 .splash-loading {
   font-size: 1.2rem;
@@ -790,14 +789,13 @@ html, body {
 }
 </style>
 </head>
-
 <body>
 
 <section id="splashScreen" class="pantalla activa">
     <div class="splash-content">
         <p class="brand-title">CORNING</p>
         <div class="splash-logo-container">
-            <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
+             <img src="iconolog-512.PNG" alt="Logo de Logística" class="splash-logo">
         </div>
         <p class="splash-loading">Cargando<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
     </div>
