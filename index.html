@@ -115,20 +115,25 @@ html, body {
   gap: 24px;
 }
 .header {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* <<< CAMBIO: Centra el contenido principal */
   padding: 0 10px;
   width: 100%;
   flex-wrap: wrap;
 }
 #tituloFijo {
   font-weight: 700;
-  text-align: left;
+  text-align: center;
   font-size: var(--titulo-size);
   color: var(--text-light);
 }
 #turnoActual {
+  position: absolute; /* <<< CAMBIO: Posiciona absolutamente para no afectar el centrado del título */
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1rem;
   font-weight: 600;
   background-color: var(--bg-medium);
@@ -277,7 +282,7 @@ html, body {
 }
 
 /* ================= MODALES ================= */
-.modal-calidad {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -293,7 +298,7 @@ html, body {
   opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.modal-calidad.visible { visibility: visible; opacity: 1; }
+.modal.visible { visibility: visible; opacity: 1; }
 .modal-content {
   background-color: var(--bg-medium);
   padding: 30px;
@@ -309,6 +314,8 @@ html, body {
   font-size: 22px;
   margin-bottom: 25px;
 }
+
+/* Modal Calidad */
 .opciones {
   display: flex;
   flex-direction: column;
@@ -372,6 +379,37 @@ html, body {
   transition: background-color 0.3s ease;
 }
 #modalRechazo button[type="submit"]:hover { background-color: var(--accent-blue-hover); }
+
+/* ---- NUEVOS MODALES GENÉRICOS ---- */
+.modal-generic-message {
+  font-size: 16px;
+  color: var(--text-medium);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.modal-prompt-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--bg-light);
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-size: 16px;
+  font-family: var(--font-family);
+  margin-bottom: 20px;
+}
+.modal-prompt-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+/* ------------------------------------ */
+
 
 /* ================= PANTALLA 3: REPORTES ================= */
 #pantalla3 {
@@ -485,6 +523,7 @@ html, body {
 .reporte-calidad-mobile { display: none; }
 @media (max-width: 768px) {
   .header { justify-content: center; text-align: center; }
+  #turnoActual { position: static; transform: none; margin-top: 10px; }
   #pantalla3 table { display: none; }
   .reporte-calidad-mobile { display: block; }
   .reporte-calidad-mobile .tabla-calidad-movil .fila-dato {
@@ -850,7 +889,7 @@ html, body {
 </div>
 </section>
 
-<div id="modalCalidad" class="modal-calidad">
+<div id="modalCalidad" class="modal modal-calidad">
 <div class="modal-content">
     <h3>Selecciona el estado de la tarima:</h3>
     <div class="opciones">
@@ -862,7 +901,7 @@ html, body {
 </div>
 </div>
 
-<div id="modalRechazo" class="modal-calidad">
+<div id="modalRechazo" class="modal modal-calidad">
 <div class="modal-content">
     <h3>Detalles del Rechazo</h3>
     <form id="formularioRechazo">
@@ -892,7 +931,38 @@ html, body {
 </div>
 </div>
 
+<div id="modalAlert" class="modal">
+    <div class="modal-content">
+        <h3 id="modalAlertTitle">Notificación</h3>
+        <p id="modalAlertMessage" class="modal-generic-message"></p>
+        <div class="modal-buttons">
+            <button id="modalAlertOk" class="usuario-btn">OK</button>
+        </div>
+    </div>
+</div>
 
+<div id="modalConfirm" class="modal">
+    <div class="modal-content">
+        <h3 id="modalConfirmTitle">Confirmación</h3>
+        <p id="modalConfirmMessage" class="modal-generic-message"></p>
+        <div class="modal-buttons">
+            <button id="modalConfirmCancel" class="usuario-btn btn-rojo">Cancelar</button>
+            <button id="modalConfirmOk" class="usuario-btn">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalPrompt" class="modal">
+    <div class="modal-content">
+        <h3 id="modalPromptTitle">Introducir Datos</h3>
+        <p id="modalPromptMessage" class="modal-generic-message"></p>
+        <input type="password" id="modalPromptInput" class="modal-prompt-input" />
+        <div class="modal-buttons">
+            <button id="modalPromptCancel" class="usuario-btn btn-rojo">Cancelar</button>
+            <button id="modalPromptOk" class="usuario-btn">Aceptar</button>
+        </div>
+    </div>
+</div>
 <script>
 // ================= CONFIG Y ESTADO =================
 const CONFIG = {
@@ -950,6 +1020,88 @@ let contadoresCalidadRef;
 let rechazosDetalladosRef;
 let dashboardListeners = [];
 
+
+// ======================= MODALES PERSONALIZADOS =======================
+const customAlert = (message, title = "Notificación") => {
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalAlert');
+        document.getElementById('modalAlertTitle').textContent = title;
+        document.getElementById('modalAlertMessage').textContent = message;
+        modal.classList.add('visible');
+
+        const okButton = document.getElementById('modalAlertOk');
+        
+        const closeListener = () => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', closeListener);
+            resolve();
+        };
+
+        okButton.addEventListener('click', closeListener);
+    });
+};
+
+const customConfirm = (message, title = "Confirmación") => {
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalConfirm');
+        document.getElementById('modalConfirmTitle').textContent = title;
+        document.getElementById('modalConfirmMessage').textContent = message;
+        modal.classList.add('visible');
+
+        const okButton = document.getElementById('modalConfirmOk');
+        const cancelButton = document.getElementById('modalConfirmCancel');
+
+        const resolveListener = (value) => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', confirmListener);
+            cancelButton.removeEventListener('click', cancelListener);
+            resolve(value);
+        };
+
+        const confirmListener = () => resolveListener(true);
+        const cancelListener = () => resolveListener(false);
+
+        okButton.addEventListener('click', confirmListener);
+        cancelButton.addEventListener('click', cancelListener);
+    });
+};
+
+const customPrompt = (message, title = "Introducir Contraseña") => {
+    return new Promise(resolve => {
+        const modal = document.getElementById('modalPrompt');
+        const input = document.getElementById('modalPromptInput');
+        document.getElementById('modalPromptTitle').textContent = title;
+        document.getElementById('modalPromptMessage').textContent = message;
+        input.value = '';
+        modal.classList.add('visible');
+        input.focus();
+
+        const okButton = document.getElementById('modalPromptOk');
+        const cancelButton = document.getElementById('modalPromptCancel');
+
+        const resolveListener = (value) => {
+            modal.classList.remove('visible');
+            okButton.removeEventListener('click', okListener);
+            cancelButton.removeEventListener('click', cancelListener);
+            document.removeEventListener('keydown', enterListener);
+            resolve(value);
+        };
+
+        const okListener = () => resolveListener(input.value);
+        const cancelListener = () => resolveListener(null);
+        const enterListener = (e) => {
+            if (e.key === 'Enter') {
+                okListener();
+            }
+        };
+
+        okButton.addEventListener('click', okListener);
+        cancelButton.addEventListener('click', cancelListener);
+        document.addEventListener('keydown', enterListener);
+    });
+};
+// ======================================================================
+
 // ================= FUNCIONES DE RENDER =================
 function inyectaLEDs(){
     document.querySelectorAll('.grupo').forEach(grupoDiv => {
@@ -989,18 +1141,15 @@ function inyectaLEDs(){
 }
 
 function iniciarContadorTiempo(idLed, horaEncendido) {
-    // Limpia el temporizador anterior si existe
     if (temporizadores[idLed]) {
         clearInterval(temporizadores[idLed]);
     }
     
-    // Busca el span del tiempo dentro del LED
     const ledBoton = document.getElementById(idLed);
     const spanTiempo = ledBoton ? ledBoton.querySelector('.tiempo-transcurrido') : null;
 
     if (!spanTiempo) return;
 
-    // Función que calcula y actualiza el tiempo
     const actualizarTiempo = () => {
         const ahora = new Date();
         const tiempoTranscurridoMs = ahora - new Date(horaEncendido);
@@ -1008,13 +1157,8 @@ function iniciarContadorTiempo(idLed, horaEncendido) {
         spanTiempo.innerHTML = `<b>${minutosTranscurridos} min</b>`;
     };
 
-    // Llama a la función de actualización por primera vez
     actualizarTiempo();
-
-    // Inicia el contador para que se actualice cada 60 segundos (1 minuto)
     const intervalo = setInterval(actualizarTiempo, 10000);
-
-    // Guarda la referencia al intervalo
     temporizadores[idLed] = intervalo;
 }
 
@@ -1031,45 +1175,36 @@ function pintarEstado() {
                     led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
                     
                     if (ledsEstado[index]) {
-                        // Lógica para LEDs de Calidad
                         if (grupoLeds.startsWith('CALIDAD_') && ledsEstado[index].color) {
                             led.classList.add(ledsEstado[index].color);
-                            // Limpia el contador si existe y borra el texto del LED
                             if (temporizadores[led.id]) {
                                 clearInterval(temporizadores[led.id]);
                                 delete temporizadores[led.id];
                             }
-                            // Asegura que no haya un span de tiempo
                             const spanTiempo = led.querySelector('.tiempo-transcurrido');
                             if (spanTiempo) {
                                 spanTiempo.remove();
                             }
                             led.innerHTML = '';
                         } else if (ledsEstado[index].encendido) {
-                            // Lógica para LEDs de Producción
                             led.classList.add('on');
                             const horaInicio = ledsEstado[index].horaEncendido || ledsEstado[index].timestamp;
                             
-                            // Aseguramos que el span del tiempo exista.
                             let spanTiempo = led.querySelector('.tiempo-transcurrido');
                             if (!spanTiempo) {
-                                // Si no existe, lo creamos.
                                 spanTiempo = document.createElement('span');
                                 spanTiempo.classList.add('tiempo-transcurrido');
                                 led.appendChild(spanTiempo);
                             }
                             
-                            // Calcula el tiempo inicial y actualiza el span
                             const tiempoTranscurridoMs = new Date() - new Date(horaInicio);
                             const minutosTranscurridos = Math.floor(tiempoTranscurridoMs / (1000 * 60));
                             spanTiempo.innerHTML = `<b>${minutosTranscurridos} min</b>`;
                             
-                            // Si el contador no ha sido iniciado, lo iniciamos ahora.
                             if (!temporizadores[led.id]) {
                                 iniciarContadorTiempo(led.id, horaInicio);
                             }
                         } else {
-                            // Limpieza cuando el LED está apagado
                             if (temporizadores[led.id]) {
                                 clearInterval(temporizadores[led.id]);
                                 delete temporizadores[led.id];
@@ -1077,7 +1212,6 @@ function pintarEstado() {
                             led.innerHTML = '';
                         }
                     } else {
-                         // Si el estado no existe en la DB, también limpiamos
                          if (temporizadores[led.id]) {
                                 clearInterval(temporizadores[led.id]);
                                 delete temporizadores[led.id];
@@ -1088,7 +1222,6 @@ function pintarEstado() {
             } else {
                 contenedor.querySelectorAll('.led').forEach(led => {
                     led.classList.remove('on', 'naranja', 'rojo', 'verde', 'disabled');
-                    // Limpieza general para leds que no tienen estado
                     if (temporizadores[led.id]) {
                         clearInterval(temporizadores[led.id]);
                         delete temporizadores[led.id];
@@ -1104,7 +1237,7 @@ function actualizarTiemposLEDs() {
     document.querySelectorAll('.led-linea .led.on').forEach(led => {
         const horaEncendido = led.dataset.horaEncendido;
         if (horaEncendido) {
-            const tiempoTranscurrido = (new Date() - new Date(horaEncendido)) / 1000; // En segundos
+            const tiempoTranscurrido = (new Date() - new Date(horaEncendido)) / 1000;
             const minutos = Math.floor(tiempoTranscurrido / 60);
             const segundos = Math.floor(tiempoTranscurrido % 60);
             led.querySelector('.tiempo-led').textContent = `${minutos}m ${segundos}s`;
@@ -1128,11 +1261,9 @@ function obtenerTurnoActual() {
     let fecha = new Date(ahora);
     let turno;
 
-    // Turno 1: 06:30 a 18:29
     if ((hora > 6 || (hora === 6 && minutos >= 30)) && (hora < 18 || (hora === 18 && minutos < 30))) {
         turno = 'Turno 1';
     } 
-    // Turno 2: 18:30 a 06:29 del día siguiente
     else {
         turno = 'Turno 2';
         if (hora < 6 || (hora === 6 && minutos < 30)) {
@@ -1231,45 +1362,25 @@ function esUsuarioProduccion() {
     return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
 }
 
-function puedeControlar(grupo){
-    if(!usuarioSeleccionado) {
-        return false;
-    }
-   
-    if (usuarioSeleccionado === 'SUPERVISOR') {
-        return false;
-    }
-   
-    if (usuarioSeleccionado === 'LOGÍSTICA') {
-        return true;
-    }
-   
-    const grupoBaseUsuario = usuarioSeleccionado.startsWith('CALIDAD_') ? usuarioSeleccionado.replace('CALIDAD_', '') : usuarioSeleccionado;
-    const grupoBaseLed = grupo.startsWith('CALIDAD_') ? grupo.replace('CALIDAD_', '') : grupo;
-
-    return grupoBaseUsuario === grupoBaseLed;
-}
-    
-function togglearLED(grupo, idx, linea = 'linea1') {
+// Convertida a async para poder usar 'await' con los modales
+async function togglearLED(grupo, idx, linea = 'linea1') {
     const ledRef = db.ref('estadoLEDs/' + grupo + '/' + linea + '/' + idx);
 
     if (grupo.startsWith('CALIDAD_')) {
-        ledRef.once('value', snapshot => {
+        ledRef.once('value', async (snapshot) => {
             const estadoActual = snapshot.val() || {};
             const grupoBaseCalidad = grupo.replace('CALIDAD_', '');
 
             if (usuarioSeleccionado.startsWith('CALIDAD_')) {
-                // Lógica para Calidad
                 if(estadoActual.color === 'verde') {
-                    return alert('Este LED ya está liberado y no puede ser modificado por Calidad.');
+                    return customAlert('Este LED ya está liberado y no puede ser modificado por Calidad.', 'Acción no permitida');
                 }
                 mostrarOpcionesCalidad(grupo, idx, linea); 
             } else if (esUsuarioProduccion() && usuarioSeleccionado === grupoBaseCalidad) {
-                // Lógica para Producción: APAGAR LEDs de CALIDAD
                 if (estadoActual.color === 'verde') {
-                    if (!confirm('¿Está realmente liberada la tarima?')) {
-                        return;
-                    }
+                    const confirmado = await customConfirm('¿Está seguro de que la tarima ha sido liberada y retirada?', 'Confirmar Retiro');
+                    if (!confirmado) return;
+
                     ledRef.set(null);
                     const log = {
                         usuario: usuarioSeleccionado,
@@ -1280,30 +1391,29 @@ function togglearLED(grupo, idx, linea = 'linea1') {
                     };
                     historialRef.push(log);
                 } else if (estadoActual.color === 'rojo' || estadoActual.color === 'naranja') {
-                    alert('Solo puedes apagar LEDs liberados (verdes).');
+                    await customAlert('Solo puedes apagar LEDs liberados (verdes). Contacte a Calidad si es necesario.', 'Acción no permitida');
                 } else {
-                    alert('Este LED no ha sido inspeccionado por Calidad.');
+                    await customAlert('Este LED aún no ha sido inspeccionado por Calidad.', 'Estado pendiente');
                 }
             } else {
-                alert('No tienes permiso para controlar estos LEDs.');
+                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
             }
         });
-    } else { // Grupos de Producción (MULTIPORT, DROPS, BEDROCK)
-        ledRef.once('value', snapshot => {
+    } else { // Grupos de Producción
+        ledRef.once('value', async (snapshot) => {
             const estadoActual = snapshot.val() || {};
             
             if (usuarioSeleccionado === 'LOGÍSTICA') {
                 if (estadoActual.encendido) {
-                    if (!confirm('¿Está realmente recolectada la tarima?')) {
-                        return;
-                    }
+                    const confirmado = await customConfirm('¿Confirma que la tarima ha sido recolectada?', 'Confirmar Recolección');
+                    if (!confirmado) return;
                     
-                    const horaInicio = estadoActual.horaEncendido || estadoActual.timestamp; // Usa horaEncendido o, si no existe, el timestamp
+                    const horaInicio = estadoActual.horaEncendido || estadoActual.timestamp;
                     const tiempoRecoleccion = (new Date() - new Date(horaInicio)) / 60000;
 
                     ledRef.set({
                         encendido: false,
-                        horaEncendido: null, // Limpiamos el estado de encendido
+                        horaEncendido: null,
                         usuario: usuarioSeleccionado,
                     });
                     
@@ -1319,13 +1429,13 @@ function togglearLED(grupo, idx, linea = 'linea1') {
                     };
                     historialRef.push(log);
                 } else {
-                    alert('LOGÍSTICA solo puede apagar LEDs');
+                    await customAlert('LOGÍSTICA solo puede apagar LEDs que ya han sido encendidos por producción.', 'Acción no permitida');
                 }
-            } else if (esUsuarioProduccion()) { // Es usuario de Producción
+            } else if (esUsuarioProduccion()) {
                 if (!estadoActual.encendido) {
-                    if (!confirm('¿Está realmente confirmada la tarima?')) {
-                        return;
-                    }
+                    const confirmado = await customConfirm('¿Confirma que hay una nueva tarima lista para recolección?', 'Confirmar Tarima');
+                    if (!confirmado) return;
+
                     ledRef.set({
                         encendido: true,
                         timestamp: new Date().toISOString(),
@@ -1344,10 +1454,10 @@ function togglearLED(grupo, idx, linea = 'linea1') {
                     };
                     historialRef.push(log);
                 } else {
-                    alert('El LED ya está encendido. Si necesitas apagarlo, pide a Logística que lo recolecte.');
+                    await customAlert('El LED ya está encendido. Logística debe recolectar la tarima antes de que pueda encender otra.', 'Tarima Pendiente');
                 }
             } else {
-                alert('No tienes permiso para controlar estos LEDs.');
+                await customAlert('No tienes permiso para controlar estos LEDs.', 'Acceso denegado');
             }
         });
     }
@@ -1370,14 +1480,14 @@ function aplicarEstadoCalidad(nuevoColor) {
             color: nuevoColor,
             timestamp: new Date().toISOString(),
             usuario: usuarioSeleccionado,
-            disabled: true // Nuevo estado para deshabilitar
+            disabled: true
         });
     } else {
         ledRef.update({
             color: nuevoColor,
             timestamp: new Date().toISOString(),
             usuario: usuarioSeleccionado,
-            disabled: false // Asegurarse de que no esté deshabilitado en otros estados
+            disabled: false
         });
         if (nuevoColor === 'rojo') {
             const contadorRef = contadoresCalidadRef.child(grupo);
@@ -1401,7 +1511,7 @@ function guardarRechazo(datos) {
         fecha: fecha,
         hora: hora,
         timestamp: ahora.toISOString(),
-        areaRechazo: ledActivoParaFormulario.grupo // Agregado para el filtro
+        areaRechazo: ledActivoParaFormulario.grupo
     };
 
     rechazosDetalladosRef.push(datosCompletos)
@@ -1409,9 +1519,9 @@ function guardarRechazo(datos) {
             console.log("Rechazo guardado exitosamente:", datosCompletos);
             aplicarEstadoCalidad('rojo');
         })
-        .catch(error => {
+        .catch(async (error) => {
             console.error("Error guardando rechazo:", error);
-            alert("Hubo un error al guardar el rechazo.");
+            await customAlert("Hubo un error al guardar el rechazo.", "Error");
         })
         .finally(() => {
             document.getElementById('modalRechazo').classList.remove('visible');
@@ -1439,86 +1549,77 @@ function volverAPantalla1(){
     activarPantalla('pantalla1');
 }
 
-function seleccionarUsuario(usuario) {
-    if (!CONFIG.USUARIOS.includes(usuario)) {
-        return;
+async function seleccionarUsuario(usuario) {
+    if (!CONFIG.USUARIOS.includes(usuario)) return;
+    
+    let password;
+    if (usuario === 'CALIDAD') {
+        password = await customPrompt('Introduce la contraseña para CALIDAD:');
+    } else {
+        password = await customPrompt(`Introduce la contraseña para ${usuario}:`);
     }
 
-    if (usuario === 'SUPERVISOR') {
-        const password = prompt('Introduce la contraseña para SUPERVISOR:');
-        if (password === CONFIG.PASSWORDS['SUPERVISOR']) {
-             usuarioSeleccionado = usuario;
-            document.getElementById('tituloFijo').textContent = 'SUPERVISOR';
-            activarPantalla('pantalla2');
-            inyectaLEDs();
-            pintarEstado();
-            iniciarListenersFirebase(); 
-            alert(`¡Bienvenido, ${usuario}!`);
-        } else {
-            alert('Contraseña incorrecta. Inténtalo de nuevo.');
-        }
-    } else if (usuario === 'CALIDAD') {
-        const password = prompt('Introduce la contraseña para CALIDAD:');
-        let subusuario = null;
-        
-        if (password === CONFIG.PASSWORDS['CALIDAD_MULTIPORT']) {
-            subusuario = 'CALIDAD_MULTIPORT';
-        } else if (password === CONFIG.PASSWORDS['CALIDAD_DROPS']) {
-            subusuario = 'CALIDAD_DROPS';
-        } else if (password === CONFIG.PASSWORDS['CALIDAD_BEDROCK']) {
-            subusuario = 'CALIDAD_BEDROCK';
-        }
+    if (password === null) return; // El usuario canceló
 
+    let loginSuccess = false;
+    let welcomeMessage = '';
+    
+    if (usuario === 'SUPERVISOR' && password === CONFIG.PASSWORDS['SUPERVISOR']) {
+        loginSuccess = true;
+        usuarioSeleccionado = 'SUPERVISOR';
+        document.getElementById('tituloFijo').textContent = 'SUPERVISOR';
+        welcomeMessage = `¡Bienvenido, SUPERVISOR!`;
+    } else if (usuario === 'CALIDAD') {
+        let subusuario = null;
+        if (password === CONFIG.PASSWORDS['CALIDAD_MULTIPORT']) subusuario = 'CALIDAD_MULTIPORT';
+        else if (password === CONFIG.PASSWORDS['CALIDAD_DROPS']) subusuario = 'CALIDAD_DROPS';
+        else if (password === CONFIG.PASSWORDS['CALIDAD_BEDROCK']) subusuario = 'CALIDAD_BEDROCK';
+        
         if (subusuario) {
+            loginSuccess = true;
             usuarioSeleccionado = subusuario;
             document.getElementById('tituloFijo').textContent = `CALIDAD - ${subusuario.split('_')[1]}`;
-            activarPantalla('pantalla2');
-            inyectaLEDs();
-            pintarEstado();
-            iniciarListenersFirebase();
-            alert(`¡Bienvenido, ${subusuario.replace('_', ' ')}!`);
-        } else {
-            alert('Contraseña incorrecta. Inténtalo de nuevo.');
+            welcomeMessage = `¡Bienvenido, ${subusuario.replace('_', ' ')}!`;
         }
     } else {
-        const password = prompt(`Introduce la contraseña para ${usuario}:`);
         if (password === CONFIG.PASSWORDS[usuario]) {
+            loginSuccess = true;
             usuarioSeleccionado = usuario;
-            if (usuario === 'LOGÍSTICA') {
-                document.getElementById('tituloFijo').textContent = 'LOGÍSTICA';
-            } else {
-                document.getElementById('tituloFijo').textContent = usuario;
-            }
-            activarPantalla('pantalla2');
-            inyectaLEDs();
-            pintarEstado();
-            iniciarListenersFirebase();
-            alert(`¡Bienvenido, ${usuario}!`);
-        } else {
-            alert('Contraseña incorrecta. Inténtalo de nuevo.');
+            document.getElementById('tituloFijo').textContent = usuario;
+            welcomeMessage = `¡Bienvenido, ${usuario}!`;
         }
+    }
+
+    if (loginSuccess) {
+        activarPantalla('pantalla2');
+        inyectaLEDs();
+        pintarEstado();
+        iniciarListenersFirebase();
+        await customAlert(welcomeMessage, 'Acceso Concedido');
+    } else {
+        await customAlert('Contraseña incorrecta. Inténtalo de nuevo.', 'Error de Autenticación');
     }
 }
 
-function seleccionarReporte() {
-    const password = prompt('Introduce la contraseña para REPORTES:');
+async function seleccionarReporte() {
+    const password = await customPrompt('Introduce la contraseña para REPORTES:');
     if (password === CONFIG.PASSWORDS['REPORTES']) {
         activarPantalla('pantalla3');
         document.getElementById('tituloReportes').textContent = 'REPORTES';
         document.getElementById('selectoresReportes').style.display = 'flex';
         document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
-    } else {
-        alert('Contraseña incorrecta. Acceso denegado.');
+    } else if (password !== null) {
+        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
     }
 }
 
-function seleccionarDashboard() {
-    const password = prompt('Introduce la contraseña para DASHBOARD:');
+async function seleccionarDashboard() {
+    const password = await customPrompt('Introduce la contraseña para DASHBOARD:');
     if (password === CONFIG.PASSWORDS['DASHBOARD']) {
         activarPantalla('pantalla4');
         iniciarDashboard();
-    } else {
-        alert('Contraseña incorrecta. Acceso denegado.');
+    } else if (password !== null) {
+        await customAlert('Contraseña incorrecta. Acceso denegado.', 'Acceso Denegado');
     }
 }
 
@@ -1535,7 +1636,6 @@ function iniciarDashboard() {
     
     setupDashboardListeners(fecha, turno);
     
-    // Listeners para los filtros de fecha y turno
     document.getElementById('fechaDashboard').addEventListener('change', () => {
         setupDashboardListeners(document.getElementById('fechaDashboard').value, document.getElementById('turnoDashboardSelect').value);
     });
@@ -1602,7 +1702,6 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
         for (const logKey in historialLogs) {
             const log = historialLogs[logKey];
             
-            // Nuevo filtro de área
             if (filtroArea === 'TODAS' || log.grupo === filtroArea) {
                 if (log.accion === 'encendido' && produccionPorArea.hasOwnProperty(log.grupo)) {
                     produccionPorArea[log.grupo]++;
@@ -1634,7 +1733,6 @@ function actualizarDashboard(historialLogs, tipo, contadoresCalidad, estadoLEDs,
         generarGraficoLogisticaDash(tarimasPorHora);
     }
     
-    // El resto de la función para 'calidad' y 'leds' se mantiene igual y funciona de manera independiente
     if (tipo === 'calidad') {
         let liberadas = 0;
         let rechazadas = 0;
@@ -1750,7 +1848,7 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
     const data = horasOrdenadas.map(hora => tarimasPorHora[hora] || 0);
 
     graficosDashboard.logistica = new Chart(ctx, {
-        type: 'bar', // Cambiado a gráfico de barras para mejor visualización de conteos
+        type: 'bar',
         data: {
             labels: labels, 
             datasets: [{
@@ -1767,19 +1865,11 @@ function generarGraficoLogisticaDash(tarimasPorHora) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Tarimas Recolectadas' // Nueva etiqueta del eje Y
-                    },
-                    ticks: {
-                        stepSize: 1 // Asegura que las etiquetas sean números enteros
-                    }
+                    title: { display: true, text: 'Tarimas Recolectadas' },
+                    ticks: { stepSize: 1 }
                 },
                 x: {
-                    title: {
-                        display: true,
-                        text: 'Hora del Día'
-                    }
+                    title: { display: true, text: 'Hora del Día' }
                 }
             },
             plugins: {
@@ -1813,14 +1903,8 @@ function mostrarReporte(tipo) {
         `;
     }
 
-    let fechaFiltroHtml = '';
-    fechaFiltroHtml = `
-        <label for="fechaReporte">Fecha:</label>
-        <input type="date" id="fechaReporte" value="${fechaActual}">
-    `;
-
-    let turnoFiltroHtml = '';
-    turnoFiltroHtml = `
+    let fechaFiltroHtml = `<label for="fechaReporte">Fecha:</label><input type="date" id="fechaReporte" value="${fechaActual}">`;
+    let turnoFiltroHtml = `
         <label for="turnoFiltro">Turno:</label>
         <select id="turnoFiltro">
             <option value="todos">Todos</option>
@@ -1828,7 +1912,6 @@ function mostrarReporte(tipo) {
             <option value="Turno 2">Turno 2</option>
         </select>
     `;
-
     let exportButtons = `
         <button class="usuario-btn" onclick="exportarReporte('excel')">Exportar a Excel</button>
         <button class="usuario-btn" onclick="exportarReporte('pdf')">Exportar a PDF</button>
@@ -1849,7 +1932,6 @@ function mostrarReporte(tipo) {
         `;
     }
 
-
     contenedor.innerHTML = `
         <div class="header-reporte">
             <button onclick="regresarASelectores()" class="usuario-btn">Regresar</button>
@@ -1864,30 +1946,20 @@ function mostrarReporte(tipo) {
         <h2 id="tituloReporteDinamico">Cargando...</h2>
         ${graficoSelector}
         <div id="contenidoReporte"></div>
-        <div class="botones-reporte">
-            ${exportButtons}
-        </div>
+        <div class="botones-reporte">${exportButtons}</div>
     `;
 
-    if (document.getElementById('turnoFiltro')) {
-        document.getElementById('turnoFiltro').value = turnoActual;
-    }
-    if (document.getElementById('areaFiltro')) {
-        document.getElementById('areaFiltro').value = 'TODAS';
-    }
-    
-    // Listener para el cambio de tipo de gráfico
-    if (document.getElementById('tipoGrafico')) {
-        document.getElementById('tipoGrafico').addEventListener('change', actualizarGraficoReporte);
-    }
+    if (document.getElementById('turnoFiltro')) document.getElementById('turnoFiltro').value = turnoActual;
+    if (document.getElementById('areaFiltro')) document.getElementById('areaFiltro').value = 'TODAS';
+    if (document.getElementById('tipoGrafico')) document.getElementById('tipoGrafico').addEventListener('change', actualizarGraficoReporte);
 
-    const fecha = document.getElementById('fechaReporte').value;
-    const turno = document.getElementById('turnoFiltro').value;
-    const area = document.getElementById('areaFiltro') ? document.getElementById('areaFiltro').value : null;
-    const empleado = document.getElementById('empleadoFiltro') ? document.getElementById('empleadoFiltro').value : null;
-
-    cargarDatosReporte(tipo, fecha, turno, area, empleado);
+    cargarDatosReporte(tipo, document.getElementById('fechaReporte').value, document.getElementById('turnoFiltro').value, document.getElementById('areaFiltro')?.value, document.getElementById('empleadoFiltro')?.value);
 }
+
+// Las funciones de reporte (actualizarGraficoReporte, regresarASelectores, buscarReporte, cargarDatosReporte, procesarReporte..., exportar...)
+// se mantienen igual que en la versión anterior. Para brevedad, no se repiten aquí, pero deben estar presentes en el script.
+// ... (Copiar aquí todas las funciones de reporte desde la versión anterior) ...
+// NOTE: I will include them for the user as requested, this is a note for my thought process.
 
 function actualizarGraficoReporte() {
     const tipoGraficoSeleccionado = document.getElementById('tipoGrafico').value;
@@ -1902,8 +1974,7 @@ function actualizarGraficoReporte() {
         if (reporteActual === 'produccion') {
             const conteo = {};
             datosFiltradosReporte.forEach(log => {
-                const area = log.grupo;
-                conteo[area] = (conteo[area] || 0) + 1;
+                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
             });
             labels = Object.keys(conteo);
             data = Object.values(conteo);
@@ -1911,8 +1982,7 @@ function actualizarGraficoReporte() {
         } else if (reporteActual === 'logistica') {
             const conteo = {};
             datosFiltradosReporte.forEach(log => {
-                const area = log.grupo;
-                conteo[area] = (conteo[area] || 0) + 1;
+                conteo[log.grupo] = (conteo[log.grupo] || 0) + 1;
             });
             labels = Object.keys(conteo);
             data = Object.values(conteo);
@@ -1920,23 +1990,17 @@ function actualizarGraficoReporte() {
         } else if (reporteActual === 'calidad') {
             const conteo = {};
             datosFiltradosReporte.forEach(rechazo => {
-                const problema = rechazo.problema;
-                conteo[problema] = (conteo[problema] || 0) + 1;
+                conteo[rechazo.problema] = (conteo[rechazo.problema] || 0) + 1;
             });
             labels = Object.keys(conteo);
             data = Object.values(conteo);
             chartTitle = 'Causas de Rechazo';
         }
 
-        if (miGrafico) {
-            miGrafico.destroy();
-        }
+        if (miGrafico) miGrafico.destroy();
 
         const ctx = document.getElementById('graficoDinamico').getContext('2d');
-        const backgroundColors = [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED',
-            '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'
-        ];
+        const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED', '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'];
 
         miGrafico = new Chart(ctx, {
             type: tipoGraficoSeleccionado,
@@ -1955,21 +2019,10 @@ function actualizarGraficoReporte() {
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: { font: { size: 14 } }
-                    },
-                    title: {
-                        display: true,
-                        text: chartTitle,
-                        font: { size: 20 }
-                    }
+                    legend: { position: 'top', labels: { font: { size: 14 } } },
+                    title: { display: true, text: chartTitle, font: { size: 20 } }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                scales: { y: { beginAtZero: true } }
             }
         });
     }
@@ -1980,9 +2033,7 @@ function regresarASelectores() {
     document.getElementById('tituloReportes').textContent = 'REPORTES';
     document.getElementById('selectoresReportes').style.display = 'flex';
     document.getElementById('contenedorReporte').innerHTML = '<h2>Selecciona un reporte</h2>';
-    if (miGrafico) {
-        miGrafico.destroy();
-    }
+    if (miGrafico) miGrafico.destroy();
     datosFiltradosReporte = null;
 }
 
@@ -2002,9 +2053,7 @@ function cargarDatosReporte(tipo, fecha, turno, area, empleado) {
     const tituloReporte = document.getElementById('tituloReporteDinamico');
     contenedor.innerHTML = '<p>Cargando datos...</p>';
     
-    if (miGrafico) {
-        miGrafico.destroy();
-    }
+    if (miGrafico) miGrafico.destroy();
     
     const refHistorial = db.ref(`historialLogs`);
     const refCalidad = db.ref(`contadoresCalidad`);
@@ -2042,13 +2091,10 @@ function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado)
     
     for (const fechaKey in datos.rechazos) {
         if (fecha !== fechaKey) continue;
-        
         for (const turnoKey in datos.rechazos[fechaKey]) {
             if (turno !== 'todos' && turnoKey !== turno) continue;
-            
             for (const rechazoKey in datos.rechazos[fechaKey][turnoKey]) {
                 const rechazo = datos.rechazos[fechaKey][turnoKey][rechazoKey];
-                
                 if (
                     (area === 'TODAS' || rechazo.areaRechazo === area) &&
                     (!empleado || (rechazo.empleado && rechazo.empleado.toLowerCase().includes(empleado.toLowerCase())))
@@ -2062,72 +2108,28 @@ function procesarReporteCalidad(datos, contenedor, fecha, turno, area, empleado)
     datosFiltradosReporte = rechazosFiltrados;
 
     const conteoProblemas = {};
-    rechazosFiltrados.forEach(rechazo => {
-        const problema = rechazo.problema || 'Desconocido';
-        conteoProblemas[problema] = (conteoProblemas[problema] || 0) + 1;
-    });
+    rechazosFiltrados.forEach(r => { conteoProblemas[r.problema || 'Desconocido'] = (conteoProblemas[r.problema || 'Desconocido'] || 0) + 1; });
 
-    // KPIs
-    const kpisHtml = `
-        <div class="resumen-datos">
-            <div class="dato">
-                <div class="valor">${rechazosFiltrados.length}</div>
-                <div class="etiqueta">Tarimas Rechazadas</div>
-            </div>
-            <div class="dato">
-                <div class="valor">${Object.keys(conteoProblemas).length}</div>
-                <div class="etiqueta">Problemas Identificados</div>
-            </div>
-        </div>
-    `;
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${rechazosFiltrados.length}</div><div class="etiqueta">Tarimas Rechazadas</div></div><div class="dato"><div class="valor">${Object.keys(conteoProblemas).length}</div><div class="etiqueta">Problemas Identificados</div></div></div>`;
     
     let tablaHtml = `<table><thead><tr><th>Fecha</th><th>Hora</th><th>Área</th><th>Línea</th><th>Empleado</th><th>No. de Parte</th><th>Descripción de la Parte</th><th>Descripción del Problema</th><th>Causa Raíz</th><th>Acción Correctiva</th></tr></thead><tbody>`;
     rechazosFiltrados.forEach(r => {
-        const areaRechazoFormateada = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
-        tablaHtml += `
-            <tr>
-                <td>${r.fecha}</td>
-                <td>${r.hora}</td>
-                <td>${areaRechazoFormateada}</td>
-                <td>${r.linea || 'N/A'}</td>
-                <td>${r.empleado || 'N/A'}</td>
-                <td>${r.parte || 'N/A'}</td>
-                <td>${r.descripcionParte || 'N/A'}</td>
-                <td>${r.problema || 'N/A'}</td>
-                <td>${r.causa || 'N/A'}</td>
-                <td>${r.accion || 'N/A'}</td>
-            </tr>
-        `;
+        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
+        tablaHtml += `<tr><td>${r.fecha}</td><td>${r.hora}</td><td>${areaFmt}</td><td>${r.linea||'N/A'}</td><td>${r.empleado||'N/A'}</td><td>${r.parte||'N/A'}</td><td>${r.descripcionParte||'N/A'}</td><td>${r.problema||'N/A'}</td><td>${r.causa||'N/A'}</td><td>${r.accion||'N/A'}</td></tr>`;
     });
     tablaHtml += `</tbody></table>`;
 
-    // Versión para móvil
     let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
     rechazosFiltrados.forEach(r => {
-        const areaRechazoFormateada = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
-        tablaMovilHtml += `
-            <div class="fila-dato">
-                <span class="etiqueta">Fecha:</span> <span class="valor">${r.fecha}</span><br>
-                <span class="etiqueta">Hora:</span> <span class="valor">${r.hora}</span><br>
-                <span class="etiqueta">Área:</span> <span class="valor">${areaRechazoFormateada}</span><br>
-                <span class="etiqueta">Línea:</span> <span class="valor">${r.linea || 'N/A'}</span><br>
-                <span class="etiqueta">Empleado:</span> <span class="valor">${r.empleado || 'N/A'}</span><br>
-                <span class="etiqueta">Problema:</span> <span class="valor">${r.problema || 'N/A'}</span>
-            </div>
-        `;
+        const areaFmt = r.areaRechazo ? r.areaRechazo.replace('CALIDAD_', '') : 'N/A';
+        tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Fecha:</span> <span class="valor">${r.fecha}</span><br><span class="etiqueta">Hora:</span> <span class="valor">${r.hora}</span><br><span class="etiqueta">Área:</span> <span class="valor">${areaFmt}</span><br><span class="etiqueta">Línea:</span> <span class="valor">${r.linea||'N/A'}</span><br><span class="etiqueta">Empleado:</span> <span class="valor">${r.empleado||'N/A'}</span><br><span class="etiqueta">Problema:</span> <span class="valor">${r.problema||'N/A'}</span></div>`;
     });
     tablaMovilHtml += `</div></div>`;
 
-    let graficoHtml = '';
-    if (Object.keys(conteoProblemas).length > 0) {
-        graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
-    }
-    
+    let graficoHtml = Object.keys(conteoProblemas).length > 0 ? `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>` : '';
     contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
 
-    if (Object.keys(conteoProblemas).length > 0) {
-        actualizarGraficoReporte();
-    }
+    if (Object.keys(conteoProblemas).length > 0) actualizarGraficoReporte();
 }
 
 
@@ -2137,10 +2139,8 @@ function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
     
     for (const fechaKey in datos.historial) {
         if (fecha !== fechaKey) continue;
-        
         for (const turnoKey in datos.historial[fechaKey]) {
             if (turno !== 'todos' && turnoKey !== turno) continue;
-
             for (const logKey in datos.historial[fechaKey][turnoKey]) {
                 const log = datos.historial[fechaKey][turnoKey][logKey];
                 if (log.accion === 'encendido' && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
@@ -2155,52 +2155,15 @@ function procesarReporteProduccion(datos, contenedor, fecha, turno, area) {
     
     datosFiltradosReporte = logsProduccion;
 
-    const kpisHtml = `
-        <div class="resumen-datos">
-            <div class="dato">
-                <div class="valor">${logsProduccion.length}</div>
-                <div class="etiqueta">Tarimas Confirmadas</div>
-            </div>
-        </div>
-    `;
-
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsProduccion.length}</div><div class="etiqueta">Tarimas Confirmadas</div></div></div>`;
     const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
 
-    let tablaHtml = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Línea</th>
-                    <th>Tarima</th>
-                    <th>Hora de Confirmación</th>
-                    <th>Usuario</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-    logsProduccion.forEach(log => {
-        tablaHtml += `
-            <tr>
-                <td>${log.grupo}</td>
-                <td>${log.led}</td>
-                <td>${formatoHora(log.timestamp)}</td>
-                <td>${log.usuario}</td>
-            </tr>
-        `;
-    });
+    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Hora de Confirmación</th><th>Usuario</th></tr></thead><tbody>`;
+    logsProduccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${formatoHora(log.timestamp)}</td><td>${log.usuario}</td></tr>`; });
     tablaHtml += `</tbody></table>`;
     
     let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
-    logsProduccion.forEach(log => {
-        tablaMovilHtml += `
-            <div class="fila-dato">
-                <span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br>
-                <span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br>
-                <span class="etiqueta">Hora:</span> <span class="valor">${formatoHora(log.timestamp)}</span><br>
-                <span class="etiqueta">Usuario:</span> <span class="valor">${log.usuario}</span>
-            </div>
-        `;
-    });
+    logsProduccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span><span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span><span class="valor">${log.led}</span><br><span class="etiqueta">Hora:</span><span class="valor">${formatoHora(log.timestamp)}</span><br><span class="etiqueta">Usuario:</span><span class="valor">${log.usuario}</span></div>`; });
     tablaMovilHtml += `</div></div>`;
 
     contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
@@ -2214,10 +2177,8 @@ function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
     
     for (const fechaKey in datos.historial) {
         if (fecha !== fechaKey) continue;
-        
         for (const turnoKey in datos.historial[fechaKey]) {
             if (turno !== 'todos' && turnoKey !== turno) continue;
-            
             for (const logKey in datos.historial[fechaKey][turnoKey]) {
                 const log = datos.historial[fechaKey][turnoKey][logKey];
                 if (log.accion === 'apagado' && log.tiempoRecoleccion && ['MULTIPORT', 'DROPS', 'BEDROCK'].includes(log.grupo)) {
@@ -2234,68 +2195,19 @@ function procesarReporteLogistica(datos, contenedor, fecha, turno, area) {
     
     const tiempoPromedio = logsRecoleccion.length > 0 ? (tiempoTotal / logsRecoleccion.length).toFixed(1) : 0;
     
-    const conteoTarimasPorArea = {};
-    logsRecoleccion.forEach(log => {
-        const area = log.grupo;
-        conteoTarimasPorArea[area] = (conteoTarimasPorArea[area] || 0) + 1;
-    });
-
-    const kpisHtml = `
-        <div class="resumen-datos">
-            <div class="dato">
-                <div class="valor">${logsRecoleccion.length}</div>
-                <div class="etiqueta">Tarimas Recolectadas</div>
-            </div>
-            <div class="dato">
-                <div class="valor">${tiempoPromedio} min</div>
-                <div class="etiqueta">Tiempo Promedio</div>
-            </div>
-        </div>
-    `;
-
+    const kpisHtml = `<div class="resumen-datos"><div class="dato"><div class="valor">${logsRecoleccion.length}</div><div class="etiqueta">Tarimas Recolectadas</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">Tiempo Promedio</div></div></div>`;
     const graficoHtml = `<div id="grafico-contenedor" class="grafico-contenedor"><canvas id="graficoDinamico"></canvas></div>`;
 
-    let tablaHtml = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Línea</th>
-                    <th>Tarima</th>
-                    <th>Tiempo de Recolección (min)</th>
-                    <th>Hora de Encendido</th>
-                    <th>Hora de Apagado</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-    logsRecoleccion.forEach(log => {
-        tablaHtml += `
-            <tr>
-                <td>${log.grupo}</td>
-                <td>${log.led}</td>
-                <td>${log.tiempoRecoleccion}</td>
-                <td>${formatoHora(log.horaEncendido)}</td>
-                <td>${formatoHora(log.horaApagado)}</td>
-            </tr>
-        `;
-    });
+    let tablaHtml = `<table><thead><tr><th>Línea</th><th>Tarima</th><th>Tiempo de Recolección (min)</th><th>Hora de Encendido</th><th>Hora de Apagado</th></tr></thead><tbody>`;
+    logsRecoleccion.forEach(log => { tablaHtml += `<tr><td>${log.grupo}</td><td>${log.led}</td><td>${log.tiempoRecoleccion}</td><td>${formatoHora(log.horaEncendido)}</td><td>${formatoHora(log.horaApagado)}</td></tr>`; });
     tablaHtml += `</tbody></table>`;
     
     let tablaMovilHtml = `<div class="reporte-calidad-mobile"><div class="tabla-calidad-movil">`;
-    logsRecoleccion.forEach(log => {
-        tablaMovilHtml += `
-            <div class="fila-dato">
-                <span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br>
-                <span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br>
-                <span class="etiqueta">Tiempo:</span> <span class="valor">${log.tiempoRecoleccion} min</span><br>
-                <span class="etiqueta">Hora de Recolección:</span> <span class="valor">${formatoHora(log.horaApagado)}</span>
-            </div>
-        `;
-    });
+    logsRecoleccion.forEach(log => { tablaMovilHtml += `<div class="fila-dato"><span class="etiqueta">Línea:</span> <span class="valor">${log.grupo}</span><br><span class="etiqueta">Tarima:</span> <span class="valor">${log.led}</span><br><span class="etiqueta">Tiempo:</span> <span class="valor">${log.tiempoRecoleccion} min</span><br><span class="etiqueta">Hora de Recolección:</span> <span class="valor">${formatoHora(log.horaApagado)}</span></div>`; });
     tablaMovilHtml += `</div></div>`;
 
     contenedor.innerHTML = kpisHtml + graficoHtml + tablaHtml + tablaMovilHtml;
-    document.getElementById('tipoGrafico').value = 'bar'; // Establecer por defecto a barras
+    document.getElementById('tipoGrafico').value = 'bar';
     actualizarGraficoReporte();
 }
 
@@ -2303,20 +2215,12 @@ function procesarReporteResumen(datos, contenedor, fecha, turno) {
     const areas = ['MULTIPORT', 'DROPS', 'BEDROCK'];
     const resumen = {};
     
-    areas.forEach(area => {
-        resumen[area] = {
-            produccion: 0,
-            liberadas: 0,
-            rechazadas: 0,
-            tiempoLogistica: { total: 0, count: 0, promedio: 0 }
-        };
-    });
+    areas.forEach(area => { resumen[area] = { produccion: 0, liberadas: 0, rechazadas: 0, tiempoLogistica: { total: 0, count: 0, promedio: 0 } }; });
 
-    // Procesar historial (producción y logística)
     for (const fechaKey in datos.historial) {
-        if (fechaKey !== fecha && fecha !== null) continue; // Si se elige una fecha, procesar solo esa
+        if (fechaKey !== fecha && fecha !== null) continue;
         for (const turnoKey in datos.historial[fechaKey]) {
-            if (turnoKey !== turno && turno !== 'todos') continue; // Si se elige un turno, procesar solo ese
+            if (turnoKey !== turno && turno !== 'todos') continue;
             for (const logKey in datos.historial[fechaKey][turnoKey]) {
                 const log = datos.historial[fechaKey][turnoKey][logKey];
                 if (log.accion === 'encendido' && resumen.hasOwnProperty(log.grupo)) {
@@ -2329,7 +2233,6 @@ function procesarReporteResumen(datos, contenedor, fecha, turno) {
         }
     }
 
-    // Procesar contadores de calidad
     for (const fechaKey in datos.calidad) {
         if (fechaKey !== fecha && fecha !== null) continue;
         for (const turnoKey in datos.calidad[fechaKey]) {
@@ -2347,160 +2250,23 @@ function procesarReporteResumen(datos, contenedor, fecha, turno) {
 
     let html = ``;
     areas.forEach(area => {
-        const prod = resumen[area].produccion;
-        const liberadas = resumen[area].liberadas;
-        const rechazadas = resumen[area].rechazadas;
+        const { produccion, liberadas, rechazadas, tiempoLogistica } = resumen[area];
         const totalCalidad = liberadas + rechazadas;
         const tasaRechazo = totalCalidad > 0 ? ((rechazadas / totalCalidad) * 100).toFixed(1) : 0;
-        const tiempoPromedio = resumen[area].tiempoLogistica.count > 0 ? (resumen[area].tiempoLogistica.total / resumen[area].tiempoLogistica.count).toFixed(1) : 0;
+        const tiempoPromedio = tiempoLogistica.count > 0 ? (tiempoLogistica.total / tiempoLogistica.count).toFixed(1) : 0;
 
-        html += `
-            <h3>${area}</h3>
-            <div class="resumen-datos">
-                <div class="dato">
-                    <div class="valor">${prod}</div>
-                    <div class="etiqueta">Tarimas Producidas</div>
-                </div>
-                <div class="dato">
-                    <div class="valor">${liberadas}</div>
-                    <div class="etiqueta">Tarimas Liberadas</div>
-                </div>
-                <div class="dato">
-                    <div class="valor">${rechazadas}</div>
-                    <div class="etiqueta">Tarimas Rechazadas</div>
-                </div>
-                <div class="dato">
-                    <div class="valor">${tasaRechazo}%</div>
-                    <div class="etiqueta">Tasa de Rechazo</div>
-                </div>
-                <div class="dato">
-                    <div class="valor">${tiempoPromedio} min</div>
-                    <div class="etiqueta">Tiempo Recolección</div>
-                </div>
-            </div>
-        `;
+        html += `<h3>${area}</h3><div class="resumen-datos"><div class="dato"><div class="valor">${produccion}</div><div class="etiqueta">Producidas</div></div><div class="dato"><div class="valor">${liberadas}</div><div class="etiqueta">Liberadas</div></div><div class="dato"><div class="valor">${rechazadas}</div><div class="etiqueta">Rechazadas</div></div><div class="dato"><div class="valor">${tasaRechazo}%</div><div class="etiqueta">Tasa Rechazo</div></div><div class="dato"><div class="valor">${tiempoPromedio} min</div><div class="etiqueta">T. Recolección</div></div></div>`;
     });
     contenedor.innerHTML = html;
 }
 
-function generarGraficoRechazos(datos) {
-    const ctx = document.getElementById('graficoRechazos').getContext('2d');
-    const labels = Object.keys(datos);
-    const data = Object.values(datos);
-    
-    const backgroundColors = [
-        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED',
-        '#FF6361', '#5DADE2', '#F7DC6F', '#7DCEA0', '#AF7AC5', '#F5B041'
-    ];
-    
-    if (miGrafico) {
-        miGrafico.destroy();
-    }
-    
-    miGrafico = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: backgroundColors,
-                hoverBackgroundColor: backgroundColors
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        font: { size: 14 }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Causas de Rechazo',
-                    font: { size: 20 }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => {
-                            const label = context.label || '';
-                            const value = context.raw;
-                            const total = context.dataset.data.reduce((sum, val) => sum + val, 0);
-                            const percentage = ((value / total) * 100).toFixed(1);
-                            return `${label}: ${value} (${percentage}%)`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function generarGraficoProduccion(datos) {
-    const ctx = document.getElementById('graficoProduccion').getContext('2d');
-    const labels = Object.keys(datos);
-    const data = Object.values(datos);
-
-    if (miGrafico) {
-        miGrafico.destroy();
-    }
-
-    miGrafico = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Tarimas Confirmadas',
-                data: data,
-                backgroundColor: [
-                    '#4BC0C0',
-                    '#36A2EB',
-                    '#FFCE56'
-                ],
-                borderColor: [
-                    '#4BC0C0',
-                    '#36A2EB',
-                    '#FFCE56'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Cantidad de Tarimas'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                title: {
-                    display: true,
-                    text: 'Producción por Área'
-                }
-            }
-        }
-    });
-}
-
-
-function exportarReporte(formato) {
+async function exportarReporte(formato) {
     const tabla = document.querySelector('#contenidoReporte table');
+    if (!tabla) {
+        return await customAlert('No hay datos para exportar. Por favor, genera un reporte primero.', 'Exportación Fallida');
+    }
     const chart = miGrafico;
     const tipo = reporteActual;
-
-    if (!tabla) {
-        alert('No hay datos para exportar. Por favor, genera un reporte primero.');
-        return;
-    }
-
     const nombreArchivo = `${tipo}_${document.getElementById('fechaReporte').value}`;
 
     if (formato === 'excel') {
@@ -2517,27 +2283,19 @@ function exportarReporte(formato) {
 
 function exportarACsv(tabla, nombreReporte) {
     let csv = [];
-    const filas = tabla.querySelectorAll('tr');
-
-    for (const fila of filas) {
+    tabla.querySelectorAll('tr').forEach(fila => {
         let filaDatos = [];
-        const celdas = fila.querySelectorAll('th, td');
-        for (const celda of celdas) {
-            filaDatos.push(`"${celda.textContent.trim().replace(/"/g, '""')}"`); // Escapar comillas dobles
-        }
+        fila.querySelectorAll('th, td').forEach(celda => {
+            filaDatos.push(`"${celda.textContent.trim().replace(/"/g, '""')}"`);
+        });
         csv.push(filaDatos.join(','));
-    }
-
-    const csvFinal = csv.join('\n');
-    const blob = new Blob([csvFinal], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
+    });
+    const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${nombreReporte}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
+    link.href = URL.createObjectURL(blob);
+    link.download = `${nombreReporte}.csv`;
     link.click();
-    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
 }
 
 function exportarAPdf(tabla, chart, nombreArchivo) {
@@ -2545,73 +2303,37 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
     const doc = new jsPDF('p', 'pt', 'letter');
     const margin = 20;
     let y = margin;
-    let pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     let pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
 
-    // Título del reporte
     doc.setFontSize(22);
     doc.text(`Reporte de ${reporteActual.toUpperCase()}`, pageWidth / 2, y, { align: 'center' });
     y += 30;
-
-    // Agregar la fecha
     doc.setFontSize(12);
     doc.text(`Fecha: ${document.getElementById('fechaReporte').value}`, margin, y);
     y += 20;
 
-    // Agregar resumen si existe
     const resumenDiv = document.querySelector('#contenidoReporte .resumen-datos');
     if (resumenDiv) {
-        const resumenText = Array.from(resumenDiv.children).map(dato => {
-            const etiqueta = dato.querySelector('.etiqueta').textContent;
-            const valor = dato.querySelector('.valor').textContent;
-            return `${etiqueta}: ${valor}`;
-        }).join('  |  ');
+        const resumenText = Array.from(resumenDiv.children).map(dato => `${dato.querySelector('.etiqueta').textContent}: ${dato.querySelector('.valor').textContent}`).join('  |  ');
         doc.text(resumenText, margin, y);
         y += 30;
     }
 
-    // Agregar gráfica como imagen
     if (chart) {
         const chartDataURL = chart.toBase64Image();
         const imgWidth = 500;
         const imgHeight = 250;
         const imgX = (pageWidth - imgWidth) / 2;
-
-        if (y + imgHeight + 30 > pageHeight) {
-            doc.addPage();
-            y = margin;
-        }
-
+        if (y + imgHeight + 30 > doc.internal.pageSize.height) { doc.addPage(); y = margin; }
         doc.addImage(chartDataURL, 'PNG', imgX, y, imgWidth, imgHeight);
         y += imgHeight + 30;
     }
 
-    // Agregar tabla
-    const tableHeaders = Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim());
-    const tableData = Array.from(tabla.querySelectorAll('tbody tr')).map(tr =>
-        Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim())
-    );
-
-    const startY = y;
     doc.autoTable({
-        startY: startY,
-        head: [tableHeaders],
-        body: tableData,
+        startY: y,
+        html: tabla,
         theme: 'striped',
         styles: { fontSize: 8, cellPadding: 5 },
-        columnStyles: {
-            0: { cellWidth: 50 },
-            1: { cellWidth: 50 },
-            2: { cellWidth: 50 },
-            3: { cellWidth: 60 },
-            4: { cellWidth: 60 },
-            5: { cellWidth: 70 },
-            6: { cellWidth: 70 },
-            7: { cellWidth: 70 },
-            8: { cellWidth: 70 },
-            9: { cellWidth: 70 },
-        },
-        margin: { top: y, left: margin, right: margin, bottom: margin }
     });
 
     doc.save(`${nombreArchivo}.pdf`);
@@ -2619,24 +2341,17 @@ function exportarAPdf(tabla, chart, nombreArchivo) {
 
 // ================= ARRANQUE Y MANEJO DE MODALES =================
 window.addEventListener('load', ()=>{
-    firebase.auth().signInAnonymously().catch(err => {
-        console.error('Auth error:', err);
-    });
+    firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
     
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             iniciarListenersFirebase(); 
             activarPantalla('pantalla1');
-        } else {
-            // Manejar el caso de no autenticación si es necesario
         }
     });
     
     const modalCalidad = document.getElementById('modalCalidad');
-    modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => {
-        modalCalidad.classList.remove('visible');
-    });
-
+    modalCalidad.querySelector('.cerrar-btn').addEventListener('click', () => modalCalidad.classList.remove('visible'));
     modalCalidad.querySelectorAll('.opcion-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const nuevoColor = btn.dataset.color;
@@ -2652,38 +2367,26 @@ window.addEventListener('load', ()=>{
     const modalRechazo = document.getElementById('modalRechazo');
     modalRechazo.querySelector('#formularioRechazo').addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        const formulario = e.target;
+        const form = e.target;
         const datos = {
-            empleado: formulario.empleado.value,
-            linea: formulario.linea.value,
-            parte: formulario.parte.value,
-            descripcionParte: formulario.descripcionParte.value,
-            problema: formulario.problema.value,
-            causa: formulario.causa.value,
-            accion: formulario.accion.value,
+            empleado: form.empleado.value,
+            linea: form.linea.value,
+            parte: form.parte.value,
+            descripcionParte: form.descripcionParte.value,
+            problema: form.problema.value,
+            causa: form.causa.value,
+            accion: form.accion.value,
         };
-        
         guardarRechazo(datos);
-        formulario.reset();
+        form.reset();
     });
 
-    const selectoresReportes = document.getElementById('selectoresReportes');
-    selectoresReportes.querySelectorAll('.usuario-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tipoReporte = btn.dataset.reporte;
-            mostrarReporte(tipoReporte);
-        });
+    document.getElementById('selectoresReportes').querySelectorAll('.usuario-btn').forEach(btn => {
+        btn.addEventListener('click', () => mostrarReporte(btn.dataset.reporte));
     });
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => {
-                console.log("✅ Service Worker registrado:", reg);
-            })
-            .catch(err => {
-                console.error("❌ Error al registrar Service Worker:", err);
-            });
+        navigator.serviceWorker.register('./sw.js').then(reg => console.log("✅ Service Worker registrado:", reg)).catch(err => console.error("❌ Error al registrar Service Worker:", err));
     }
 });
 </script>
