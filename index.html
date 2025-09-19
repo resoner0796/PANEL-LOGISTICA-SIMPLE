@@ -348,11 +348,11 @@ html, body {
 }
 .cerrar-btn:hover { background-color: #4B5563; }
 
-/* Modal de Rechazo - AJUSTES DE TAMAÑO */
+/* Modal de Rechazo */
 #modalRechazo .modal-content {
   text-align: left;
-  max-height: 85vh; /* <<< CAMBIO: Límite de altura */
-  overflow-y: auto; /* <<< CAMBIO: Scroll si el contenido es muy alto */
+  max-height: 85vh; 
+  overflow-y: auto;
 }
 #modalRechazo form { display: flex; flex-direction: column; gap: 15px; }
 #modalRechazo label { font-size: 14px; margin-bottom: 5px; display: block; color: var(--text-medium); }
@@ -382,7 +382,7 @@ html, body {
 }
 .modal-buttons {
   display: flex;
-  justify-content: flex-end; /* Alinea botones a la derecha */
+  justify-content: flex-end;
   gap: 15px;
   margin-top: 20px;
 }
@@ -1070,7 +1070,6 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
         input.value = '';
         modal.classList.add('visible');
         
-        // <<< CAMBIO: Enfocar el input después de que la transición del modal comience
         setTimeout(() => {
             input.focus();
         }, 50);
@@ -1082,15 +1081,13 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
             modal.classList.remove('visible');
             okButton.removeEventListener('click', okListener);
             cancelButton.removeEventListener('click', cancelListener);
-            // <<< CAMBIO: Remover el listener de la tecla Enter
-            document.removeEventListener('keydown', enterListener);
+            input.removeEventListener('keydown', enterListener); // Se remueve del input
             resolve(value);
         };
 
         const okListener = () => resolveListener(input.value);
         const cancelListener = () => resolveListener(null);
         
-        // <<< CAMBIO: Listener para la tecla Enter
         const enterListener = (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -1100,7 +1097,7 @@ const customPrompt = (message, title = "Introducir Contraseña") => {
 
         okButton.addEventListener('click', okListener);
         cancelButton.addEventListener('click', cancelListener);
-        document.addEventListener('keydown', enterListener);
+        input.addEventListener('keydown', enterListener); // Se agrega al input directamente
     });
 };
 // ======================================================================
@@ -1236,18 +1233,6 @@ function pintarEstado() {
     });
 }
  
-function actualizarTiemposLEDs() {
-    document.querySelectorAll('.led-linea .led.on').forEach(led => {
-        const horaEncendido = led.dataset.horaEncendido;
-        if (horaEncendido) {
-            const tiempoTranscurrido = (new Date() - new Date(horaEncendido)) / 1000;
-            const minutos = Math.floor(tiempoTranscurrido / 60);
-            const segundos = Math.floor(tiempoTranscurrido % 60);
-            led.querySelector('.tiempo-led').textContent = `${minutos}m ${segundos}s`;
-        }
-    });
-}
- 
 function formatoHora(isoString) {
     if (!isoString) return 'N/A';
     const date = new Date(isoString);
@@ -1260,10 +1245,8 @@ function obtenerTurnoActual() {
     const ahora = new Date();
     const hora = ahora.getHours();
     const minutos = ahora.getMinutes();
-
     let fecha = new Date(ahora);
     let turno;
-
     if ((hora > 6 || (hora === 6 && minutos >= 30)) && (hora < 18 || (hora === 18 && minutos < 30))) {
         turno = 'Turno 1';
     } 
@@ -1273,12 +1256,10 @@ function obtenerTurnoActual() {
             fecha.setDate(ahora.getDate() - 1);
         }
     }
-    
     const year = fecha.getFullYear();
     const month = String(fecha.getMonth() + 1).padStart(2, '0');
     const day = String(fecha.getDate()).padStart(2, '0');
     const fechaFormateada = `${year}-${month}-${day}`;
-    
     return { fecha: fechaFormateada, turno };
 }
 
@@ -1334,7 +1315,6 @@ function iniciarListenersFirebase() {
         Object.keys(tiempos).forEach(grupo => {
             const contenedorTiempos = document.querySelector(`.tiempos[data-grupo="${grupo}"]`);
             if (!contenedorTiempos) return;
-
             contenedorTiempos.innerHTML = '';
             tiempos[grupo].forEach((logEntry, index) => {
                 const p = document.createElement('p');
@@ -1349,7 +1329,6 @@ function iniciarListenersFirebase() {
     contadoresCalidadRef.on('value', (snapshot) => {
         const contadores = snapshot.val() || {};
         const gruposCalidad = ['CALIDAD_MULTIPORT', 'CALIDAD_DROPS', 'CALIDAD_BEDROCK'];
-
         gruposCalidad.forEach(grupo => {
             const liberadas = contadores[grupo] ? contadores[grupo].liberadas || 0 : 0;
             const rechazadas = contadores[grupo] ? contadores[grupo].rechazadas || 0 : 0;        
@@ -1361,6 +1340,11 @@ function iniciarListenersFirebase() {
     });
 }
 // ================= PERMISOS Y LÓGICA =================
+// <<< CORRECCIÓN: Función restaurada
+function esUsuarioProduccion() {
+    return CONFIG.PRODUCCION_GRUPOS.includes(usuarioSeleccionado);
+}
+
 async function togglearLED(grupo, idx, linea = 'linea1') {
     const ledRef = db.ref('estadoLEDs/' + grupo + '/' + linea + '/' + idx);
 
@@ -1557,7 +1541,7 @@ async function seleccionarUsuario(usuario) {
         password = await customPrompt(`Introduce la contraseña para ${usuario}:`);
     }
 
-    if (password === null) return; // El usuario canceló
+    if (password === null) return;
 
     let loginSuccess = false;
     let welcomeMessage = '';
@@ -1621,6 +1605,7 @@ async function seleccionarDashboard() {
     }
 }
 
+// ... (El resto del código JavaScript para reportes, dashboard, etc. permanece sin cambios) ...
 function limpiarDashboardListeners() {
     dashboardListeners.forEach(listener => listener.off());
     dashboardListeners = [];
@@ -2375,7 +2360,6 @@ window.addEventListener('load', ()=>{
         formRechazo.reset();
     });
 
-    // <<< CAMBIO: Listener para el nuevo botón de cancelar en el modal de rechazo
     document.getElementById('cancelRechazo').addEventListener('click', () => {
         modalRechazo.classList.remove('visible');
         formRechazo.reset();
